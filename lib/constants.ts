@@ -29,4 +29,10 @@ export const DEALERSHIPS = {
     source: "3birds-lithia-landing",
     shortName: "Lithia Toyota",
   },
+  goldenAge: {
+    name: "Golden Age Couples",
+    campaign: "golden-age",
+    source: "3birds-golden-age-landing",
+    shortName: "Golden Age",
+  },
 } as const;
