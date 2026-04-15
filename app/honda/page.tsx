@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
+import FacebookEmbed from "@/components/FacebookEmbed";
 import { DEALERSHIPS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -26,21 +27,8 @@ export default function HondaPage() {
         />
       </div>
 
-      {/* Hero Image */}
-      <div className="max-w-2xl mx-auto px-6">
-        <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden mb-8">
-          <Image
-            src="/images/hero-portrait.jpg"
-            alt="Professional portrait photography"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-      </div>
-
       {/* Congratulations + Form */}
-      <div className="max-w-md mx-auto px-6 pb-16">
+      <div className="max-w-md mx-auto px-6">
         <div className="text-center mb-8">
           <p className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-3">
             {dealer.name}
@@ -63,9 +51,27 @@ export default function HondaPage() {
         <LeadForm
           campaign={dealer.campaign}
           source={dealer.source}
-          compact
         />
+
+        {/* Gold Flier */}
+        <div className="mt-10">
+          <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden">
+            <Image
+              src="/images/hero-portrait.jpg"
+              alt="Professional portrait photography"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Facebook Social Proof */}
+        <div className="mt-10 flex justify-center">
+          <FacebookEmbed />
+        </div>
       </div>
+
+      <div className="pb-16" />
     </div>
   );
 }
