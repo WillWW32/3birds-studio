@@ -8,6 +8,7 @@ interface LeadFormProps {
   source: string;
   buttonText?: string;
   successRedirect?: string;
+  compact?: boolean;
 }
 
 export default function LeadForm({
@@ -15,6 +16,7 @@ export default function LeadForm({
   source,
   buttonText = "Claim My Gift Certificate",
   successRedirect = "/thankyou",
+  compact = false,
 }: LeadFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -27,16 +29,19 @@ export default function LeadForm({
     const form = e.currentTarget;
     const fd = new FormData(form);
 
-    const data = {
+    const data: Record<string, string | boolean> = {
       name: fd.get("name") as string,
       email: fd.get("email") as string,
       phone: fd.get("phone") as string,
-      people_count: fd.get("people_count") as string,
-      session_preference: fd.get("session_preference") as string,
       campaign,
       source,
       tcpa_consent: fd.get("tcpa_consent") === "on",
     };
+
+    if (!compact) {
+      data.people_count = fd.get("people_count") as string;
+      data.session_preference = fd.get("session_preference") as string;
+    }
 
     try {
       const res = await fetch(WEBHOOK_URL, {
@@ -78,19 +83,6 @@ export default function LeadForm({
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Email <span className="text-red-400">*</span>
-        </label>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="you@email.com"
-          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
           Phone Number <span className="text-red-400">*</span>
         </label>
         <input
@@ -102,49 +94,64 @@ export default function LeadForm({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            People in Portrait
-          </label>
-          <select
-            name="people_count"
-            defaultValue="2"
-            className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
-          >
-            <option value="1">Just me</option>
-            <option value="2">2 people</option>
-            <option value="3">3 people</option>
-            <option value="4">4 people</option>
-            <option value="5">5+</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Preference
-          </label>
-          <select
-            name="session_preference"
-            defaultValue="outdoor"
-            className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
-          >
-            <option value="outdoor">Outdoor</option>
-            <option value="indoor_legacy">Legacy Studio</option>
-            <option value="undecided">Not sure</option>
-          </select>
-        </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          Email <span className="text-red-400">*</span>
+        </label>
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="you@email.com"
+          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+        />
       </div>
+
+      {!compact && (
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              People in Portrait
+            </label>
+            <select
+              name="people_count"
+              defaultValue="2"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+            >
+              <option value="1">Just me</option>
+              <option value="2">2 people</option>
+              <option value="3">3 people</option>
+              <option value="4">4 people</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Preference
+            </label>
+            <select
+              name="session_preference"
+              defaultValue="outdoor"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+            >
+              <option value="outdoor">Outdoor</option>
+              <option value="indoor_legacy">Legacy Studio</option>
+              <option value="undecided">Not sure</option>
+            </select>
+          </div>
+        </div>
+      )}
 
       <div className="flex items-start gap-3 pt-1">
         <input
           type="checkbox"
           name="tcpa_consent"
-          id="tcpa_consent"
+          id={`tcpa_consent_${campaign}`}
           required
           className="mt-1 w-4 h-4 rounded border-gray-300 text-teal focus:ring-teal"
         />
-        <label htmlFor="tcpa_consent" className="text-xs text-gray-500 leading-relaxed">
+        <label htmlFor={`tcpa_consent_${campaign}`} className="text-xs text-gray-500 leading-relaxed">
           I agree to receive calls and text messages from 3 Birds Studio about
           my portrait session. Message & data rates may apply. Reply STOP to opt
           out.

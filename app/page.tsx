@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -14,31 +15,35 @@ export default function HomePage() {
     <>
       <Header />
 
-      {/* Hero */}
-      <section className="relative min-h-[90vh] flex items-center gradient-hero overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-teal/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-10 w-64 h-64 bg-gold/10 rounded-full blur-3xl" />
-        </div>
+      {/* Hero - full-bleed image */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        <Image
+          src="/images/summer-banner.jpg"
+          alt="Family portrait session at Council Grove State Park"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/50 to-transparent" />
 
-        <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20 text-center">
-          <p className="text-teal-light/80 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
+        <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
+          <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
             Missoula, Montana
           </p>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] mb-6 animate-fade-up">
+          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] mb-6 animate-fade-up max-w-3xl">
             The Beautiful Moments
             <br />
-            <span className="gold-shimmer">of Life, Unforgettable</span>
+            <span className="text-gold">of Life, Unforgettable</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-up-delay">
+          <p className="text-lg md:text-xl text-gray-200 max-w-xl mb-10 leading-relaxed animate-fade-up-delay">
             Professional portrait photography by Jesse & Nelli. Outdoor sessions
             surrounded by Montana wilderness, or timeless Legacy portraits in
             our Missoula studio.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up-delay-2">
+          <div className="flex flex-col sm:flex-row items-start gap-4 animate-fade-up-delay-2">
             <Link
               href="/book"
-              className="px-8 py-4 bg-teal text-white rounded-full text-lg font-semibold hover:bg-teal-dark transition-all shadow-xl shadow-teal/30 hover:-translate-y-0.5"
+              className="px-8 py-4 bg-teal text-white rounded-full text-lg font-semibold hover:bg-teal-dark transition-all shadow-xl hover:-translate-y-0.5"
             >
               Book Your Session
             </Link>
@@ -49,36 +54,13 @@ export default function HomePage() {
               Talk to Denise
             </Link>
           </div>
-
-          {/* Social proof */}
-          <div className="mt-16 flex items-center justify-center gap-8 flex-wrap text-white/60 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <svg
-                    key={i}
-                    className="w-4 h-4 text-gold"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              4.9 on Google
-            </div>
-            <span className="hidden sm:inline text-white/20">|</span>
-            <span>15,000+ Facebook followers</span>
-            <span className="hidden sm:inline text-white/20">|</span>
-            <span>13+ years in Missoula</span>
-          </div>
         </div>
       </section>
 
-      {/* Sessions */}
-      <section id="sessions" className="py-24 bg-cream">
+      {/* Sessions - image cards */}
+      <section id="sessions" className="py-28 bg-white">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
               Choose Your Experience
             </p>
@@ -87,145 +69,225 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-10">
             {/* Outdoor */}
-            <div className="group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-              <div className="h-72 bg-gradient-to-br from-emerald-700 via-teal to-emerald-500 flex items-center justify-center relative overflow-hidden">
-                <div className="text-center text-white z-10">
-                  <p className="text-6xl mb-3">🌿</p>
-                  <p className="text-sm uppercase tracking-widest opacity-70">
+            <div className="group">
+              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-6">
+                <Image
+                  src="/images/family-portraits.jpg"
+                  alt="Outdoor family portraits at Council Grove State Park"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                  <p className="text-white/70 text-xs uppercase tracking-widest">
                     Council Grove State Park
                   </p>
                 </div>
               </div>
-              <div className="p-8">
-                <h3 className="font-display text-2xl font-bold text-navy mb-3">
-                  Outdoor Portraits
-                </h3>
-                <p className="text-gray-500 mb-6 leading-relaxed">
-                  30 minutes surrounded by towering Ponderosa pines along the
-                  Clark Fork River. Natural light, stunning scenery, relaxed
-                  vibes. Pets welcome.
-                </p>
-                <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
-                  <span className="flex items-center gap-1.5">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    30 min
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Tue & Sat
-                  </span>
-                </div>
-                <a
-                  href={CALENDLY_OUTDOOR}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors"
-                >
-                  Book Outdoor Session
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
+              <h3 className="font-display text-2xl font-bold text-navy mb-3">
+                Outdoor Portraits
+              </h3>
+              <p className="text-gray-500 mb-4 leading-relaxed">
+                30 minutes surrounded by towering Ponderosa pines along the
+                Clark Fork River. Natural light, stunning scenery, relaxed
+                vibes. Pets welcome.
+              </p>
+              <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+                <span>30 min</span>
+                <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                <span>Tue & Sat</span>
               </div>
+              <a
+                href={CALENDLY_OUTDOOR}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors"
+              >
+                Book Outdoor Session
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
             </div>
 
             {/* Legacy Studio */}
-            <div className="group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-              <div className="h-72 bg-gradient-to-br from-gray-900 via-gray-800 to-navy flex items-center justify-center relative overflow-hidden">
-                <div className="text-center text-white z-10">
-                  <p className="text-6xl mb-3">🎨</p>
-                  <p className="text-sm uppercase tracking-widest opacity-70">
+            <div className="group">
+              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-6">
+                <Image
+                  src="/images/ad-portrait.jpg"
+                  alt="Legacy fine art portrait in studio"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                  <p className="text-white/70 text-xs uppercase tracking-widest">
                     Missoula Studio
                   </p>
                 </div>
               </div>
-              <div className="p-8">
-                <h3 className="font-display text-2xl font-bold text-navy mb-3">
-                  Legacy Fine Portraits
-                </h3>
-                <p className="text-gray-500 mb-6 leading-relaxed">
-                  2 hours of refined, gallery-quality portraiture. Hand-painted
-                  backdrops, master lighting. Finished on French cotton with
-                  Italian gold-leafed frames.
-                </p>
-                <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
-                  <span className="flex items-center gap-1.5">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    2 hours
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    Tue & Wed
-                  </span>
+              <h3 className="font-display text-2xl font-bold text-navy mb-3">
+                Legacy Fine Portraits
+              </h3>
+              <p className="text-gray-500 mb-4 leading-relaxed">
+                2 hours of refined, gallery-quality portraiture. Hand-painted
+                backdrops, master lighting. Finished on French cotton with
+                Italian gold-leafed frames.
+              </p>
+              <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+                <span>2 hours</span>
+                <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                <span>Tue & Wed</span>
+              </div>
+              <a
+                href={CALENDLY_LEGACY}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors"
+              >
+                Book Legacy Session
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What's Included - clean text grid with image accent */}
+      <section className="py-28 bg-white border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
+              <Image
+                src="/images/print-product.jpg"
+                alt="Fine art portrait print product"
+                fill
+                className="object-cover"
+              />
+            </div>
+
+            <div>
+              <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
+                The Experience
+              </p>
+              <h2 className="font-display text-4xl md:text-5xl font-bold text-navy mb-10">
+                More Than Just Photos
+              </h2>
+
+              <div className="space-y-8">
+                <div>
+                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                    Professional Session
+                  </h3>
+                  <p className="text-gray-500 leading-relaxed">
+                    Guided by Jesse & Nelli with 13+ years of experience.
+                    Relaxed, fun, and natural.
+                  </p>
                 </div>
-                <a
-                  href={CALENDLY_LEGACY}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors"
-                >
-                  Book Legacy Session
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                    Expert Editing
+                  </h3>
+                  <p className="text-gray-500 leading-relaxed">
+                    Every image professionally retouched and edited to bring out
+                    its absolute best.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                    Fine Art Prints
+                  </h3>
+                  <p className="text-gray-500 leading-relaxed">
+                    Museum grade giclee on archival paper, or Legacy portraits on
+                    French cotton.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                    Wardrobe Guidance
+                  </h3>
+                  <p className="text-gray-500 leading-relaxed">
+                    We help you coordinate outfits so everything looks stunning
+                    and cohesive.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* What's Included */}
-      <section className="py-24 bg-white">
+      {/* Testimonials */}
+      <section className="py-28 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
-              The Experience
+              Kind Words
             </p>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">
-              More Than Just Photos
+              From Our Clients
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { icon: "📸", title: "Professional Session", desc: "Guided by Jesse & Nelli with 13+ years of experience. Relaxed, fun, and natural." },
-              { icon: "🎨", title: "Expert Editing", desc: "Every image professionally retouched and edited to bring out its absolute best." },
-              { icon: "🖼", title: "Fine Art Prints", desc: "Museum grade giclée on archival paper, or Legacy portraits on French cotton." },
-              { icon: "👗", title: "Wardrobe Guidance", desc: "We help you coordinate outfits so everything looks stunning and cohesive." },
-            ].map((item) => (
-              <div key={item.title} className="text-center p-6 rounded-2xl hover:bg-cream transition-colors">
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="font-display text-lg font-bold text-navy mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden">
+              <Image
+                src="/images/testimonial-chris-liz.jpg"
+                alt="Chris and Liz portrait session"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden">
+              <Image
+                src="/images/testimonial-davy-angela.jpg"
+                alt="Davy and Angela portrait session"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="flex flex-col justify-center p-8">
+              <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
+                <Image
+                  src="/images/reviews.jpg"
+                  alt="5-star client reviews"
+                  fill
+                  className="object-cover object-top"
+                />
               </div>
-            ))}
+              <div className="flex items-center gap-1 mb-2">
+                {[...Array(5)].map((_, i) => (
+                  <svg
+                    key={i}
+                    className="w-5 h-5 text-gold"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-sm text-gray-400">4.9 on Google</p>
+              <p className="text-sm text-gray-400">15,000+ Facebook followers</p>
+              <p className="text-sm text-gray-400">13+ years in Missoula</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* About */}
-      <section id="about" className="py-24 bg-cream">
+      <section id="about" className="py-28 bg-white border-t border-gray-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <div className="aspect-[4/5] bg-gradient-to-br from-teal/20 to-navy/10 rounded-3xl flex items-center justify-center">
-                <div className="text-center">
-                  <p className="text-8xl mb-4">📷</p>
-                  <p className="text-sm text-gray-400 italic">Jesse & Nelli</p>
-                </div>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gold/20 rounded-full blur-2xl" />
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <Image
+                src="/images/about-jesse-nelli.jpg"
+                alt="Jesse and Nelli, photographers at 3 Birds Studio"
+                fill
+                className="object-cover"
+              />
             </div>
 
             <div>
@@ -269,8 +331,15 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 gradient-teal text-white text-center">
-        <div className="max-w-3xl mx-auto px-6">
+      <section className="relative py-28 overflow-hidden">
+        <Image
+          src="/images/hero-portrait.jpg"
+          alt="Portrait photography"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-navy/70" />
+        <div className="relative max-w-3xl mx-auto px-6 text-center text-white">
           <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
             Ready to Create Something Beautiful?
           </h2>
@@ -281,7 +350,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/book"
-              className="px-8 py-4 bg-white text-teal rounded-full text-lg font-semibold hover:bg-cream transition-colors shadow-xl"
+              className="px-8 py-4 bg-teal text-white rounded-full text-lg font-semibold hover:bg-teal-dark transition-colors shadow-xl"
             >
               Book Your Session
             </Link>

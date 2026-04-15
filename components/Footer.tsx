@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   STUDIO_PHONE,
@@ -13,9 +14,18 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-10">
           {/* Brand */}
           <div>
-            <h3 className="font-display text-2xl font-bold mb-3">
-              3 Birds Studio
-            </h3>
+            <div className="flex items-center gap-3 mb-3">
+              <Image
+                src="/images/logo.png"
+                alt="3 Birds Studio"
+                width={36}
+                height={48}
+                className="h-10 w-auto brightness-200"
+              />
+              <h3 className="font-display text-2xl font-bold">
+                3 Birds Studio
+              </h3>
+            </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               Fine art portrait photography in Missoula, Montana. Capturing the
               beautiful moments of life since 2012.
