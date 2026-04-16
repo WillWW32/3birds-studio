@@ -87,6 +87,29 @@ export default function GoldenAgePage() {
           </div>
         </div>
 
+        {/* Gallery */}
+        <div className="mt-10">
+          <h2 className="font-display text-xl font-bold text-navy text-center mb-4">
+            Recent Sessions
+          </h2>
+          <div className="grid grid-cols-2 gap-2">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div
+                key={n}
+                className="relative w-full aspect-square overflow-hidden rounded-md"
+              >
+                <Image
+                  src={`/images/golden-age-${n}.jpg`}
+                  alt={`Golden age couples portrait ${n}`}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Social Proof */}
         <div className="mt-10 bg-gray-50 rounded-xl p-6 text-center">
           <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">
