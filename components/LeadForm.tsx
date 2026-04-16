@@ -152,9 +152,11 @@ export default function LeadForm({
           className="mt-1 w-4 h-4 rounded border-gray-300 text-teal focus:ring-teal"
         />
         <label htmlFor={`tcpa_consent_${campaign}`} className="text-xs text-gray-500 leading-relaxed">
-          I agree to receive calls and text messages from 3 Birds Studio about
-          my portrait session. Message & data rates may apply. Reply STOP to opt
-          out.
+          By checking this box, I consent to receive automated calls, text messages,
+          and emails from 3 Birds Studio regarding my portrait session booking.
+          Message frequency varies. Msg &amp; data rates may apply. Reply STOP to
+          opt out, HELP for help. View our{" "}
+          <a href="/privacy" className="underline text-teal">Privacy Policy</a>.
         </label>
       </div>
 
