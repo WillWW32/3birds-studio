@@ -29,6 +29,16 @@ export default function GoldenAgePage() {
 
       {/* Hero Message */}
       <div className="max-w-md mx-auto px-6">
+        {/* Deadline ribbon */}
+        <div className="mb-6 rounded-md bg-navy text-white text-center px-4 py-3">
+          <p className="font-semibold text-xs uppercase tracking-[0.15em]">
+            Reservations close May 30
+          </p>
+          <p className="text-[11px] text-white/70 mt-1">
+            Schedule your session any date in the next 6 months
+          </p>
+        </div>
+
         <div className="text-center mb-8">
           <p className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-3">
             Golden Age Couples
@@ -45,8 +55,7 @@ export default function GoldenAgePage() {
           </p>
           <p className="text-gray-500 text-sm leading-relaxed">
             You have spent a lifetime building something beautiful together.
-            Let us capture it. Register below to claim your complimentary
-            portrait collection.
+            Let us capture it. <strong className="text-navy">Reserve your complimentary collection by May 30.</strong> Schedule your session any date that works in the next 6 months.
           </p>
         </div>
 
@@ -81,9 +90,51 @@ export default function GoldenAgePage() {
             </p>
             <p>
               Your collection includes professional direction from Jesse & Nelli,
-              full retouching, and a 14&quot; fine art print. Choose outdoor at
-              Council Grove State Park or our Legacy studio.
+              full retouching, and a 14&quot; fine art print.
             </p>
+          </div>
+        </div>
+
+        {/* Choose Your Setting */}
+        <div className="mt-10">
+          <h2 className="font-display text-xl font-bold text-navy text-center mb-4">
+            Choose Your Setting
+          </h2>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <div className="relative w-full aspect-[3/4] rounded-md overflow-hidden mb-2">
+                <Image
+                  src="/images/family-portraits.jpg"
+                  alt="Outdoor portrait session at Council Grove State Park"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+              <p className="text-xs uppercase tracking-wider text-navy font-semibold text-center">
+                Outdoor
+              </p>
+              <p className="text-[11px] text-gray-500 text-center leading-tight mt-1">
+                Council Grove State Park<br/>30 minutes · Tue &amp; Sat
+              </p>
+            </div>
+            <div>
+              <div className="relative w-full aspect-[3/4] rounded-md overflow-hidden mb-2">
+                <Image
+                  src="/images/hero-portrait.jpg"
+                  alt="Legacy studio portrait session in Missoula"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  className="object-cover"
+                />
+              </div>
+              <p className="text-xs uppercase tracking-wider text-navy font-semibold text-center">
+                Legacy Studio
+              </p>
+              <p className="text-[11px] text-gray-500 text-center leading-tight mt-1">
+                Missoula · 6850 Mullan Way<br/>2 hours · Tue &amp; Wed
+              </p>
+            </div>
           </div>
         </div>
 
