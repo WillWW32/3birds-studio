@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PixelEvent from "@/components/PixelEvent";
 import {
   CALENDLY_OUTDOOR,
   CALENDLY_LEGACY,
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 export default function ThankYouPage() {
   return (
     <>
+      <PixelEvent event="CompleteRegistration" />
       <Header />
 
       {/* Success Hero */}
