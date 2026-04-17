@@ -5,7 +5,7 @@ import FacebookEmbed from "@/components/FacebookEmbed";
 import { DEALERSHIPS } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Golden Age Couples Portrait Collection | 3 Birds Studio",
+  title: "Golden Age Couples Portrait Collection",
   description:
     "Celebrate your love story with a professional couples portrait collection at 3 Birds Studio in Missoula, Montana. Limited complimentary sessions available.",
 };
@@ -112,6 +112,15 @@ export default function GoldenAgePage() {
 
         {/* Social Proof */}
         <div className="mt-10 bg-gray-50 rounded-xl p-6 text-center">
+          <div className="flex justify-center mb-3">
+            <Image
+              src="/images/logo-black.png"
+              alt="3 Birds Studio"
+              width={48}
+              height={56}
+              className="h-12 w-auto"
+            />
+          </div>
           <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">
             Trusted by Missoula families for 13+ years
           </p>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | 3 Birds Studio",
+  title: "Privacy Policy",
   description: "Privacy policy for 3 Birds Studio, including SMS messaging terms.",
 };
 
