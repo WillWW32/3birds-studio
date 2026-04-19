@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import {
   STUDIO_PHONE_TEL,
   CALENDLY_OUTDOOR,
@@ -13,6 +14,7 @@ import {
 export default function HomePage() {
   return (
     <>
+      <LocalBusinessSchema />
       <Header />
 
       {/* Hero - full-bleed image */}

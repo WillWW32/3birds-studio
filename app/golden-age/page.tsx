@@ -8,6 +8,22 @@ export const metadata: Metadata = {
   title: "Golden Age Couples Portrait Collection",
   description:
     "Celebrate your love story with a professional couples portrait collection at 3 Birds Studio in Missoula, Montana. Limited complimentary sessions available.",
+  alternates: { canonical: "/golden-age" },
+  openGraph: {
+    url: "/golden-age",
+    images: [
+      {
+        url: "/images/golden-age-hero.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Golden Age Couples portrait collection",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/golden-age-hero.jpg"],
+  },
 };
 
 const campaign = DEALERSHIPS.goldenAge;

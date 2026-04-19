@@ -8,6 +8,22 @@ export const metadata: Metadata = {
   title: "Claim Your $1,500 Portrait Session | Honda",
   description:
     "Congratulations! Redeem your $1,500 gift certificate for a professional portrait session at 3 Birds Studio in Missoula, Montana.",
+  alternates: { canonical: "/honda" },
+  openGraph: {
+    url: "/honda",
+    images: [
+      {
+        url: "/images/hero-portrait.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Honda gift certificate portrait session - 3 Birds Studio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/hero-portrait.jpg"],
+  },
 };
 
 const dealer = DEALERSHIPS.honda;

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import MetaPixel from "@/components/MetaPixel";
@@ -18,6 +18,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://3birdsstudio.com"),
   title: {
     default: "3 Birds Studio | Fine Art Portraits in Missoula, Montana",
     template: "%s | 3 Birds Studio",
@@ -33,11 +34,36 @@ export const metadata: Metadata = {
     "Council Grove State Park",
     "legacy portraits",
   ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "3 Birds Studio",
+    url: "/",
+    images: [
+      {
+        url: "/images/summer-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "3 Birds Studio portrait session",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/summer-banner.jpg"],
+  },
+  // Facebook domain verification pending: add code via verification.other
+  // once Jesse pulls it from Meta Ads Manager → Business Settings → Brand Safety
+  // verification: { other: { 'facebook-domain-verification': 'CODE_HERE' } },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0d1b2a", // navy — matches site brand
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

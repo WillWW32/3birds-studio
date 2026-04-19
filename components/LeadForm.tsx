@@ -1,7 +1,47 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { WEBHOOK_URL } from "@/lib/constants";
+
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+  }
+}
+
+const UTM_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+  "gclid",
+  "fbclid",
+] as const;
+
+type AttributionParams = Partial<Record<(typeof UTM_KEYS)[number], string>>;
+
+function captureAttribution(): AttributionParams {
+  if (typeof window === "undefined") return {};
+  const url = new URL(window.location.href);
+  const captured: AttributionParams = {};
+  for (const key of UTM_KEYS) {
+    const v = url.searchParams.get(key);
+    if (v) captured[key] = v;
+  }
+  // Persist so leads that land on A and submit on B still attribute to A
+  try {
+    if (Object.keys(captured).length > 0) {
+      sessionStorage.setItem("3birds_attribution", JSON.stringify(captured));
+    } else {
+      const saved = sessionStorage.getItem("3birds_attribution");
+      if (saved) return JSON.parse(saved) as AttributionParams;
+    }
+  } catch {
+    // sessionStorage unavailable (privacy mode); just return whatever we captured
+  }
+  return captured;
+}
 
 interface LeadFormProps {
   campaign: string;
@@ -20,6 +60,11 @@ export default function LeadForm({
 }: LeadFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [attribution, setAttribution] = useState<AttributionParams>({});
+
+  useEffect(() => {
+    setAttribution(captureAttribution());
+  }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,13 +74,14 @@ export default function LeadForm({
     const form = e.currentTarget;
     const fd = new FormData(form);
 
-    const data: Record<string, string | boolean> = {
+    const data: Record<string, string | boolean | AttributionParams> = {
       name: fd.get("name") as string,
       email: fd.get("email") as string,
       phone: fd.get("phone") as string,
       campaign,
       source,
       tcpa_consent: fd.get("tcpa_consent") === "on",
+      attribution,
     };
 
     if (!compact) {
@@ -51,6 +97,15 @@ export default function LeadForm({
       });
 
       if (res.ok) {
+        // Fire Meta Pixel Lead event before redirecting — this is the ad
+        // conversion signal Meta uses to optimize delivery. CompleteRegistration
+        // fires separately on /thankyou via PixelEvent.
+        if (typeof window !== "undefined" && window.fbq) {
+          window.fbq("track", "Lead", {
+            content_category: campaign,
+            content_name: source,
+          });
+        }
         window.location.href = successRedirect;
       } else {
         const err = await res.json().catch(() => ({}));

@@ -8,6 +8,22 @@ export const metadata: Metadata = {
   title: "Win a Free Portrait Session!",
   description:
     "Enter to win a complimentary professional portrait session at 3 Birds Studio in Missoula, Montana. Families, couples, kids, and pets welcome.",
+  alternates: { canonical: "/win" },
+  openGraph: {
+    url: "/win",
+    images: [
+      {
+        url: "/images/family-portraits.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Free portrait session giveaway at 3 Birds Studio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/family-portraits.jpg"],
+  },
 };
 
 export default function WinPage() {
