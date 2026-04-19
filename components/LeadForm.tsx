@@ -49,6 +49,13 @@ interface LeadFormProps {
   buttonText?: string;
   successRedirect?: string;
   compact?: boolean;
+  /**
+   * Collect full mailing address (street / city / state / zip).
+   * Use for sweepstakes entries where winners are notified by postal mail.
+   */
+  includeAddress?: boolean;
+  /** Consent copy override. Sweepstakes entries may skip TCPA call/text consent. */
+  consentLabel?: React.ReactNode;
 }
 
 export default function LeadForm({
@@ -57,6 +64,8 @@ export default function LeadForm({
   buttonText = "Claim My Gift Certificate",
   successRedirect = "/thankyou",
   compact = false,
+  includeAddress = false,
+  consentLabel,
 }: LeadFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -87,6 +96,13 @@ export default function LeadForm({
     if (!compact) {
       data.people_count = fd.get("people_count") as string;
       data.session_preference = fd.get("session_preference") as string;
+    }
+
+    if (includeAddress) {
+      data.address = fd.get("address") as string;
+      data.city = fd.get("city") as string;
+      data.state = fd.get("state") as string;
+      data.zip = fd.get("zip") as string;
     }
 
     try {
@@ -162,7 +178,7 @@ export default function LeadForm({
         />
       </div>
 
-      {!compact && (
+      {!compact && !includeAddress && (
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -198,6 +214,63 @@ export default function LeadForm({
         </div>
       )}
 
+      {includeAddress && (
+        <>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Mailing Address <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="address"
+              required
+              placeholder="Street address (no P.O. Boxes)"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+            />
+          </div>
+          <div className="grid grid-cols-[1fr_auto_auto] gap-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                City <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                name="city"
+                required
+                placeholder="Missoula"
+                className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                State <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                name="state"
+                required
+                maxLength={2}
+                placeholder="MT"
+                className="w-20 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all uppercase"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                ZIP <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                name="zip"
+                required
+                pattern="\d{5}(-\d{4})?"
+                placeholder="59801"
+                className="w-28 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+              />
+            </div>
+          </div>
+        </>
+      )}
+
       <div className="flex items-start gap-3 pt-1">
         <input
           type="checkbox"
@@ -207,11 +280,15 @@ export default function LeadForm({
           className="mt-1 w-4 h-4 rounded border-gray-300 text-teal focus:ring-teal"
         />
         <label htmlFor={`tcpa_consent_${campaign}`} className="text-xs text-gray-500 leading-relaxed">
-          By checking this box, I consent to receive automated calls, text messages,
-          and emails from 3 Birds Studio regarding my portrait session booking.
-          Message frequency varies. Msg &amp; data rates may apply. Reply STOP to
-          opt out, HELP for help. View our{" "}
-          <a href="/privacy" className="underline text-teal">Privacy Policy</a>.
+          {consentLabel || (
+            <>
+              By checking this box, I consent to receive automated calls, text messages,
+              and emails from 3 Birds Studio regarding my portrait session booking.
+              Message frequency varies. Msg &amp; data rates may apply. Reply STOP to
+              opt out, HELP for help. View our{" "}
+              <a href="/privacy" className="underline text-teal">Privacy Policy</a>.
+            </>
+          )}
         </label>
       </div>
 
