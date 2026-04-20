@@ -9,20 +9,11 @@ export const metadata: Metadata = {
   description:
     "Enter to win a $3,000 Legacy portrait session with artwork for your home. Ten runner-up prizes ($1,500 each). Entries close May 10, 2026. No purchase required.",
   alternates: { canonical: "/win" },
+  // og:image and twitter:image are auto-generated from
+  // app/win/opengraph-image.tsx (1200x630 ImageResponse with the brand
+  // hero design). Next.js inserts the meta tags automatically.
   openGraph: {
     url: "/win",
-    images: [
-      {
-        url: "/images/family-portraits.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Enter to win a $3,000 portrait session at 3 Birds Studio",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    images: ["/images/family-portraits.jpg"],
   },
 };
 
