@@ -55,9 +55,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: ["/images/summer-banner.jpg"],
   },
-  // Facebook domain verification pending: add code via verification.other
-  // once Jesse pulls it from Meta Ads Manager → Business Settings → Brand Safety
-  // verification: { other: { 'facebook-domain-verification': 'CODE_HERE' } },
+  verification: {
+    other: {
+      // From Meta Business Settings → Brand Safety → Domains.
+      // Required to associate this domain with the Meta Pixel + Ads Manager.
+      'facebook-domain-verification': '1nz6ktghi5my4ogfdhlwq6tith1jdj',
+    },
+  },
 };
 
 export const viewport: Viewport = {
