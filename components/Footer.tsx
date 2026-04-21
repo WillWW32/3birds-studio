@@ -89,11 +89,37 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center">
+        <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-center md:text-left">
           <p className="text-xs text-gray-500">
             &copy; {new Date().getFullYear()} 3 Birds Studio. All rights
             reserved.
           </p>
+          <div className="flex items-center justify-center md:justify-end gap-4 text-xs text-gray-500">
+            <Link
+              href="/privacy"
+              className="hover:text-teal transition-colors"
+            >
+              Privacy
+            </Link>
+            <span aria-hidden="true" className="text-gray-700">
+              &middot;
+            </span>
+            <Link
+              href="/terms-and-conditions"
+              className="hover:text-teal transition-colors"
+            >
+              Terms &amp; Conditions
+            </Link>
+            <span aria-hidden="true" className="text-gray-700">
+              &middot;
+            </span>
+            <a
+              href={STUDIO_PHONE_TEL}
+              className="hover:text-teal transition-colors"
+            >
+              {STUDIO_PHONE}
+            </a>
+          </div>
         </div>
       </div>
     </footer>

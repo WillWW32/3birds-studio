@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
 import FacebookEmbed from "@/components/FacebookEmbed";
+import Footer from "@/components/Footer";
 import { DEALERSHIPS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -205,6 +206,7 @@ export default function GoldenAgePage() {
       </div>
 
       <div className="pb-16" />
+      <Footer />
     </div>
   );
 }

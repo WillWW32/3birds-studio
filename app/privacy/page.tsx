@@ -1,26 +1,19 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Privacy policy for 3 Birds Studio, including SMS messaging terms.",
+  alternates: { canonical: "/privacy" },
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-white">
-      <div className="pt-8 pb-4 flex justify-center">
-        <Image
-          src="/images/logo-black.png"
-          alt="3 Birds Studio"
-          width={80}
-          height={94}
-          className="h-20 w-auto"
-          priority
-        />
-      </div>
-
-      <div className="max-w-2xl mx-auto px-6 pb-16">
+    <>
+      <Header />
+      <div className="max-w-3xl mx-auto px-6 pt-24 pb-20">
         <h1 className="font-display text-3xl font-bold text-navy mb-8 text-center">
           Privacy Policy
         </h1>
@@ -165,6 +158,7 @@ export default function PrivacyPage() {
           </section>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
