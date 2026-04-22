@@ -32,17 +32,24 @@ export default function WinPage() {
       </div>
 
       <div className="max-w-xl mx-auto px-6">
-        {/* Decorative divider */}
-        <div className="flex items-center justify-center gap-4 mb-8">
-          <span className="h-px w-16 bg-gold" />
-          <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold">
+        {/* Decorative border divider */}
+        <div className="mb-8">
+          <div className="relative w-full h-8">
+            <Image
+              src="/images/win-border.jpg"
+              alt=""
+              fill
+              className="object-contain"
+              aria-hidden="true"
+            />
+          </div>
+          <p className="text-center text-xs uppercase tracking-[0.3em] text-gold font-semibold mt-4">
             Mother&apos;s Day Contest
-          </span>
-          <span className="h-px w-16 bg-gold" />
+          </p>
         </div>
 
         {/* Headline */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-8">
           <h1 className="font-display text-3xl md:text-4xl font-bold text-navy leading-tight mb-5">
             Enter to Win a{" "}
             <span className="text-gold">$3,000</span> Portrait Session with
@@ -60,6 +67,17 @@ export default function WinPage() {
             </strong>
             .
           </p>
+        </div>
+
+        {/* Sample portrait */}
+        <div className="mb-10 rounded-2xl overflow-hidden shadow-lg">
+          <Image
+            src="/images/win-sample-portrait.jpg"
+            alt="Legacy Fine Portraits sample session"
+            width={1200}
+            height={800}
+            className="w-full h-auto"
+          />
         </div>
 
         {/* Entry form */}
@@ -111,28 +129,32 @@ export default function WinPage() {
           Late entries will not be accepted.
         </p>
 
-        {/* Testimonials */}
+        {/* Testimonial quote imagery (from ClickFunnels) */}
         <div className="mb-12">
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <span className="h-px w-12 bg-gray-200" />
-            <span className="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">
-              Recent Sessions
-            </span>
-            <span className="h-px w-12 bg-gray-200" />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="relative aspect-[3/4] rounded-xl overflow-hidden">
+          <p className="text-center text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold mb-8">
+            From Recent Clients
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
               <Image
-                src="/images/testimonial-chris-liz.jpg"
-                alt="Chris and Liz portrait session"
+                src="/images/win-quote1.jpg"
+                alt="Client testimonial - 3 Birds Studio"
                 fill
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-[3/4] rounded-xl overflow-hidden">
+            <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
               <Image
-                src="/images/testimonial-davy-angela.jpg"
-                alt="Davy and Angela portrait session"
+                src="/images/win-quote2.jpg"
+                alt="Client testimonial - 3 Birds Studio"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
+              <Image
+                src="/images/win-quote3.jpg"
+                alt="Client testimonial - 3 Birds Studio"
                 fill
                 className="object-cover"
               />

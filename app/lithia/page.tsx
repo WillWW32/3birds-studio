@@ -3,6 +3,7 @@ import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
 import Footer from "@/components/Footer";
 import { DEALERSHIPS } from "@/lib/constants";
+import { getSwappableImage } from "@/lib/voucher-image";
 
 export const metadata: Metadata = {
   title: "Claim Your $1,500 Portrait Session | Lithia Toyota",
@@ -13,22 +14,27 @@ export const metadata: Metadata = {
     url: "/lithia",
     images: [
       {
-        url: "/images/hero-portrait.jpg",
+        url: "/images/voucher-lithia.jpg",
         width: 1200,
-        height: 630,
+        height: 900,
         alt: "Lithia Toyota gift certificate portrait session - 3 Birds Studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/images/hero-portrait.jpg"],
+    images: ["/images/voucher-lithia.jpg"],
   },
 };
 
+// Re-check Vercel Blob every 60s so admin uploads propagate quickly.
+export const revalidate = 60;
+
 const dealer = DEALERSHIPS.lithia;
 
-export default function LithiaPage() {
+export default async function LithiaPage() {
+  const voucher = await getSwappableImage("voucher-lithia");
+
   return (
     <div className="min-h-screen bg-white">
       {/* Logo */}
@@ -58,20 +64,17 @@ export default function LithiaPage() {
           </p>
         </div>
 
-        {/* Gift Certificate voucher */}
-        <div className="mb-8 mx-auto max-w-sm bg-gradient-to-br from-gold via-amber-500 to-amber-600 rounded-2xl p-8 shadow-2xl text-center ring-1 ring-amber-300/40">
-          <p className="text-xs uppercase tracking-[0.3em] text-white/80 mb-3">
-            Gift Certificate
-          </p>
-          <p className="font-display text-6xl font-bold text-white mb-1 leading-none">
-            $1,500
-          </p>
-          <p className="font-display text-lg text-white/95 mb-5">
-            Portrait Session
-          </p>
-          <p className="text-[10px] uppercase tracking-wider text-white/70">
-            Courtesy of {dealer.name}
-          </p>
+        {/* Gift Certificate hero (from ClickFunnels, swappable via /admin/images) */}
+        <div className="mb-8 rounded-2xl overflow-hidden shadow-xl">
+          <Image
+            src={voucher.src}
+            alt="$1,500 gift certificate for a portrait session at 3 Birds Studio"
+            width={1200}
+            height={900}
+            className="w-full h-auto"
+            priority
+            unoptimized={voucher.fromBlob}
+          />
         </div>
 
         {/* Urgency copy */}

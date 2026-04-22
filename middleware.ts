@@ -18,6 +18,11 @@ import { NextResponse, type NextRequest } from 'next/server';
  *
  * Vercel project Domains tab: add each full subdomain as a custom domain.
  * SSL auto-provisions in ~5 minutes.
+ *
+ * Also: HTTP Basic Auth on /admin/* paths for the voucher-image upload UI.
+ * Credentials are read from ADMIN_USERNAME / ADMIN_PASSWORD env vars. If
+ * either is missing, /admin returns 503 so an un-configured deploy can't
+ * be used to upload anything.
  */
 
 const SUBDOMAIN_ROUTES: Record<string, string> = {
@@ -31,7 +36,44 @@ const SUBDOMAIN_ROUTES: Record<string, string> = {
 
 const ROOT_DOMAIN = '3birdsstudio.com';
 
+function requireBasicAuth(request: NextRequest): NextResponse | null {
+  const user = process.env.ADMIN_USERNAME;
+  const pass = process.env.ADMIN_PASSWORD;
+
+  if (!user || !pass) {
+    return new NextResponse(
+      'Admin is not configured. Set ADMIN_USERNAME + ADMIN_PASSWORD in Vercel env vars.',
+      { status: 503 },
+    );
+  }
+
+  const header = request.headers.get('authorization');
+  if (header?.startsWith('Basic ')) {
+    const decoded = atob(header.slice(6));
+    const idx = decoded.indexOf(':');
+    if (idx !== -1) {
+      const u = decoded.slice(0, idx);
+      const p = decoded.slice(idx + 1);
+      if (u === user && p === pass) return null; // allow
+    }
+  }
+
+  return new NextResponse('Authentication required', {
+    status: 401,
+    headers: { 'WWW-Authenticate': 'Basic realm="3 Birds Admin"' },
+  });
+}
+
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Gate /admin pages and their underlying API routes with Basic Auth.
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+    const deny = requireBasicAuth(request);
+    if (deny) return deny;
+    return NextResponse.next();
+  }
+
   const host = request.headers.get('host') || '';
   const hostname = host.split(':')[0]; // strip port if present (e.g. localhost:3000)
 
@@ -65,7 +107,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   // Match everything except Next.js internals and static assets.
+  // /admin + /api/admin ARE matched so we can enforce Basic Auth.
   matcher: [
-    '/((?!_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|images|api).*)',
+    '/((?!_next/static|_next/image|_next/data|favicon.ico|robots.txt|sitemap.xml|images).*)',
   ],
 };
