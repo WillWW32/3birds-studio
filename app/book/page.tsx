@@ -11,9 +11,10 @@ import {
 } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Book a Session",
+  title: "Book a Portrait Session in Missoula, Montana",
   description:
-    "Book your portrait session at 3 Birds Studio. Outdoor at Council Grove State Park or Legacy studio in Missoula.",
+    "Book your portrait session at 3 Birds Studio in Missoula, Montana. Outdoor family sessions at Council Grove State Park or Legacy fine art portraits at our Mullan Way studio.",
+  alternates: { canonical: "/book" },
 };
 
 export default function BookPage() {

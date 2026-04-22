@@ -6,9 +6,9 @@ import Footer from "@/components/Footer";
 import { DEALERSHIPS } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Claim Your Gift Certificate",
+  title: "Claim Your Portrait Gift Certificate in Missoula",
   description:
-    "Register your 3 Birds Studio gift certificate from Denny Menholt University Honda or Lithia Toyota of Missoula.",
+    "Register your $1,500 3 Birds Studio portrait gift certificate from Denny Menholt University Honda or Lithia Toyota of Missoula. Validate within 7 days.",
   alternates: { canonical: "/gift" },
   robots: { index: true, follow: true },
 };

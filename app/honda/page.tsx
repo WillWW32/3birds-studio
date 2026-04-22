@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import LeadForm from "@/components/LeadForm";
-import FacebookEmbed from "@/components/FacebookEmbed";
 import Footer from "@/components/Footer";
 import { DEALERSHIPS } from "@/lib/constants";
 
@@ -44,51 +43,66 @@ export default function HondaPage() {
         />
       </div>
 
-      {/* Congratulations + Form */}
       <div className="max-w-md mx-auto px-6">
+        {/* Headline */}
         <div className="text-center mb-8">
           <p className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-3">
             {dealer.name}
           </p>
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-navy mb-2 leading-tight">
-            Congratulations!
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-navy mb-3 leading-tight">
+            Congrats on Your New Vehicle
           </h1>
-          <p className="font-display text-2xl md:text-3xl font-bold text-gold mb-4">
-            You&apos;ve Earned a $1,500
-            <br />
+          <p className="text-gray-600 leading-relaxed">
+            {dealer.name} has gifted their best clients a beautiful thank you
+            gift.
+          </p>
+        </div>
+
+        {/* Gift Certificate voucher */}
+        <div className="mb-8 mx-auto max-w-sm bg-gradient-to-br from-gold via-amber-500 to-amber-600 rounded-2xl p-8 shadow-2xl text-center ring-1 ring-amber-300/40">
+          <p className="text-xs uppercase tracking-[0.3em] text-white/80 mb-3">
+            Gift Certificate
+          </p>
+          <p className="font-display text-6xl font-bold text-white mb-1 leading-none">
+            $1,500
+          </p>
+          <p className="font-display text-lg text-white/95 mb-5">
             Portrait Session
           </p>
-          <p className="text-gray-500 text-sm">
-            Register below to validate your gift certificate.
-            <br />
-            Certificates must be validated within 7 days.
+          <p className="text-[10px] uppercase tracking-wider text-white/70">
+            Courtesy of {dealer.name}
           </p>
+        </div>
+
+        {/* Urgency copy */}
+        <div className="text-center mb-8">
+          <p className="text-gray-500 text-sm leading-relaxed">
+            Your $1,500 gift certificate must be validated within 7 days of
+            receipt. Once registered, you can schedule your session within 6
+            months.
+          </p>
+        </div>
+
+        {/* Form header */}
+        <div className="text-center mb-6">
+          <h2 className="font-display text-xl font-bold text-navy">
+            Register Your Gift Certificate
+          </h2>
         </div>
 
         <LeadForm
           campaign={dealer.campaign}
           source={dealer.source}
+          buttonText="Register Certificate"
         />
 
-        {/* Gold Flier */}
-        <div className="mt-10">
-          <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden">
-            <Image
-              src="/images/hero-portrait.jpg"
-              alt="Professional portrait photography"
-              fill
-              className="object-cover"
-            />
-          </div>
-        </div>
-
-        {/* Facebook Social Proof */}
-        <div className="mt-10 flex justify-center">
-          <FacebookEmbed />
-        </div>
+        {/* Trust line */}
+        <p className="text-center text-xs text-gray-400 mt-6">
+          We will not spam you or share your info.
+        </p>
       </div>
 
-      <div className="pb-16" />
+      <div className="pb-20" />
       <Footer />
     </div>
   );
