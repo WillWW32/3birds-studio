@@ -11,8 +11,11 @@ import {
 import { getSwappableImage } from "@/lib/voucher-image";
 
 /**
- * Minimal footer.
+ * Minimal footer with a social-proof strip above it.
  *
+ * - FB Page Plugin iframe (social proof): appears just above the black
+ *   footer on every page, on a light background so it reads as its own
+ *   zone. Loads lazily so it doesn't block initial page paint.
  * - Compact social/contact row: Denise phone + Facebook + Instagram icons.
  * - Review strip: a 5-star review screenshot, swappable via /admin/images
  *   (fallback lives at public/images/review-screenshot.jpg). Jesse should
@@ -27,7 +30,30 @@ export default async function Footer() {
   const review = await getSwappableImage("review-screenshot");
 
   return (
-    <footer className="bg-black text-white">
+    <footer>
+      {/* Facebook social-proof strip (above the black footer) */}
+      <section
+        aria-label="3 Birds Studio on Facebook"
+        className="bg-white border-t border-gray-100"
+      >
+        <div className="max-w-5xl mx-auto px-6 py-6 flex justify-center">
+          <div className="w-full max-w-[340px]">
+            <iframe
+              src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F3birdsportraitstudio%2F&tabs&width=340&height=154&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=592999424123664"
+              width={340}
+              height={154}
+              loading="lazy"
+              allow="encrypted-media"
+              title="3 Birds Studio on Facebook"
+              className="w-full"
+              style={{ border: "none", overflow: "hidden", maxWidth: "100%" }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Black compact footer */}
+      <div className="bg-black text-white">
       <div className="max-w-5xl mx-auto px-6 py-7">
         {/* Main row: Denise + social */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -117,6 +143,7 @@ export default async function Footer() {
             </a>
           </div>
         </div>
+      </div>
       </div>
     </footer>
   );
