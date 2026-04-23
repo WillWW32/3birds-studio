@@ -89,6 +89,9 @@ export default function LeadForm({
       phone: fd.get("phone") as string,
       campaign,
       source,
+      // Brand tag — routes into 3 Birds Studio's dashboard view, keeps these
+      // leads separated from Starfish leads in the /leads page.
+      brand: "3birds",
       tcpa_consent: fd.get("tcpa_consent") === "on",
       attribution,
     };
