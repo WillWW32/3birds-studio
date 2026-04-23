@@ -129,34 +129,39 @@ export default function WinPage() {
           Late entries will not be accepted.
         </p>
 
-        {/* Testimonial quote imagery (from ClickFunnels) */}
+        {/* Testimonial quote imagery (from ClickFunnels).
+            Source images are landscape (~3:2). Using aspect-[3/2] +
+            object-contain on a light bg so text never gets cropped. */}
         <div className="mb-12">
           <p className="text-center text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold mb-8">
             From Recent Clients
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
+          <div className="grid grid-cols-1 gap-3">
+            <div className="relative aspect-[3/2] rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
               <Image
                 src="/images/win-quote1.jpg"
                 alt="Client testimonial - 3 Birds Studio"
                 fill
-                className="object-cover"
+                sizes="(min-width: 640px) 600px, 100vw"
+                className="object-contain"
               />
             </div>
-            <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
+            <div className="relative aspect-[3/2] rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
               <Image
                 src="/images/win-quote2.jpg"
                 alt="Client testimonial - 3 Birds Studio"
                 fill
-                className="object-cover"
+                sizes="(min-width: 640px) 600px, 100vw"
+                className="object-contain"
               />
             </div>
-            <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
+            <div className="relative aspect-[3/2] rounded-xl overflow-hidden bg-gray-50 border border-gray-100">
               <Image
                 src="/images/win-quote3.jpg"
                 alt="Client testimonial - 3 Birds Studio"
                 fill
-                className="object-cover"
+                sizes="(min-width: 640px) 600px, 100vw"
+                className="object-contain"
               />
             </div>
           </div>

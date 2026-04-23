@@ -9,6 +9,7 @@ import { list } from "@vercel/blob";
 export const SWAPPABLE_IMAGE_KEYS = [
   "voucher-honda",
   "voucher-lithia",
+  "review-screenshot",
 ] as const;
 
 export type SwappableImageKey = (typeof SWAPPABLE_IMAGE_KEYS)[number];

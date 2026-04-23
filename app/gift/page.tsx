@@ -13,16 +13,19 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+// Both gift-cert paths redeem for a Legacy Fine Portraits indoor studio
+// session, so both cards use framed-indoor-portrait imagery (the actual
+// deliverable) rather than outdoor shots.
 const CARDS = [
   {
     dealership: DEALERSHIPS.honda,
     href: "/honda",
-    image: "/images/hero-portrait.jpg",
+    image: "/images/sample-boys-frame.jpg",
   },
   {
     dealership: DEALERSHIPS.lithia,
     href: "/lithia",
-    image: "/images/family-portraits.jpg",
+    image: "/images/sample-girls-frame.jpg",
   },
 ];
 

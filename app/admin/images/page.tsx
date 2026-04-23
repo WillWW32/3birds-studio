@@ -22,6 +22,11 @@ const HUMAN_LABELS: Record<string, { title: string; subtitle: string }> = {
     title: "Lithia Toyota gift voucher",
     subtitle: "Shown as the focal image on /lithia and lithia.3birdsstudio.com",
   },
+  "review-screenshot": {
+    title: "5-star review screenshot (Footer)",
+    subtitle:
+      "Shown at the bottom of the footer on every page. Upload a screenshot of a Google review for maximum trust.",
+  },
 };
 
 export default async function AdminImagesPage() {
