@@ -12,7 +12,7 @@ export const contentType = 'image/png';
  * Generated at build time by Next.js. Renders the same JSX you'd see in a
  * normal React component, but `ImageResponse` returns a PNG instead of HTML.
  *
- * Design: full-bleed photo background with navy overlay. Mother's Day
+ * Design: full-bleed photo background with black overlay. Mother's Day
  * eyebrow, large gold "$3,000" hero, runner-up subline, deadline ribbon.
  */
 export default async function OG() {
@@ -36,7 +36,7 @@ export default async function OG() {
           flexDirection: 'column',
           position: 'relative',
           fontFamily: 'system-ui, -apple-system, sans-serif',
-          background: '#0d1b2a', // navy fallback
+          background: '#000000', // black fallback
         }}
       >
         {/* Background photo */}
@@ -57,7 +57,7 @@ export default async function OG() {
           />
         ) : null}
 
-        {/* Navy gradient overlay for legibility */}
+        {/* Black gradient overlay for legibility */}
         <div
           style={{
             position: 'absolute',
@@ -66,7 +66,7 @@ export default async function OG() {
             width: '100%',
             height: '100%',
             background:
-              'linear-gradient(135deg, rgba(13,27,42,0.92) 0%, rgba(13,27,42,0.72) 55%, rgba(13,27,42,0.55) 100%)',
+              'linear-gradient(135deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 55%, rgba(0,0,0,0.55) 100%)',
             display: 'flex',
           }}
         />
@@ -217,7 +217,7 @@ export default async function OG() {
               padding: '18px 36px',
               borderRadius: 999,
               background: '#f5c64f',
-              color: '#0d1b2a',
+              color: '#000000',
               fontSize: 24,
               fontWeight: 700,
               letterSpacing: '0.05em',

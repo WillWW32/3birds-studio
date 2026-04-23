@@ -63,7 +63,7 @@ export default function Header() {
           aria-label="Menu"
         >
           <svg
-            className="w-6 h-6 text-navy"
+            className="w-6 h-6 text-black"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

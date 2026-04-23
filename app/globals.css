@@ -4,7 +4,6 @@
   --teal: #42b99f;
   --teal-dark: #32977f;
   --teal-light: #e8f5f1;
-  --navy: #1a1a2e;
   --gold: #d4a853;
   --cream: #faf8f5;
 }
@@ -13,7 +12,6 @@
   --color-teal: var(--teal);
   --color-teal-dark: var(--teal-dark);
   --color-teal-light: var(--teal-light);
-  --color-navy: var(--navy);
   --color-gold: var(--gold);
   --color-cream: var(--cream);
   --font-sans: var(--font-inter);
@@ -22,7 +20,7 @@
 
 body {
   font-family: var(--font-sans);
-  color: var(--navy);
+  color: #000000;
   background: #ffffff;
   -webkit-font-smoothing: antialiased;
 }
@@ -55,7 +53,7 @@ html {
 }
 
 .gradient-hero {
-  background: linear-gradient(135deg, #1a1a2e 0%, #2d3a4e 40%, #42b99f 100%);
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 40%, #42b99f 100%);
 }
 
 .gradient-teal {

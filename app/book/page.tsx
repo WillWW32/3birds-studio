@@ -31,7 +31,7 @@ export default function BookPage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-navy/60" />
+        <div className="absolute inset-0 bg-black/60" />
         <div className="relative max-w-4xl mx-auto px-6 text-center">
           <h1 className="font-display text-4xl md:text-6xl font-bold mb-4">
             Book Your Session
@@ -57,7 +57,7 @@ export default function BookPage() {
                 />
               </div>
               <div className="p-8">
-                <h2 className="font-display text-2xl font-bold text-navy mb-2">
+                <h2 className="font-display text-2xl font-bold text-black mb-2">
                   Outdoor Portraits
                 </h2>
                 <p className="text-sm text-gray-500 mb-6 leading-relaxed">
@@ -105,7 +105,7 @@ export default function BookPage() {
                 />
               </div>
               <div className="p-8">
-                <h2 className="font-display text-2xl font-bold text-navy mb-2">
+                <h2 className="font-display text-2xl font-bold text-black mb-2">
                   Legacy Fine Portraits
                 </h2>
                 <p className="text-sm text-gray-500 mb-6 leading-relaxed">
@@ -135,7 +135,7 @@ export default function BookPage() {
                   href={CALENDLY_LEGACY}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-center px-6 py-4 bg-navy text-white rounded-xl font-bold hover:bg-navy/90 transition-colors"
+                  className="block text-center px-6 py-4 bg-black text-white rounded-xl font-bold hover:bg-black/90 transition-colors"
                 >
                   Book Legacy Session
                 </a>
@@ -145,7 +145,7 @@ export default function BookPage() {
 
           {/* Help */}
           <div className="text-center mt-20 p-10 border border-gray-100 rounded-2xl">
-            <h3 className="font-display text-xl font-bold text-navy mb-2">
+            <h3 className="font-display text-xl font-bold text-black mb-2">
               Not sure which session is right for you?
             </h3>
             <p className="text-gray-500 mb-6">

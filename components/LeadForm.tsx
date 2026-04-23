@@ -151,7 +151,7 @@ export default function LeadForm({
           name="name"
           required
           placeholder="Your full name"
-          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
         />
       </div>
 
@@ -164,7 +164,7 @@ export default function LeadForm({
           name="phone"
           required
           placeholder="(406) 555-1234"
-          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
         />
       </div>
 
@@ -177,7 +177,7 @@ export default function LeadForm({
           name="email"
           required
           placeholder="you@email.com"
-          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
         />
       </div>
 
@@ -190,7 +190,7 @@ export default function LeadForm({
             <select
               name="people_count"
               defaultValue="2"
-              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
             >
               <option value="1">Just me</option>
               <option value="2">2 people</option>
@@ -207,7 +207,7 @@ export default function LeadForm({
             <select
               name="session_preference"
               defaultValue="outdoor"
-              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
             >
               <option value="outdoor">Outdoor</option>
               <option value="indoor_legacy">Legacy Studio</option>
@@ -228,7 +228,7 @@ export default function LeadForm({
               name="address"
               required
               placeholder="Street address (no P.O. Boxes)"
-              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
             />
           </div>
           <div className="grid grid-cols-[1fr_auto_auto] gap-3">
@@ -241,7 +241,7 @@ export default function LeadForm({
                 name="city"
                 required
                 placeholder="Missoula"
-                className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+                className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
               />
             </div>
             <div>
@@ -254,7 +254,7 @@ export default function LeadForm({
                 required
                 maxLength={2}
                 placeholder="MT"
-                className="w-20 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all uppercase"
+                className="w-20 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all uppercase"
               />
             </div>
             <div>
@@ -267,7 +267,7 @@ export default function LeadForm({
                 required
                 pattern="\d{5}(-\d{4})?"
                 placeholder="59801"
-                className="w-28 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+                className="w-28 px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
               />
             </div>
           </div>

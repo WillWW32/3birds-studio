@@ -50,7 +50,7 @@ export default function WinPage() {
 
         {/* Headline */}
         <div className="text-center mb-8">
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-navy leading-tight mb-5">
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-black leading-tight mb-5">
             Enter to Win a{" "}
             <span className="text-gold">$3,000</span> Portrait Session with
             Artwork for Your Home
@@ -58,11 +58,11 @@ export default function WinPage() {
           <p className="text-gray-600 leading-relaxed">
             To celebrate Mother&apos;s Day, one family will be selected to
             receive a{" "}
-            <strong className="text-navy">
+            <strong className="text-black">
               FREE portrait session and a Signature Wall Portrait
             </strong>{" "}
             (a $3,000 value). We will also be giving away{" "}
-            <strong className="text-navy">
+            <strong className="text-black">
               ten runner-up prizes at $1,500 each
             </strong>
             .
@@ -83,12 +83,12 @@ export default function WinPage() {
         {/* Entry form */}
         <div id="enter" className="bg-gray-50 rounded-2xl p-8 mb-8">
           <div className="text-center mb-6">
-            <h2 className="font-display text-2xl font-bold text-navy mb-2">
+            <h2 className="font-display text-2xl font-bold text-black mb-2">
               Entry Form
             </h2>
             <p className="text-sm text-gray-500">
               Entries close at noon on{" "}
-              <strong className="text-navy">May 10, 2026</strong>.
+              <strong className="text-black">May 10, 2026</strong>.
             </p>
             <p className="text-xs uppercase tracking-wider text-gray-400 mt-2">
               No Purchase Required

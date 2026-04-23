@@ -30,7 +30,7 @@ export default function AdPage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-navy/70" />
+        <div className="absolute inset-0 bg-black/70" />
         <div className="relative max-w-4xl mx-auto px-6 text-center">
           <p className="text-sm uppercase tracking-[0.3em] text-white/60 mb-4">
             3 Birds Studio | Missoula, Montana
@@ -66,19 +66,19 @@ export default function AdPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
-              <h3 className="font-display text-base font-bold text-navy mb-1">Professional Session</h3>
+              <h3 className="font-display text-base font-bold text-black mb-1">Professional Session</h3>
               <p className="text-sm text-gray-400">Guided by Jesse & Nelli</p>
             </div>
             <div>
-              <h3 className="font-display text-base font-bold text-navy mb-1">Expert Editing</h3>
+              <h3 className="font-display text-base font-bold text-black mb-1">Expert Editing</h3>
               <p className="text-sm text-gray-400">Every image retouched</p>
             </div>
             <div>
-              <h3 className="font-display text-base font-bold text-navy mb-1">Fine Art Prints</h3>
+              <h3 className="font-display text-base font-bold text-black mb-1">Fine Art Prints</h3>
               <p className="text-sm text-gray-400">Museum-grade quality</p>
             </div>
             <div>
-              <h3 className="font-display text-base font-bold text-navy mb-1">Pets Welcome</h3>
+              <h3 className="font-display text-base font-bold text-black mb-1">Pets Welcome</h3>
               <p className="text-sm text-gray-400">Bring the whole family</p>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default function AdPage() {
       {/* Sessions */}
       <section id="book" className="py-24 bg-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-navy mb-16">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-center text-black mb-16">
             Choose Your Session
           </h2>
           <div className="grid md:grid-cols-2 gap-10">
@@ -107,7 +107,7 @@ export default function AdPage() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="font-display text-xl font-bold text-navy mb-2">
+                <h3 className="font-display text-xl font-bold text-black mb-2">
                   Outdoor Portraits
                 </h3>
                 <p className="text-sm text-gray-500 mb-3">
@@ -137,7 +137,7 @@ export default function AdPage() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="font-display text-xl font-bold text-navy mb-2">
+                <h3 className="font-display text-xl font-bold text-black mb-2">
                   Legacy Fine Portraits
                 </h3>
                 <p className="text-sm text-gray-500 mb-3">
@@ -172,19 +172,19 @@ export default function AdPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-center gap-12 flex-wrap text-sm text-center">
             <div>
-              <span className="font-bold text-navy">4.9</span>
+              <span className="font-bold text-black">4.9</span>
               <span className="text-gray-400 ml-1">Google</span>
             </div>
             <div>
-              <span className="font-bold text-navy">15K+</span>
+              <span className="font-bold text-black">15K+</span>
               <span className="text-gray-400 ml-1">Facebook</span>
             </div>
             <div>
-              <span className="font-bold text-navy">13+</span>
+              <span className="font-bold text-black">13+</span>
               <span className="text-gray-400 ml-1">Years</span>
             </div>
             <div>
-              <span className="font-bold text-navy">1000+</span>
+              <span className="font-bold text-black">1000+</span>
               <span className="text-gray-400 ml-1">Sessions</span>
             </div>
           </div>

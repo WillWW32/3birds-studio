@@ -57,7 +57,7 @@ export default function EnteredPage() {
       {/* What's Next */}
       <section className="py-24 bg-white">
         <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-display text-3xl font-bold text-center text-navy mb-16">
+          <h2 className="font-display text-3xl font-bold text-center text-black mb-16">
             What Happens Next
           </h2>
           <div className="space-y-10">
@@ -66,7 +66,7 @@ export default function EnteredPage() {
                 1
               </div>
               <div>
-                <h3 className="font-display text-xl font-bold text-navy mb-1">
+                <h3 className="font-display text-xl font-bold text-black mb-1">
                   Entries Close May 10
                 </h3>
                 <p className="text-gray-500 leading-relaxed">
@@ -81,7 +81,7 @@ export default function EnteredPage() {
                 2
               </div>
               <div>
-                <h3 className="font-display text-xl font-bold text-navy mb-1">
+                <h3 className="font-display text-xl font-bold text-black mb-1">
                   Winners Get Notified
                 </h3>
                 <p className="text-gray-500 leading-relaxed">
@@ -97,7 +97,7 @@ export default function EnteredPage() {
                 3
               </div>
               <div>
-                <h3 className="font-display text-xl font-bold text-navy mb-1">
+                <h3 className="font-display text-xl font-bold text-black mb-1">
                   Book Any Open Date
                 </h3>
                 <p className="text-gray-500 leading-relaxed">
@@ -114,7 +114,7 @@ export default function EnteredPage() {
       {/* Follow / Contact */}
       <section className="py-16 bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display text-2xl font-bold text-navy mb-3">
+          <h2 className="font-display text-2xl font-bold text-black mb-3">
             Stay in the loop
           </h2>
           <p className="text-gray-500 mb-8 max-w-xl mx-auto">

@@ -55,7 +55,7 @@ export default async function LithiaPage() {
           <p className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-3">
             {dealer.name}
           </p>
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-navy mb-3 leading-tight">
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-black mb-3 leading-tight">
             Congrats on Your New Vehicle
           </h1>
           <p className="text-gray-600 leading-relaxed">
@@ -88,7 +88,7 @@ export default async function LithiaPage() {
 
         {/* Form header */}
         <div className="text-center mb-6">
-          <h2 className="font-display text-xl font-bold text-navy">
+          <h2 className="font-display text-xl font-bold text-black">
             Register Your Gift Certificate
           </h2>
         </div>

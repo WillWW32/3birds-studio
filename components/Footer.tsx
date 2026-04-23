@@ -21,7 +21,7 @@ import { getSwappableImage } from "@/lib/voucher-image";
  *   because Telnyx + Twilio 10DLC campaign approval requires Privacy +
  *   Terms + a phone link on every page referenced by the campaign.
  *
- * Palette: pure black background, white, gold accent. No navy.
+ * Palette: pure black background, white, gold accent.
  */
 export default async function Footer() {
   const review = await getSwappableImage("review-screenshot");

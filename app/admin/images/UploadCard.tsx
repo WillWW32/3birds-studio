@@ -148,7 +148,7 @@ export default function UploadCard({
   return (
     <section className="bg-white rounded-2xl border border-gray-200 p-6">
       <div className="mb-4">
-        <h2 className="font-display text-xl font-bold text-navy">{title}</h2>
+        <h2 className="font-display text-xl font-bold text-black">{title}</h2>
         <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
       </div>
 
@@ -225,7 +225,7 @@ export default function UploadCard({
                     <strong className="text-teal">Drop to replace</strong>
                   ) : (
                     <>
-                      <span className="font-semibold text-navy">
+                      <span className="font-semibold text-black">
                         Drag &amp; drop
                       </span>{" "}
                       an image here, or click to pick one

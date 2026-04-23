@@ -15,7 +15,7 @@ export default function TermsPage() {
     <>
       <Header />
       <div className="max-w-3xl mx-auto px-6 pt-24 pb-20">
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-navy mb-3">
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-black mb-3">
           Terms and Conditions
         </h1>
         <p className="text-xs text-gray-400 mb-4">
@@ -31,11 +31,11 @@ export default function TermsPage() {
         </nav>
 
         <div id="contest" className="space-y-8 text-sm text-gray-600 leading-relaxed">
-          <h2 className="text-2xl font-bold text-navy mt-2 mb-3">
+          <h2 className="text-2xl font-bold text-black mt-2 mb-3">
             Contest Rules
           </h2>
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">
               No Purchase Necessary
             </h2>
             <p>
@@ -45,7 +45,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">Sponsor</h2>
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">Sponsor</h2>
             <p>
               This contest is sponsored by 3 Birds Studio, 6850 Mullan Way,
               Missoula, MT 59808, operated by 3 Birds Studio, LLP.
@@ -53,7 +53,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">Eligibility</h2>
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">Eligibility</h2>
             <p>
               Open to legal residents of the United States who are 18 years of
               age or older at the time of entry. Employees of 3 Birds Studio,
@@ -62,7 +62,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">
               Entry Period
             </h2>
             <p>
@@ -74,7 +74,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">
               How to Enter
             </h2>
             <p>
@@ -89,7 +89,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">Prizes</h2>
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">Prizes</h2>
             <ul className="list-disc pl-6 space-y-2">
               <li>
                 <strong>Grand Prize (1):</strong> A full Legacy Fine Portraits
@@ -110,7 +110,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">
               Winner Selection &amp; Notification
             </h2>
             <p>
@@ -127,7 +127,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">
               Privacy &amp; Communications
             </h2>
             <p>
@@ -143,7 +143,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">
               General Conditions
             </h2>
             <p>
@@ -156,7 +156,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-2 mb-3">Contact</h2>
+            <h2 className="text-lg font-bold text-black mt-2 mb-3">Contact</h2>
             <p>
               Questions about the contest? Reach us at{" "}
               <a href="mailto:hello@3birdsstudio.com" className="underline text-teal">
@@ -171,12 +171,12 @@ export default function TermsPage() {
              STUDIO SERVICES T&C (general business operations)
              ═══════════════════════════════════════════════════════════ */}
         <div id="studio" className="space-y-8 text-sm text-gray-600 leading-relaxed mt-16 pt-10 border-t border-gray-200">
-          <h2 className="text-2xl font-bold text-navy mt-2 mb-3">
+          <h2 className="text-2xl font-bold text-black mt-2 mb-3">
             Studio Services
           </h2>
 
           <section>
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Competitions and Giveaways
             </h3>
             <p>
@@ -194,7 +194,7 @@ export default function TermsPage() {
           </section>
 
           <section id="gift-certificates">
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Gift Certificates and Promotional Vouchers
             </h3>
             <p>
@@ -205,14 +205,14 @@ export default function TermsPage() {
               exclude commercial work. Limit one certificate per household.
               Certificates cannot be combined with other offers.
             </p>
-            <p className="mt-3 font-semibold text-navy">
+            <p className="mt-3 font-semibold text-black">
               Gift certificates are non-transferable and cannot be exchanged
               for cash or combined with other offers.
             </p>
           </section>
 
           <section id="deposits">
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Appointment Holding Deposits
             </h3>
             <p>
@@ -224,7 +224,7 @@ export default function TermsPage() {
           </section>
 
           <section id="appointments">
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Appointment Reschedule Policy
             </h3>
             <p>
@@ -232,7 +232,7 @@ export default function TermsPage() {
               approval in exceptional circumstances.
             </p>
 
-            <h3 className="text-lg font-bold text-navy mt-6 mb-3">
+            <h3 className="text-lg font-bold text-black mt-6 mb-3">
               No-Show Policy
             </h3>
             <p>
@@ -243,7 +243,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Extended Family Policy
             </h3>
             <p>
@@ -253,7 +253,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Artistic Control
             </h3>
             <p>
@@ -263,7 +263,7 @@ export default function TermsPage() {
           </section>
 
           <section id="copyright">
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Copyright
             </h3>
             <p>
@@ -272,7 +272,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Order Changes and Refunds
             </h3>
             <p>
@@ -282,7 +282,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Facebook and Social Media Competitions
             </h3>
             <p>
@@ -294,7 +294,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               SMS and Text Messaging
             </h3>
             <p>
@@ -313,7 +313,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h3 className="text-lg font-bold text-navy mt-2 mb-3">
+            <h3 className="text-lg font-bold text-black mt-2 mb-3">
               Contact
             </h3>
             <p>

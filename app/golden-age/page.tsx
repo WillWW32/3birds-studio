@@ -47,7 +47,7 @@ export default function GoldenAgePage() {
       {/* Hero Message */}
       <div className="max-w-md mx-auto px-6">
         {/* Deadline ribbon */}
-        <div className="mb-6 rounded-md bg-navy text-white text-center px-4 py-3">
+        <div className="mb-6 rounded-md bg-black text-white text-center px-4 py-3">
           <p className="font-semibold text-xs uppercase tracking-[0.15em]">
             Reservations close May 30
           </p>
@@ -60,7 +60,7 @@ export default function GoldenAgePage() {
           <p className="text-sm uppercase tracking-[0.2em] text-gray-400 mb-3">
             Golden Age Couples
           </p>
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-navy mb-2 leading-tight">
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-black mb-2 leading-tight">
             Your Love Story
             <br />
             Deserves a Portrait
@@ -72,7 +72,7 @@ export default function GoldenAgePage() {
           </p>
           <p className="text-gray-500 text-sm leading-relaxed">
             You have spent a lifetime building something beautiful together.
-            Let us capture it. <strong className="text-navy">Reserve your complimentary collection by May 30.</strong> Schedule your session any date that works in the next 6 months.
+            Let us capture it. <strong className="text-black">Reserve your complimentary collection by May 30.</strong> Schedule your session any date that works in the next 6 months.
           </p>
         </div>
 
@@ -96,7 +96,7 @@ export default function GoldenAgePage() {
 
         {/* Why Section */}
         <div className="mt-10 text-center">
-          <h2 className="font-display text-xl font-bold text-navy mb-4">
+          <h2 className="font-display text-xl font-bold text-black mb-4">
             Why Golden Age Portraits?
           </h2>
           <div className="space-y-4 text-sm text-gray-500 leading-relaxed">
@@ -114,7 +114,7 @@ export default function GoldenAgePage() {
 
         {/* Choose Your Setting */}
         <div className="mt-10">
-          <h2 className="font-display text-xl font-bold text-navy text-center mb-4">
+          <h2 className="font-display text-xl font-bold text-black text-center mb-4">
             Choose Your Setting
           </h2>
           <div className="grid grid-cols-2 gap-3">
@@ -128,7 +128,7 @@ export default function GoldenAgePage() {
                   className="object-cover"
                 />
               </div>
-              <p className="text-xs uppercase tracking-wider text-navy font-semibold text-center">
+              <p className="text-xs uppercase tracking-wider text-black font-semibold text-center">
                 Outdoor
               </p>
               <p className="text-[11px] text-gray-500 text-center leading-tight mt-1">
@@ -145,7 +145,7 @@ export default function GoldenAgePage() {
                   className="object-cover"
                 />
               </div>
-              <p className="text-xs uppercase tracking-wider text-navy font-semibold text-center">
+              <p className="text-xs uppercase tracking-wider text-black font-semibold text-center">
                 Legacy Studio
               </p>
               <p className="text-[11px] text-gray-500 text-center leading-tight mt-1">
@@ -157,7 +157,7 @@ export default function GoldenAgePage() {
 
         {/* Gallery */}
         <div className="mt-10">
-          <h2 className="font-display text-xl font-bold text-navy text-center mb-4">
+          <h2 className="font-display text-xl font-bold text-black text-center mb-4">
             Recent Sessions
           </h2>
           <div className="grid grid-cols-2 gap-2">
@@ -192,7 +192,7 @@ export default function GoldenAgePage() {
           <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">
             Trusted by Missoula families for 13+ years
           </p>
-          <div className="flex items-center justify-center gap-6 text-sm font-medium text-navy">
+          <div className="flex items-center justify-center gap-6 text-sm font-medium text-black">
             <span>4.9 Google</span>
             <span>15K+ Facebook</span>
             <span>1000+ sessions</span>

@@ -29,7 +29,7 @@ export default function CallPage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-navy/70" />
+        <div className="absolute inset-0 bg-black/70" />
 
         <div className="relative max-w-3xl mx-auto px-6 text-center pt-24 text-white">
           {/* Phone icon */}
@@ -91,7 +91,7 @@ export default function CallPage() {
       {/* What Denise Helps With */}
       <section className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="font-display text-3xl font-bold text-center text-navy mb-16">
+          <h2 className="font-display text-3xl font-bold text-center text-black mb-16">
             How Denise Can Help
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
@@ -101,7 +101,7 @@ export default function CallPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="font-display text-lg font-bold text-navy mb-2">
+              <h3 className="font-display text-lg font-bold text-black mb-2">
                 Book Sessions
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed">
@@ -115,7 +115,7 @@ export default function CallPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
                 </svg>
               </div>
-              <h3 className="font-display text-lg font-bold text-navy mb-2">
+              <h3 className="font-display text-lg font-bold text-black mb-2">
                 Gift Certificates
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed">
@@ -129,7 +129,7 @@ export default function CallPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="font-display text-lg font-bold text-navy mb-2">
+              <h3 className="font-display text-lg font-bold text-black mb-2">
                 Session Prep
               </h3>
               <p className="text-sm text-gray-500 leading-relaxed">

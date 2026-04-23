@@ -62,7 +62,7 @@ export default function ThankYouPage() {
       {/* What Happens Next */}
       <section className="py-24 bg-white">
         <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-display text-3xl font-bold text-center text-navy mb-16">
+          <h2 className="font-display text-3xl font-bold text-center text-black mb-16">
             What Happens Next
           </h2>
           <div className="space-y-10">
@@ -88,7 +88,7 @@ export default function ThankYouPage() {
                   {step.num}
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-bold text-navy mb-1">
+                  <h3 className="font-display text-xl font-bold text-black mb-1">
                     {step.title}
                   </h3>
                   <p className="text-gray-500 leading-relaxed">{step.desc}</p>
@@ -102,7 +102,7 @@ export default function ThankYouPage() {
       {/* Book Now */}
       <section className="py-24 bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display text-3xl font-bold text-navy mb-3">
+          <h2 className="font-display text-3xl font-bold text-black mb-3">
             Can&apos;t Wait? Book Now
           </h2>
           <p className="text-gray-500 mb-12">
@@ -125,7 +125,7 @@ export default function ThankYouPage() {
                 />
               </div>
               <div className="p-5">
-                <span className="font-display text-lg font-bold text-navy block">
+                <span className="font-display text-lg font-bold text-black block">
                   Outdoor Session
                 </span>
                 <span className="text-sm text-gray-400 mt-1 block">
@@ -148,7 +148,7 @@ export default function ThankYouPage() {
                 />
               </div>
               <div className="p-5">
-                <span className="font-display text-lg font-bold text-navy block">
+                <span className="font-display text-lg font-bold text-black block">
                   Legacy Studio
                 </span>
                 <span className="text-sm text-gray-400 mt-1 block">

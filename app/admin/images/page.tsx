@@ -40,7 +40,7 @@ export default async function AdminImagesPage() {
           <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-2">
             3 Birds Studio &middot; Admin
           </p>
-          <h1 className="font-display text-3xl font-bold text-navy mb-2">
+          <h1 className="font-display text-3xl font-bold text-black mb-2">
             Landing page images
           </h1>
           <p className="text-gray-600">

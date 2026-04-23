@@ -43,7 +43,7 @@ export default function GiftHubPage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-navy/75" />
+        <div className="absolute inset-0 bg-black/75" />
         <div className="relative max-w-3xl mx-auto px-6 text-center">
           <p className="text-sm uppercase tracking-[0.3em] text-gold mb-4">
             Dealership Gift Certificate
@@ -85,7 +85,7 @@ export default function GiftHubPage() {
                   <p className="text-xs uppercase tracking-wider text-gold font-semibold mb-1">
                     Gift Certificate
                   </p>
-                  <h2 className="font-display text-xl font-bold text-navy mb-2">
+                  <h2 className="font-display text-xl font-bold text-black mb-2">
                     {card.dealership.name}
                   </h2>
                   <p className="text-gray-500 text-sm mb-4">
@@ -126,7 +126,7 @@ export default function GiftHubPage() {
       {/* What you get */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-center text-navy mb-12">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-center text-black mb-12">
             What your gift certificate covers
           </h2>
           <div className="grid md:grid-cols-3 gap-8">

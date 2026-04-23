@@ -14,7 +14,7 @@ export default function PrivacyPage() {
     <>
       <Header />
       <div className="max-w-3xl mx-auto px-6 pt-24 pb-20">
-        <h1 className="font-display text-3xl font-bold text-navy mb-8 text-center">
+        <h1 className="font-display text-3xl font-bold text-black mb-8 text-center">
           Privacy Policy
         </h1>
 
@@ -24,7 +24,7 @@ export default function PrivacyPage() {
           </p>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               Who We Are
             </h2>
             <p>
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               Information We Collect
             </h2>
             <p>When you register through our website, we collect:</p>
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               SMS/Text Messaging Terms
             </h2>
             <p>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
                 or contact us at 406-239-3442.
               </li>
             </ul>
-            <p className="font-semibold text-navy">
+            <p className="font-semibold text-black">
               We will never sell, rent, or share your mobile phone number or SMS
               opt-in data with third parties for marketing purposes. Your mobile
               information will not be shared with or sold to third parties or
@@ -89,7 +89,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               How We Use Your Information
             </h2>
             <p>We use your personal information to:</p>
@@ -105,7 +105,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               Information Sharing
             </h2>
             <p>
@@ -118,7 +118,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               Data Security
             </h2>
             <p>
@@ -129,7 +129,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               Your Rights
             </h2>
             <p>You may at any time:</p>
@@ -142,7 +142,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-navy mt-8 mb-3">
+            <h2 className="text-lg font-bold text-black mt-8 mb-3">
               Contact Us
             </h2>
             <p>

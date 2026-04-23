@@ -34,7 +34,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
           <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
@@ -70,7 +70,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
       {intro ? (
         <section className="py-16 bg-white border-b border-gray-100">
           <div className="max-w-4xl mx-auto px-6 text-center">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-navy mb-6">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-black mb-6">
               {intro.heading}
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
@@ -87,7 +87,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
             <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
               Choose Your Experience
             </p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-black">
               Two Ways to Be Remembered
             </h2>
           </div>
@@ -108,7 +108,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                   </p>
                 </div>
               </div>
-              <h3 className="font-display text-2xl font-bold text-navy mb-3">
+              <h3 className="font-display text-2xl font-bold text-black mb-3">
                 Outdoor Portraits
               </h3>
               <p className="text-gray-500 mb-4 leading-relaxed">
@@ -149,7 +149,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                   </p>
                 </div>
               </div>
-              <h3 className="font-display text-2xl font-bold text-navy mb-3">
+              <h3 className="font-display text-2xl font-bold text-black mb-3">
                 Legacy Fine Portraits
               </h3>
               <p className="text-gray-500 mb-4 leading-relaxed">
@@ -195,13 +195,13 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
               <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
                 The Experience
               </p>
-              <h2 className="font-display text-4xl md:text-5xl font-bold text-navy mb-10">
+              <h2 className="font-display text-4xl md:text-5xl font-bold text-black mb-10">
                 More Than Just Photos
               </h2>
 
               <div className="space-y-8">
                 <div>
-                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                  <h3 className="font-display text-lg font-bold text-black mb-1">
                     Professional Session
                   </h3>
                   <p className="text-gray-500 leading-relaxed">
@@ -210,7 +210,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                  <h3 className="font-display text-lg font-bold text-black mb-1">
                     Expert Editing
                   </h3>
                   <p className="text-gray-500 leading-relaxed">
@@ -219,7 +219,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                  <h3 className="font-display text-lg font-bold text-black mb-1">
                     Fine Art Prints
                   </h3>
                   <p className="text-gray-500 leading-relaxed">
@@ -228,7 +228,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-navy mb-1">
+                  <h3 className="font-display text-lg font-bold text-black mb-1">
                     Wardrobe Guidance
                   </h3>
                   <p className="text-gray-500 leading-relaxed">
@@ -249,7 +249,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
             <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
               Kind Words
             </p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-navy">
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-black">
               From Our Clients
             </h2>
           </div>
@@ -317,7 +317,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
               <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
                 Meet Your Photographers
               </p>
-              <h2 className="font-display text-4xl md:text-5xl font-bold text-navy mb-6">
+              <h2 className="font-display text-4xl md:text-5xl font-bold text-black mb-6">
                 Jesse & Nelli
               </h2>
               <p className="text-gray-600 leading-relaxed mb-4">
@@ -361,7 +361,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-navy/70" />
+        <div className="absolute inset-0 bg-black/70" />
         <div className="relative max-w-3xl mx-auto px-6 text-center text-white">
           <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
             Ready to Create Something Beautiful?

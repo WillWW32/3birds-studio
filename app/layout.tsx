@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d1b2a", // navy — matches site brand
+  themeColor: "#000000", // pure black — matches footer + brand
   width: "device-width",
   initialScale: 1,
 };
