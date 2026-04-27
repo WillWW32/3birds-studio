@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 // ── Metadata Next.js reads to populate <meta og:image:*> tags ──
-export const alt = 'Win a $3,000 Portrait Collection at 3 Birds Studio · Entries close May 10';
+export const alt = 'Win a $3,000 Portrait Collection at 3 Birds Studio · Mother\u2019s Day Giveaway';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -107,7 +107,7 @@ export default async function OG() {
               textTransform: 'uppercase',
             }}
           >
-            Closes May 10
+            11 Winners
           </div>
         </div>
 

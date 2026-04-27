@@ -6,7 +6,7 @@ import LeadForm from "@/components/LeadForm";
 export const metadata: Metadata = {
   title: "Enter to Win a $3,000 Portrait Collection",
   description:
-    "Enter to win a $3,000 Legacy Portrait Collection (includes a session, full retouching, and a signature wall portrait). Ten runner-up Portrait Collections ($1,500 each, includes a session). Entries close May 10, 2026. No purchase required.",
+    "Enter to win a $3,000 Legacy Portrait Collection (includes a session, full retouching, and a signature wall portrait). Ten runner-up Portrait Collections ($1,500 each, includes a session). Entries close May 10, 2026. Drawing held May 17, 2026 — winners announced that week. No purchase required.",
   alternates: { canonical: "/win" },
   // og:image and twitter:image are auto-generated from
   // app/win/opengraph-image.tsx (1200x630 ImageResponse with the brand
@@ -87,8 +87,10 @@ export default function WinPage() {
               Entry Form
             </h2>
             <p className="text-sm text-gray-500">
-              Entries close at noon on{" "}
-              <strong className="text-black">May 10, 2026</strong>.
+              Entries close at noon{" "}
+              <strong className="text-black">May 10, 2026</strong>. Drawing
+              held <strong className="text-black">May 17</strong>. Winners
+              announced that week.
             </p>
             <p className="text-xs uppercase tracking-wider text-gray-400 mt-2">
               No Purchase Required

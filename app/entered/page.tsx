@@ -8,7 +8,7 @@ import { FACEBOOK_URL, STUDIO_PHONE, STUDIO_PHONE_TEL } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "You're Entered!",
   description:
-    "Your entry to the 3 Birds Studio $3,000 Portrait Collection giveaway has been received. Winners will be notified after the drawing on May 10, 2026.",
+    "Your entry to the 3 Birds Studio $3,000 Portrait Collection giveaway has been received. Entries close May 10, 2026. Drawing held May 17 — winners announced that week by FedEx or certified mail.",
   alternates: { canonical: "/entered" },
   robots: { index: false, follow: true },
 };
@@ -67,12 +67,13 @@ export default function EnteredPage() {
               </div>
               <div>
                 <h3 className="font-display text-xl font-bold text-black mb-1">
-                  Entries Close May 10
+                  Entries Close May 10, Drawing May 17
                 </h3>
                 <p className="text-gray-500 leading-relaxed">
-                  Entries close at noon on Mother&apos;s Day 2026. One grand
-                  prize winner and ten runners-up will be selected after the
-                  contest closes.
+                  Entries close at noon on May 10, 2026. We hold the random
+                  drawing on May 17, 2026 — one grand prize winner and ten
+                  runners-up will be selected from all eligible entries.
+                  Winners are announced that week.
                 </p>
               </div>
             </div>

@@ -68,8 +68,9 @@ export default function TermsPage() {
             <p>
               The contest begins on the public launch date and ends at 12:00 PM
               Mountain Time on <strong>May 10, 2026</strong> (&ldquo;Entry
-              Deadline&rdquo;). Late entries will not be accepted. Entries
-              submitted after the Entry Deadline are void.
+              Deadline&rdquo;). The random drawing is held on{" "}
+              <strong>May 17, 2026</strong>. Late entries will not be accepted.
+              Entries submitted after the Entry Deadline are void.
             </p>
           </section>
 
@@ -114,11 +115,12 @@ export default function TermsPage() {
               Winner Selection &amp; Notification
             </h2>
             <p>
-              Winners will be selected at random from all eligible entries on or
-              about May 11, 2026. Winners will be notified by FedEx or certified
-              mail at the mailing address provided on their entry. Only Grand
-              Prize and Runner-Up winners will be contacted &mdash; non-winners
-              will not receive notification.
+              Winners will be selected at random from all eligible entries on
+              or about <strong>May 17, 2026</strong>. Winners will be announced
+              the week of May 17 and notified by FedEx or certified mail at the
+              mailing address provided on their entry. Only Grand Prize and
+              Runner-Up winners will be contacted &mdash; non-winners will not
+              receive notification.
             </p>
             <p className="mt-3">
               If a winner cannot be reached within 14 days of notification, or
