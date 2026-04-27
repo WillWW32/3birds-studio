@@ -154,7 +154,7 @@ export default function GiftHubPage() {
               </p>
               <p className="text-sm text-gray-600 leading-relaxed">
                 Professional editing and a 14-inch museum-grade fine art
-                print included.
+                portrait included.
               </p>
             </div>
           </div>

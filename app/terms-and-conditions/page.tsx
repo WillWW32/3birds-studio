@@ -100,7 +100,7 @@ export default function TermsPage() {
               <li>
                 <strong>Runner-Up Prizes (10):</strong> A complimentary portrait
                 session, full professional editing, and a 14-inch fine art
-                print, approximate retail value <strong>$1,500 each</strong>.
+                portrait, approximate retail value <strong>$1,500 each</strong>.
               </li>
             </ul>
             <p className="mt-4">

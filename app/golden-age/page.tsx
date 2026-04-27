@@ -107,7 +107,7 @@ export default function GoldenAgePage() {
             </p>
             <p>
               Your collection includes professional direction from Jesse & Nelli,
-              full retouching, and a 14&quot; fine art print.
+              full retouching, and a 14&quot; fine art portrait.
             </p>
           </div>
         </div>

@@ -185,7 +185,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
             <div className="relative aspect-[3/4] rounded-2xl overflow-hidden">
               <Image
                 src="/images/print-product.jpg"
-                alt="Fine art portrait print product"
+                alt="3 Birds Studio fine art portrait"
                 fill
                 className="object-cover"
               />
@@ -220,7 +220,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                 </div>
                 <div>
                   <h3 className="font-display text-lg font-bold text-black mb-1">
-                    Fine Art Prints
+                    Fine Art Portraits
                   </h3>
                   <p className="text-gray-500 leading-relaxed">
                     Museum grade giclee on archival paper, or Legacy portraits on

@@ -74,7 +74,7 @@ export default function AdPage() {
               <p className="text-sm text-gray-400">Every image retouched</p>
             </div>
             <div>
-              <h3 className="font-display text-base font-bold text-black mb-1">Fine Art Prints</h3>
+              <h3 className="font-display text-base font-bold text-black mb-1">Fine Art Portraits</h3>
               <p className="text-sm text-gray-400">Museum-grade quality</p>
             </div>
             <div>
