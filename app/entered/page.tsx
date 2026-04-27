@@ -8,7 +8,7 @@ import { FACEBOOK_URL, STUDIO_PHONE, STUDIO_PHONE_TEL } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "You're Entered!",
   description:
-    "Your entry to the 3 Birds Studio $3,000 portrait session giveaway has been received. Winners will be notified May 10, 2026.",
+    "Your entry to the 3 Birds Studio $3,000 Portrait Collection giveaway has been received. Winners will be notified after the drawing on May 10, 2026.",
   alternates: { canonical: "/entered" },
   robots: { index: false, follow: true },
 };

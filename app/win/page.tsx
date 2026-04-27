@@ -4,9 +4,9 @@ import Footer from "@/components/Footer";
 import LeadForm from "@/components/LeadForm";
 
 export const metadata: Metadata = {
-  title: "Enter to Win a $3,000 Portrait Session",
+  title: "Enter to Win a $3,000 Portrait Collection",
   description:
-    "Enter to win a $3,000 Legacy portrait session with artwork for your home. Ten runner-up prizes ($1,500 each). Entries close May 10, 2026. No purchase required.",
+    "Enter to win a $3,000 Legacy Portrait Collection (includes a session, full retouching, and a signature wall portrait). Ten runner-up Portrait Collections ($1,500 each, includes a session). Entries close May 10, 2026. No purchase required.",
   alternates: { canonical: "/win" },
   // og:image and twitter:image are auto-generated from
   // app/win/opengraph-image.tsx (1200x630 ImageResponse with the brand
@@ -52,20 +52,20 @@ export default function WinPage() {
         <div className="text-center mb-8">
           <h1 className="font-display text-3xl md:text-4xl font-bold text-black leading-tight mb-5">
             Enter to Win a{" "}
-            <span className="text-gold">$3,000</span> Portrait Session with
-            Artwork for Your Home
+            <span className="text-gold">$3,000</span> Portrait Collection
           </h1>
           <p className="text-gray-600 leading-relaxed">
             To celebrate Mother&apos;s Day, one family will be selected to
-            receive a{" "}
+            receive our{" "}
             <strong className="text-black">
-              FREE portrait session and a Signature Wall Portrait
+              $3,000 Legacy Portrait Collection
             </strong>{" "}
-            (a $3,000 value). We will also be giving away{" "}
+            (includes a session, full retouching, and a signature wall
+            portrait). We will also be giving away{" "}
             <strong className="text-black">
-              ten runner-up prizes at $1,500 each
-            </strong>
-            .
+              ten runner-up Portrait Collections at $1,500 each
+            </strong>{" "}
+            (each includes a session).
           </p>
         </div>
 

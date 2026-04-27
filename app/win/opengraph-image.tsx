@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 // ── Metadata Next.js reads to populate <meta og:image:*> tags ──
-export const alt = 'Win a $3,000 Portrait Session at 3 Birds Studio · Entries close May 10';
+export const alt = 'Win a $3,000 Portrait Collection at 3 Birds Studio · Entries close May 10';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -163,7 +163,7 @@ export default async function OG() {
                 lineHeight: 1.0,
               }}
             >
-              Portrait Session
+              Portrait Collection
             </div>
           </div>
           <div
@@ -176,7 +176,7 @@ export default async function OG() {
               lineHeight: 1.3,
             }}
           >
-            Plus 10 runner-up prizes — $1,500 each. Free portrait session, professional editing, 14&quot; fine art print.
+            Includes a session, professional retouching, and a signature wall portrait. Plus 10 runner-up Portrait Collections at $1,500 each.
           </div>
         </div>
 
