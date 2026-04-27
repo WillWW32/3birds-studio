@@ -43,6 +43,37 @@ function captureAttribution(): AttributionParams {
   return captured;
 }
 
+/**
+ * Capture an inbound referral token from `?ref=...` in the URL.
+ * Used by the giveaway flow — when an existing entrant shares their link
+ * from /entered, friends land on /win with their share_token in the URL.
+ * We persist it to sessionStorage so attribution survives refreshes.
+ */
+function captureReferral(): string {
+  if (typeof window === "undefined") return "";
+  const ref = new URL(window.location.href).searchParams.get("ref") || "";
+  try {
+    if (ref) {
+      sessionStorage.setItem("3birds_referred_by", ref);
+      return ref;
+    }
+    return sessionStorage.getItem("3birds_referred_by") || "";
+  } catch {
+    return ref;
+  }
+}
+
+/** Short URL-safe token used as this entrant's share id on /entered. */
+function generateShareToken(): string {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
+    return crypto.randomUUID().split("-")[0]; // 8 hex chars
+  }
+  return Math.random().toString(36).slice(2, 10);
+}
+
 interface LeadFormProps {
   campaign: string;
   source: string;
@@ -70,9 +101,11 @@ export default function LeadForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [attribution, setAttribution] = useState<AttributionParams>({});
+  const [referredBy, setReferredBy] = useState("");
 
   useEffect(() => {
     setAttribution(captureAttribution());
+    setReferredBy(captureReferral());
   }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -82,6 +115,10 @@ export default function LeadForm({
 
     const form = e.currentTarget;
     const fd = new FormData(form);
+
+    // This entrant's outbound share token — embedded in /entered share links
+    // so we can credit them when a friend enters via their link.
+    const shareToken = generateShareToken();
 
     const data: Record<string, string | boolean | AttributionParams> = {
       name: fd.get("name") as string,
@@ -94,6 +131,8 @@ export default function LeadForm({
       brand: "3birds",
       tcpa_consent: fd.get("tcpa_consent") === "on",
       attribution,
+      share_token: shareToken,
+      referred_by_share_token: referredBy,
     };
 
     if (!compact) {
@@ -125,7 +164,10 @@ export default function LeadForm({
             content_name: source,
           });
         }
-        window.location.href = successRedirect;
+        // Append the entrant's share token to the redirect so /entered can
+        // build share URLs like https://win.3birdsstudio.com?ref=<token>.
+        const sep = successRedirect.includes("?") ? "&" : "?";
+        window.location.href = `${successRedirect}${sep}ref=${encodeURIComponent(shareToken)}`;
       } else {
         const err = await res.json().catch(() => ({}));
         setError(

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PixelEvent from "@/components/PixelEvent";
+import ShareEntry from "@/components/ShareEntry";
 import { FACEBOOK_URL, STUDIO_PHONE, STUDIO_PHONE_TEL } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -111,6 +112,9 @@ export default function EnteredPage() {
           </div>
         </div>
       </section>
+
+      {/* Share for an extra entry */}
+      <ShareEntry />
 
       {/* Follow / Contact */}
       <section className="py-16 bg-white border-t border-gray-100">
