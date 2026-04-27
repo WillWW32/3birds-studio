@@ -138,8 +138,8 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
             <div className="group">
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-6">
                 <Image
-                  src="/images/ad-portrait.jpg"
-                  alt="Legacy fine art portrait in studio"
+                  src="/images/sample-girls-frame.jpg"
+                  alt="Two sisters in a framed Legacy fine art studio portrait"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
