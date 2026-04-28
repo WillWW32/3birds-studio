@@ -40,13 +40,12 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           className="object-cover"
           priority
         />
-        {/* Two-layer overlay:
-            1) Light left-anchored fade so the headline text stays readable
-               while keeping the photo clearly visible.
-            2) Right-edge patch on the right 35% that ramps up to fully
-               opaque to bury any burned-in promo text in the source. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-[35%] bg-gradient-to-r from-transparent via-black/50 to-black/90" />
+        {/* Single-layer gradient: keeps the original "before" look that
+            worked (dark on the left for headline contrast, photo visible
+            in the middle), with the right side closing to black/40 instead
+            of fully transparent so any burned-in text on the right edge of
+            summer-banner.jpg gets toned down without washing out the photo. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/40" />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
           <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
