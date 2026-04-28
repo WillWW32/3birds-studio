@@ -37,10 +37,10 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           priority
         />
         {/* Right edge of summer-banner.jpg has burned-in promo text. The
-            object-left crop on the image plus this stronger right-side
-            gradient (to-black/50 instead of transparent) keep that text
-            blanketed so it never bleeds through on wider viewports. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/50" />
+            object-left crop on the image plus this gentle right-side
+            gradient (to-black/35 instead of transparent) keep the subject
+            visible while masking burned-in text from bleeding through. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/35" />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
           <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
