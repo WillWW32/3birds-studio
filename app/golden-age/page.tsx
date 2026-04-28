@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: "/golden-age",
     images: [
       {
-        url: "/images/golden-age-hero.jpg",
+        url: "/images/new-golden-age/carmeljim001.jpg",
         width: 1200,
         height: 630,
         alt: "Golden Age Couples portrait collection",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/images/golden-age-hero.jpg"],
+    images: ["/images/new-golden-age/carmeljim001.jpg"],
   },
 };
 
@@ -86,9 +86,10 @@ export default function GoldenAgePage() {
         <div className="mt-10">
           <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden">
             <Image
-              src="/images/golden-age-hero.jpg"
-              alt="Golden age couples portrait"
+              src="/images/new-golden-age/carmeljim001.jpg"
+              alt="Golden Age couples portrait by 3 Birds Studio"
               fill
+              sizes="(max-width: 768px) 100vw, 600px"
               className="object-cover"
             />
           </div>
@@ -161,14 +162,21 @@ export default function GoldenAgePage() {
             Recent Sessions
           </h2>
           <div className="grid grid-cols-2 gap-2">
-            {[1, 2, 3, 4, 5, 6].map((n) => (
+            {[
+              'paoli001.jpg',
+              'dewey035.jpg',
+              'patch001.jpg',
+              'selma+al016b.jpg',
+              'level025.jpg',
+              'trenary001.jpg',
+            ].map((file, i) => (
               <div
-                key={n}
+                key={file}
                 className="relative w-full aspect-square overflow-hidden rounded-md"
               >
                 <Image
-                  src={`/images/golden-age-${n}.jpg`}
-                  alt={`Golden age couples portrait ${n}`}
+                  src={`/images/new-golden-age/${file}`}
+                  alt={`Recent Golden Age couples portrait ${i + 1}`}
                   fill
                   sizes="(max-width: 768px) 50vw, 33vw"
                   className="object-cover"
