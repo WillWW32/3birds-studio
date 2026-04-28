@@ -25,24 +25,25 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
       <LocalBusinessSchema />
       <Header />
 
-      {/* Hero - full-bleed image. object-left crops the right portion (which
-          carries text/branding artifacts in some sources) and keeps the
-          subject side visible behind the dark left-anchored gradient overlay. */}
+      {/* Hero - full-bleed image. Default object-center so the kids stay
+          framed in view (they sit in the center/right of the source image).
+          A right-anchored heavy patch then masks the burned-in promo text
+          on the right edge of summer-banner.jpg without darkening the
+          subject area. */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <Image
           src="/images/summer-banner.jpg"
           alt="Family portrait session at Council Grove State Park"
           fill
-          className="object-cover object-left"
+          className="object-cover"
           priority
         />
-        {/* Two-layer overlay strategy:
-            1) A vertical fade across the whole image so the photo stays
-               visible (only ~40-50% darkening at the heaviest point).
-            2) A right-anchored darker patch ONLY on the right third to
-               mask burned-in promo text from the source. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/30 to-black/20" />
-        <div className="absolute inset-y-0 right-0 w-2/5 bg-gradient-to-r from-transparent to-black/60" />
+        {/* Two-layer overlay:
+            1) Mild left-anchored fade so the headline text stays readable.
+            2) Right-edge patch on the right ~45% that ramps up to fully
+               opaque to bury the SUMMER promo text in the source. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/20" />
+        <div className="absolute inset-y-0 right-0 w-[45%] bg-gradient-to-r from-transparent via-black/40 to-black/85" />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
           <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
