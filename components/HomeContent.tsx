@@ -32,7 +32,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           subject area. */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <Image
-          src="/images/summer-banner.jpg"
+          src="/images/summer-banner2.jpg"
           alt="Family portrait session at Council Grove State Park"
           fill
           sizes="100vw"
@@ -40,12 +40,11 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           className="object-cover"
           priority
         />
-        {/* Single-layer gradient: keeps the original "before" look that
-            worked (dark on the left for headline contrast, photo visible
-            in the middle), with the right side closing to black/40 instead
-            of fully transparent so any burned-in text on the right edge of
-            summer-banner.jpg gets toned down without washing out the photo. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/40" />
+        {/* Clean left-anchored gradient. Now that summer-banner2.jpg has
+            no burned-in promo text, the right side fades to transparent so
+            the full photo is visible. Left side stays dark enough for the
+            headline + body copy to read clearly. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-transparent" />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
           <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
