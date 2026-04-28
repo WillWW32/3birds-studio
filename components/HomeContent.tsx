@@ -36,11 +36,13 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           className="object-cover object-left"
           priority
         />
-        {/* Right edge of summer-banner.jpg has burned-in promo text. The
-            object-left crop on the image plus this gentle right-side
-            gradient (to-black/35 instead of transparent) keep the subject
-            visible while masking burned-in text from bleeding through. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/35" />
+        {/* Two-layer overlay strategy:
+            1) A vertical fade across the whole image so the photo stays
+               visible (only ~40-50% darkening at the heaviest point).
+            2) A right-anchored darker patch ONLY on the right third to
+               mask burned-in promo text from the source. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/30 to-black/20" />
+        <div className="absolute inset-y-0 right-0 w-2/5 bg-gradient-to-r from-transparent to-black/60" />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
           <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
