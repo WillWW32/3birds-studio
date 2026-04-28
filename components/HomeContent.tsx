@@ -35,15 +35,18 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           src="/images/summer-banner.jpg"
           alt="Family portrait session at Council Grove State Park"
           fill
+          sizes="100vw"
+          quality={90}
           className="object-cover"
           priority
         />
         {/* Two-layer overlay:
-            1) Mild left-anchored fade so the headline text stays readable.
-            2) Right-edge patch on the right ~45% that ramps up to fully
-               opaque to bury the SUMMER promo text in the source. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/20" />
-        <div className="absolute inset-y-0 right-0 w-[45%] bg-gradient-to-r from-transparent via-black/40 to-black/85" />
+            1) Light left-anchored fade so the headline text stays readable
+               while keeping the photo clearly visible.
+            2) Right-edge patch on the right 35% that ramps up to fully
+               opaque to bury any burned-in promo text in the source. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-[35%] bg-gradient-to-r from-transparent via-black/50 to-black/90" />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-20">
           <p className="text-white/70 text-sm uppercase tracking-[0.3em] mb-6 animate-fade-up">
