@@ -25,13 +25,15 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
       <LocalBusinessSchema />
       <Header />
 
-      {/* Hero - full-bleed image */}
+      {/* Hero - full-bleed image. object-left crops the right portion (which
+          carries text/branding artifacts in some sources) and keeps the
+          subject side visible behind the dark left-anchored gradient overlay. */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <Image
           src="/images/summer-banner.jpg"
           alt="Family portrait session at Council Grove State Park"
           fill
-          className="object-cover"
+          className="object-cover object-left"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
@@ -92,14 +94,19 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
             </h2>
           </div>
 
+          {/* Cards constrained to max-w-md and centered in their grid cells.
+              Aspect changed from 4/5 (very tall) to 4/3 (gentler) so the source
+              images render at smaller dimensions, eliminating upscale pixelation
+              from low-res sources (sample-girls-frame.jpg is only 500x394). */}
           <div className="grid md:grid-cols-2 gap-10">
             {/* Outdoor */}
-            <div className="group">
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-6">
+            <div className="group max-w-md mx-auto w-full">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6">
                 <Image
                   src="/images/family-portraits.jpg"
                   alt="Outdoor family portraits at Council Grove State Park"
                   fill
+                  sizes="(max-width: 768px) 100vw, 28rem"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
@@ -135,12 +142,13 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
             </div>
 
             {/* Legacy Studio */}
-            <div className="group">
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-6">
+            <div className="group max-w-md mx-auto w-full">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6">
                 <Image
-                  src="/images/sample-girls-frame.jpg"
-                  alt="Two sisters in a framed Legacy fine art studio portrait"
+                  src="/images/testimonial-davy-angela.jpg"
+                  alt="Couple portrait in a Legacy fine art studio session"
                   fill
+                  sizes="(max-width: 768px) 100vw, 28rem"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
@@ -237,64 +245,6 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-28 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <p className="text-teal text-sm uppercase tracking-[0.2em] font-semibold mb-3">
-              Kind Words
-            </p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-black">
-              From Our Clients
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden">
-              <Image
-                src="/images/testimonial-chris-liz.jpg"
-                alt="Chris and Liz portrait session"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="relative aspect-[2/3] rounded-2xl overflow-hidden">
-              <Image
-                src="/images/testimonial-davy-angela.jpg"
-                alt="Davy and Angela portrait session"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="flex flex-col justify-center p-8">
-              <div className="relative aspect-square rounded-2xl overflow-hidden mb-6">
-                <Image
-                  src="/images/reviews.jpg"
-                  alt="5-star client reviews"
-                  fill
-                  className="object-cover object-top"
-                />
-              </div>
-              <div className="flex items-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <svg
-                    key={i}
-                    className="w-5 h-5 text-gold"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-sm text-gray-400">4.9 on Google</p>
-              <p className="text-sm text-gray-400">15,000+ Facebook followers</p>
-              <p className="text-sm text-gray-400">13+ years in Missoula</p>
             </div>
           </div>
         </div>
