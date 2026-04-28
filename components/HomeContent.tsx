@@ -153,8 +153,8 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
             <div className="group max-w-md mx-auto w-full">
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6">
                 <Image
-                  src="/images/golden-age-1.jpg"
-                  alt="Couple portrait in a Legacy fine art studio session"
+                  src="/images/holden004.jpg"
+                  alt="Family portrait from a Legacy fine art studio session"
                   fill
                   sizes="(max-width: 768px) 100vw, 28rem"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
