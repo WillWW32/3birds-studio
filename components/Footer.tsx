@@ -8,27 +8,34 @@ import {
   FACEBOOK_URL,
   INSTAGRAM_URL,
 } from "@/lib/constants";
-import { getSwappableImage } from "@/lib/voucher-image";
 
 /**
- * Minimal footer with a social-proof strip above it.
- *
- * - FB Page Plugin iframe (social proof): appears just above the black
- *   footer on every page, on a light background so it reads as its own
- *   zone. Loads lazily so it doesn't block initial page paint.
- * - Compact social/contact row: Denise phone + Facebook + Instagram icons.
- * - Review strip: a 5-star review screenshot, swappable via /admin/images
- *   (fallback lives at public/images/review-screenshot.jpg). Jesse should
- *   upload an actual Google review screenshot when one is available.
- * - Legal sub-row: copyright + Privacy + Terms + studio phone. Kept here
- *   because Telnyx + Twilio 10DLC campaign approval requires Privacy +
- *   Terms + a phone link on every page referenced by the campaign.
- *
- * Palette: pure black background, white, gold accent.
+ * Real Google review screenshots Jesse provided. Sit above the black
+ * footer on a light background so they read as their own zone. Stored
+ * at public/images/reviews/*.png. Tagged with the reviewer's first name
+ * so the alt text is a real attribution rather than generic boilerplate.
  */
-export default async function Footer() {
-  const review = await getSwappableImage("review-screenshot");
+const REVIEWS = [
+  { src: "/images/reviews/nancy.png", name: "Nancy", w: 1335, h: 539 },
+  { src: "/images/reviews/nina.png", name: "Nina", w: 1329, h: 582 },
+  { src: "/images/reviews/ranae.png", name: "Ranae", w: 1348, h: 457 },
+  { src: "/images/reviews/septa.png", name: "Septa", w: 1372, h: 466 },
+] as const;
 
+/**
+ * Minimal footer with social-proof strips above it.
+ *
+ * - FB Page Plugin iframe: appears just above the reviews on a light
+ *   background. Loads lazily so it doesn't block initial paint.
+ * - Reviews strip: 4 real Google review screenshots, 2-up on desktop,
+ *   single column on mobile. Replaces the old single-screenshot
+ *   swappable image.
+ * - Black footer: Denise phone + FB/IG icons + legal sub-row. Pure
+ *   black background, white, gold accent. Privacy + Terms + phone are
+ *   kept here because Telnyx + Twilio 10DLC campaign approval requires
+ *   them on every page referenced by the campaign.
+ */
+export default function Footer() {
   return (
     <footer>
       {/* Facebook social-proof strip (above the black footer) */}
@@ -48,6 +55,35 @@ export default async function Footer() {
               className="w-full"
               style={{ border: "none", overflow: "hidden", maxWidth: "100%" }}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Real Google review screenshots, above the black footer */}
+      <section
+        aria-label="Recent client reviews"
+        className="bg-gray-50 border-t border-gray-100"
+      >
+        <div className="max-w-5xl mx-auto px-6 py-12">
+          <p className="text-center text-xs uppercase tracking-[0.3em] text-gold font-semibold mb-8">
+            What Our Clients Say
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {REVIEWS.map((r) => (
+              <div
+                key={r.src}
+                className="rounded-xl overflow-hidden bg-white border border-gray-200 shadow-sm"
+              >
+                <Image
+                  src={r.src}
+                  alt={`Google review from ${r.name} for 3 Birds Studio`}
+                  width={r.w}
+                  height={r.h}
+                  className="w-full h-auto"
+                  sizes="(min-width: 768px) 480px, 100vw"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -103,18 +139,6 @@ export default async function Footer() {
               </svg>
             </a>
           </div>
-        </div>
-
-        {/* Review strip (swappable) */}
-        <div className="mt-6 rounded-lg overflow-hidden bg-white/5 border border-white/10">
-          <Image
-            src={review.src}
-            alt="5-star client review of 3 Birds Studio"
-            width={800}
-            height={320}
-            className="w-full h-auto max-h-72 object-contain bg-white"
-            unoptimized={review.fromBlob}
-          />
         </div>
 
         {/* Compliance / legal row */}
