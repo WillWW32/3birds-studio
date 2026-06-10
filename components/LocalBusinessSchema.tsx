@@ -6,9 +6,12 @@
 export default function LocalBusinessSchema() {
   const data = {
     "@context": "https://schema.org",
-    "@type": "Photograph",
+    // LocalBusiness must LEAD: parsers and AI assistants key on the primary
+    // @type to confirm who and where the business is. With "Photograph" as
+    // the primary type this read as a creative work, not a business.
+    "@type": ["LocalBusiness", "ProfessionalService"],
     "@id": "https://3birdsstudio.com/#organization",
-    additionalType: "LocalBusiness",
+    additionalType: "Photograph",
     name: "3 Birds Studio",
     image: [
       "https://3birdsstudio.com/images/summer-banner.jpg",

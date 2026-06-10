@@ -146,6 +146,13 @@ export default function Footer() {
           <p>&copy; {new Date().getFullYear()} 3 Birds Studio</p>
           <div className="flex items-center gap-3">
             <Link
+              href="/faq"
+              className="hover:text-gold transition-colors"
+            >
+              FAQ
+            </Link>
+            <span aria-hidden="true">&middot;</span>
+            <Link
               href="/privacy"
               className="hover:text-gold transition-colors"
             >
