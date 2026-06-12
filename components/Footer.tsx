@@ -143,7 +143,18 @@ export default function Footer() {
 
         {/* Compliance / legal row */}
         <div className="mt-5 pt-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-white/40">
-          <p>&copy; {new Date().getFullYear()} 3 Birds Studio</p>
+          <p>
+            &copy; {new Date().getFullYear()} 3 Birds Studio
+            <span aria-hidden="true"> &middot; </span>
+            <a
+              href="https://www.divineparadox.org/websites"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gold transition-colors"
+            >
+              Design by Divine Paradox
+            </a>
+          </p>
           <div className="flex items-center gap-3">
             <Link
               href="/faq"
