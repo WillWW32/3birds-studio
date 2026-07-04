@@ -73,7 +73,7 @@ const HOW_IT_WORKS = [
   {
     step: "3",
     title: "We remind, you book",
-    body: "Each year, before your renewal date, Nelli reaches out to plan your next session. No spam, no pressure — just a friendly check-in so portraits actually happen.",
+    body: "Each year, before your renewal date, Nelli reaches out to plan your next session. No pressure, just a friendly check-in so portraits actually happen.",
   },
 ];
 
@@ -318,8 +318,9 @@ export default function MembershipPage() {
               compact
               consentLabel={
                 <>
-                  I agree to be contacted by 3 Birds Studio about my membership
-                  by phone, text, or email.
+                  (Optional) I agree to be contacted by 3 Birds Studio about my
+                  membership by phone, text, or email. Consent is not a
+                  condition of joining. Reply STOP to opt out.
                 </>
               }
             />

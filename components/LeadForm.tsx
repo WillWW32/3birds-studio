@@ -87,6 +87,9 @@ interface LeadFormProps {
   includeAddress?: boolean;
   /** Consent copy override. Sweepstakes entries may skip TCPA call/text consent. */
   consentLabel?: React.ReactNode;
+  /** Optional REQUIRED checkbox for contest/entry terms. Keep legal agreement
+      (can be required) separate from SMS consent (never required). */
+  termsLabel?: React.ReactNode;
 }
 
 export default function LeadForm({
@@ -97,6 +100,7 @@ export default function LeadForm({
   compact = false,
   includeAddress = false,
   consentLabel,
+  termsLabel,
 }: LeadFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -316,21 +320,39 @@ export default function LeadForm({
         </>
       )}
 
+      {termsLabel && (
+        <div className="flex items-start gap-3 pt-1">
+          <input
+            type="checkbox"
+            name="terms_agree"
+            id={`terms_agree_${campaign}`}
+            required
+            className="mt-1 w-4 h-4 rounded border-gray-300 text-teal focus:ring-teal"
+          />
+          <label htmlFor={`terms_agree_${campaign}`} className="text-xs text-gray-500 leading-relaxed">
+            {termsLabel}
+          </label>
+        </div>
+      )}
+
+      {/* SMS/call consent is OPTIONAL by carrier rule: consent can never be a
+          required condition of entry or purchase (Twilio error 30923). The
+          unchecked box still submits; the backend gates every phone touch on
+          the boolean this sends. */}
       <div className="flex items-start gap-3 pt-1">
         <input
           type="checkbox"
           name="tcpa_consent"
           id={`tcpa_consent_${campaign}`}
-          required
           className="mt-1 w-4 h-4 rounded border-gray-300 text-teal focus:ring-teal"
         />
         <label htmlFor={`tcpa_consent_${campaign}`} className="text-xs text-gray-500 leading-relaxed">
           {consentLabel || (
             <>
-              By checking this box, I consent to receive automated calls, text messages,
-              and emails from 3 Birds Studio regarding my portrait session booking.
-              Message frequency varies. Msg &amp; data rates may apply. Reply STOP to
-              opt out, HELP for help. View our{" "}
+              (Optional) I agree to receive automated calls and text messages from
+              3 Birds Studio about my session and offers. Consent is not a condition
+              of purchase or entry. Message frequency varies. Msg &amp; data rates
+              may apply. Reply STOP to opt out, HELP for help. View our{" "}
               <a href="/privacy" className="underline text-teal">Privacy Policy</a>.
             </>
           )}

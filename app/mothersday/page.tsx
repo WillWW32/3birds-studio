@@ -98,18 +98,25 @@ export default function MothersDayPage() {
             buttonText="Enter to Win!"
             successRedirect="/entered"
             includeAddress
-            consentLabel={
+            termsLabel={
               <>
-                By checking this box, I agree to the{" "}
+                I agree to the{" "}
                 <a
                   href="/terms-and-conditions"
                   className="underline text-teal"
                 >
                   contest terms and conditions
-                </a>{" "}
-                and consent to 3 Birds Studio contacting me about my entry and
-                related promotions by email, phone, or text. Msg &amp; data
-                rates may apply. Reply STOP to opt out. View our{" "}
+                </a>
+                .
+              </>
+            }
+            consentLabel={
+              <>
+                (Optional) I agree to receive automated calls and text messages
+                from 3 Birds Studio about my entry and related offers. Consent
+                is not a condition of entry. Message frequency varies. Msg
+                &amp; data rates may apply. Reply STOP to opt out, HELP for
+                help. View our{" "}
                 <a href="/privacy" className="underline text-teal">
                   Privacy Policy
                 </a>
