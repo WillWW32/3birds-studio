@@ -30,14 +30,17 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           A right-anchored heavy patch then masks the burned-in promo text
           on the right edge of summer-banner.jpg without darkening the
           subject area. */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[90vh] flex items-center overflow-hidden bg-neutral-900">
         <Image
           src="/images/summer-banner2.jpg"
           alt="Family portrait session at Council Grove State Park"
           fill
           sizes="100vw"
           quality={90}
-          className="object-cover"
+          // Mobile: contain so the whole banner shows (two people at the
+          // edges don't get cropped by object-cover). Desktop: cover as
+          // before since the viewport aspect ratio matches better.
+          className="object-contain object-top md:object-cover"
           priority
         />
         {/* Clean left-anchored gradient. Now that summer-banner2.jpg has
