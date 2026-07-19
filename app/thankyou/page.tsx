@@ -4,8 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PixelEvent from "@/components/PixelEvent";
 import {
-  CALENDLY_OUTDOOR,
-  CALENDLY_LEGACY,
+  BOOK_OUTDOOR,
+  BOOK_LEGACY,
   STUDIO_PHONE,
   STUDIO_PHONE_TEL,
   FACEBOOK_URL,
@@ -111,7 +111,7 @@ export default function ThankYouPage() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-lg mx-auto">
             <a
-              href={CALENDLY_OUTDOOR}
+              href={BOOK_OUTDOOR}
               target="_blank"
               rel="noopener noreferrer"
               className="group block border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1"
@@ -134,7 +134,7 @@ export default function ThankYouPage() {
               </div>
             </a>
             <a
-              href={CALENDLY_LEGACY}
+              href={BOOK_LEGACY}
               target="_blank"
               rel="noopener noreferrer"
               className="group block border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1"

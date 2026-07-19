@@ -4,8 +4,8 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
-  CALENDLY_OUTDOOR,
-  CALENDLY_LEGACY,
+  BOOK_OUTDOOR,
+  BOOK_LEGACY,
   STUDIO_PHONE,
   STUDIO_PHONE_TEL,
 } from "@/lib/constants";
@@ -84,7 +84,7 @@ export default function BookPage() {
                   </li>
                 </ul>
                 <a
-                  href={CALENDLY_OUTDOOR}
+                  href={BOOK_OUTDOOR}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-center px-6 py-4 bg-teal text-white rounded-xl font-semibold hover:bg-teal-dark transition-colors"
@@ -132,7 +132,7 @@ export default function BookPage() {
                   </li>
                 </ul>
                 <a
-                  href={CALENDLY_LEGACY}
+                  href={BOOK_LEGACY}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-center px-6 py-4 bg-black text-white rounded-xl font-bold hover:bg-black/90 transition-colors"

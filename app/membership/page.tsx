@@ -7,7 +7,7 @@ import LeadForm from "@/components/LeadForm";
 import {
   STUDIO_PHONE,
   STUDIO_PHONE_TEL,
-  CALENDLY_LEGACY,
+  BOOK_LEGACY,
 } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -377,7 +377,7 @@ export default function MembershipPage() {
               Sign up now
             </Link>
             <a
-              href={CALENDLY_LEGACY}
+              href={BOOK_LEGACY}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-xl border border-white/30 transition-colors"

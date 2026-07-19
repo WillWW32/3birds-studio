@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import {
   STUDIO_PHONE_TEL,
-  CALENDLY_OUTDOOR,
-  CALENDLY_LEGACY,
+  BOOK_OUTDOOR,
+  BOOK_LEGACY,
   FACEBOOK_URL,
   INSTAGRAM_URL,
 } from "@/lib/constants";
@@ -32,7 +32,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
           subject area. */}
       <section className="relative min-h-[70vh] md:min-h-[90vh] flex items-center overflow-hidden bg-neutral-900">
         <Image
-          src="/images/summer-banner2.jpg"
+          src="/images/summer-banner.jpg"
           alt="Family portrait session at Council Grove State Park"
           fill
           sizes="100vw"
@@ -140,7 +140,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                 <span>Tue & Sat</span>
               </div>
               <a
-                href={CALENDLY_OUTDOOR}
+                href={BOOK_OUTDOOR}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors"
@@ -182,7 +182,7 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
                 <span>Tue & Wed</span>
               </div>
               <a
-                href={CALENDLY_LEGACY}
+                href={BOOK_LEGACY}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors"

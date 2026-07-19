@@ -4,8 +4,8 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
-  CALENDLY_OUTDOOR,
-  CALENDLY_LEGACY,
+  BOOK_OUTDOOR,
+  BOOK_LEGACY,
   DENISE_PHONE,
   DENISE_PHONE_TEL,
 } from "@/lib/constants";
@@ -93,7 +93,7 @@ export default function AdPage() {
           </h2>
           <div className="grid md:grid-cols-2 gap-10">
             <a
-              href={CALENDLY_OUTDOOR}
+              href={BOOK_OUTDOOR}
               target="_blank"
               rel="noopener noreferrer"
               className="group block rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1"
@@ -123,7 +123,7 @@ export default function AdPage() {
             </a>
 
             <a
-              href={CALENDLY_LEGACY}
+              href={BOOK_LEGACY}
               target="_blank"
               rel="noopener noreferrer"
               className="group block rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1"
