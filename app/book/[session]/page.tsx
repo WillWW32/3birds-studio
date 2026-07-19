@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
+import StarBookWidget from "@/components/StarBookWidget";
 import {
   CALENDLY_OUTDOOR,
   CALENDLY_LEGACY,
@@ -80,12 +81,28 @@ export async function generateMetadata({
 
 export default async function BookSessionPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ session: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { session } = await params;
   const s = SESSIONS[session];
   if (!s) notFound();
+
+  // StarBook engine flag: SHIPS DARK. Real traffic keeps the Calendly embed
+  // until William flips. Priority order:
+  //   1. ?engine=starbook forces the native widget (live test switch, works
+  //      in production the moment this deploys without exposing anyone)
+  //   2. ?engine=calendly forces the Calendly embed (escape hatch after the
+  //      permanent flip, for side-by-side sanity checks)
+  //   3. NEXT_PUBLIC_STARBOOK_ENGINE=on is the permanent flip
+  // Default: CalendlyEmbed, exactly as before.
+  const sp = await searchParams;
+  const engine = typeof sp.engine === "string" ? sp.engine : undefined;
+  const useStarBook =
+    engine === "starbook" ||
+    (engine !== "calendly" && process.env.NEXT_PUBLIC_STARBOOK_ENGINE === "on");
 
   return (
     <>
@@ -111,18 +128,22 @@ export default async function BookSessionPage({
         </div>
       </section>
 
-      {/* Booking embed */}
+      {/* Booking engine: StarBook (flagged) or the Calendly embed (default) */}
       <section className="bg-white py-8">
         <div className="max-w-4xl mx-auto px-2 md:px-6">
-          <Suspense
-            fallback={
-              <div className="h-[760px] flex items-center justify-center text-gray-400">
-                Loading available times...
-              </div>
-            }
-          >
-            <CalendlyEmbed url={s.calendly} />
-          </Suspense>
+          {useStarBook ? (
+            <StarBookWidget session={session} fallbackLabel={s.title} />
+          ) : (
+            <Suspense
+              fallback={
+                <div className="h-[760px] flex items-center justify-center text-gray-400">
+                  Loading available times...
+                </div>
+              }
+            >
+              <CalendlyEmbed url={s.calendly} />
+            </Suspense>
+          )}
           <p className="text-center text-sm text-gray-500 pb-8">
             Prefer to book by phone? Call us at{" "}
             <a href={STUDIO_PHONE_TEL} className="text-teal font-semibold">

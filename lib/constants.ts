@@ -1,6 +1,16 @@
 export const WEBHOOK_URL =
   "https://starfish-production-c267.up.railway.app/api/webhook/lead";
 
+// StarBook (native booking engine) API lives on the same Railway host that
+// already receives the site's lead webhooks. Endpoints:
+//   GET  /api/public/starbook/slots
+//   POST /api/public/starbook/hold
+//   GET  /api/public/starbook/confirm
+// NEXT_PUBLIC_STARBOOK_API_BASE overrides the host for local/staging tests
+// (inlined at build time, so it only applies to builds that set it).
+export const STARBOOK_API_BASE =
+  process.env.NEXT_PUBLIC_STARBOOK_API_BASE || new URL(WEBHOOK_URL).origin;
+
 export const STUDIO_PHONE = "406-239-3442";
 export const STUDIO_PHONE_TEL = "tel:+14062393442";
 export const DENISE_PHONE = "406-926-7354";
