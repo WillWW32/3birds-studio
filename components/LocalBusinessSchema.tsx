@@ -14,7 +14,7 @@ export default function LocalBusinessSchema() {
     additionalType: "Photograph",
     name: "3 Birds Studio",
     image: [
-      "https://3birdsstudio.com/images/summer-banner.jpg",
+      "https://3birdsstudio.com/images/summer-banner-photo.jpg",
       "https://3birdsstudio.com/images/hero-portrait.jpg",
     ],
     description:

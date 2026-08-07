@@ -37,7 +37,7 @@ export default function GiftHubPage() {
       {/* Hero */}
       <section className="relative text-white pt-28 pb-16 overflow-hidden">
         <Image
-          src="/images/summer-banner.jpg"
+          src="/images/summer-banner-photo.jpg"
           alt="3 Birds Studio portrait photography"
           fill
           className="object-cover"

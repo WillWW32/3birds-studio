@@ -21,18 +21,20 @@ interface HomeContentProps {
 
 export default function HomeContent({ intro }: HomeContentProps = {}) {
   return (
-    <>
+    // serif-page: the whole homepage reads in the same Cormorant book serif
+    // as the lithia/honda landing pages (William 8/6). Playfair display
+    // headings keep their own family via .font-display.
+    <div className="serif-page">
       <LocalBusinessSchema />
       <Header />
 
-      {/* Hero - full-bleed image. Default object-center so the kids stay
-          framed in view (they sit in the center/right of the source image).
-          A right-anchored heavy patch then masks the burned-in promo text
-          on the right edge of summer-banner.jpg without darkening the
-          subject area. */}
+      {/* Hero - full-bleed image. summer-banner-photo.jpg is the photo-only
+          crop of the old event postcard (the burned-in promo panel that used
+          to sit on the right edge is gone entirely, William 8/6). Default
+          object-center keeps the kids framed in view. */}
       <section className="relative min-h-[70vh] md:min-h-[90vh] flex items-center overflow-hidden bg-neutral-900">
         <Image
-          src="/images/summer-banner.jpg"
+          src="/images/summer-banner-photo.jpg"
           alt="Family portrait session at Council Grove State Park"
           fill
           sizes="100vw"
@@ -349,6 +351,6 @@ export default function HomeContent({ intro }: HomeContentProps = {}) {
       </section>
 
       <Footer />
-    </>
+    </div>
   );
 }

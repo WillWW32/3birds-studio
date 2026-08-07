@@ -25,7 +25,7 @@ export default function BookPage() {
       {/* Hero */}
       <section className="relative text-white pt-28 pb-16 overflow-hidden">
         <Image
-          src="/images/summer-banner.jpg"
+          src="/images/summer-banner-photo.jpg"
           alt="Portrait session"
           fill
           className="object-cover"
