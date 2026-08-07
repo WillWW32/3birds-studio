@@ -81,6 +81,13 @@ interface LeadFormProps {
   successRedirect?: string;
   compact?: boolean;
   /**
+   * Gift-certificate registration layout (lithia/honda dealer pages).
+   * Five fields in order of commitment (William 8/6): people count, then
+   * certificate code, then name, email, phone. No session-preference field;
+   * the thank-you page books the session directly.
+   */
+  certificate?: boolean;
+  /**
    * Collect full mailing address (street / city / state / zip).
    * Use for sweepstakes entries where winners are notified by postal mail.
    */
@@ -98,6 +105,7 @@ export default function LeadForm({
   buttonText = "Claim My Gift Certificate",
   successRedirect = "/thankyou",
   compact = false,
+  certificate = false,
   includeAddress = false,
   consentLabel,
   termsLabel,
@@ -139,7 +147,10 @@ export default function LeadForm({
       referred_by_share_token: referredBy,
     };
 
-    if (!compact) {
+    if (certificate) {
+      data.people_count = fd.get("people_count") as string;
+      data.redemption_code = fd.get("redemption_code") as string;
+    } else if (!compact) {
       data.people_count = fd.get("people_count") as string;
       data.session_preference = fd.get("session_preference") as string;
     }
@@ -186,8 +197,41 @@ export default function LeadForm({
     }
   }
 
+  const inputClass =
+    "w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {certificate && (
+        <>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              How Many in Your Portrait Session?
+            </label>
+            <select name="people_count" defaultValue="2" className={inputClass}>
+              <option value="1">Just me</option>
+              <option value="2">2 people</option>
+              <option value="3">3 people</option>
+              <option value="4">4 people</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Gift Certificate Code <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="redemption_code"
+              required
+              placeholder="The code on your certificate"
+              className={inputClass}
+            />
+          </div>
+        </>
+      )}
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1.5">
           Full Name <span className="text-red-400">*</span>
@@ -197,37 +241,69 @@ export default function LeadForm({
           name="name"
           required
           placeholder="Your full name"
-          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
+          className={inputClass}
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Phone Number <span className="text-red-400">*</span>
-        </label>
-        <input
-          type="tel"
-          name="phone"
-          required
-          placeholder="(406) 555-1234"
-          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
-        />
-      </div>
+      {certificate ? (
+        <>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Email <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="you@email.com"
+              className={inputClass}
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Email <span className="text-red-400">*</span>
-        </label>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="you@email.com"
-          className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all"
-        />
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Phone Number <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              required
+              placeholder="(406) 555-1234"
+              className={inputClass}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Phone Number <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              required
+              placeholder="(406) 555-1234"
+              className={inputClass}
+            />
+          </div>
 
-      {!compact && !includeAddress && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Email <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="you@email.com"
+              className={inputClass}
+            />
+          </div>
+        </>
+      )}
+
+      {!certificate && !compact && !includeAddress && (
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">

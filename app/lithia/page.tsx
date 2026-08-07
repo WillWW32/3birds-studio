@@ -36,7 +36,7 @@ export default async function LithiaPage() {
   const voucher = await getSwappableImage("voucher-lithia");
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white serif-page">
       {/* Logo */}
       <div className="pt-8 pb-4 flex justify-center">
         <Image
@@ -56,9 +56,9 @@ export default async function LithiaPage() {
             {dealer.name}
           </p>
           <h1 className="font-display text-3xl md:text-4xl font-bold text-black mb-3 leading-tight">
-            Congrats on Your New Vehicle
+            Congrats on Your New Vehicle!
           </h1>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="text-lg text-gray-600 leading-relaxed">
             {dealer.name} has gifted their best clients a beautiful thank you
             gift.
           </p>
@@ -79,17 +79,19 @@ export default async function LithiaPage() {
 
         {/* Urgency copy */}
         <div className="text-center mb-8">
-          <p className="text-gray-500 text-sm leading-relaxed">
+          <p className="text-xl text-gray-800 italic font-semibold leading-snug mb-2">
             Your $1,500 gift certificate must be validated within 7 days of
-            receipt. Once registered, you can schedule your session within 6
-            months.
+            receipt.
+          </p>
+          <p className="text-lg text-gray-600 leading-relaxed">
+            Once registered, you can then schedule the session within 6 months.
           </p>
         </div>
 
         {/* Form header */}
         <div className="text-center mb-6">
-          <h2 className="font-display text-xl font-bold text-black">
-            Register Your Gift Certificate
+          <h2 className="font-display text-2xl font-bold text-black italic">
+            Register Your Gift Certificate Below
           </h2>
         </div>
 
@@ -97,6 +99,7 @@ export default async function LithiaPage() {
           campaign={dealer.campaign}
           source={dealer.source}
           buttonText="Register Certificate"
+          certificate
         />
 
         {/* Trust line */}

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PixelEvent from "@/components/PixelEvent";
+import CalendlyEmbed from "@/components/CalendlyEmbed";
+import IndoorModal from "@/components/IndoorModal";
 import {
-  BOOK_OUTDOOR,
-  BOOK_LEGACY,
+  CALENDLY_OUTDOOR,
   STUDIO_PHONE,
   STUDIO_PHONE_TEL,
   FACEBOOK_URL,
@@ -17,26 +18,22 @@ export const metadata: Metadata = {
     "Your gift certificate has been validated. Book your portrait session with 3 Birds Studio.",
 };
 
+// Registration lands HERE, and the date gets picked HERE (William 8/6).
+// No "we'll call you within the hour" promises: the outdoor calendar loads
+// at the top, the indoor Legacy studio is one button below it, and the copy
+// carries the original funnel's voice.
 export default function ThankYouPage() {
   return (
-    <>
+    <div className="serif-page">
       <PixelEvent event="CompleteRegistration" />
       <Header />
 
-      {/* Success Hero */}
-      <section className="relative text-white pt-28 pb-20 overflow-hidden">
-        <Image
-          src="/images/summer-banner.jpg"
-          alt="Beautiful portrait photography"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-teal-dark/80" />
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <div className="check-anim w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8">
+      {/* Validated + straight into date selection */}
+      <section className="bg-white pt-28 pb-4">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <div className="check-anim w-16 h-16 bg-teal rounded-full flex items-center justify-center mx-auto mb-6">
             <svg
-              className="w-12 h-12 text-teal"
+              className="w-8 h-8 text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -49,113 +46,54 @@ export default function ThankYouPage() {
               />
             </svg>
           </div>
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-5">
-            You&apos;re All Set!
+          <h1 className="font-display text-3xl md:text-5xl font-bold text-black mb-4 leading-tight">
+            Thank You for Registering Your Gift Certificate!
           </h1>
-          <p className="text-xl text-white/90 max-w-xl mx-auto">
-            Your gift certificate has been validated. We&apos;ll give you a call
-            shortly to help you book the perfect session.
+          <p className="text-xl md:text-2xl text-gray-700 italic">
+            It is now validated and ready to use.
           </p>
         </div>
       </section>
 
-      {/* What Happens Next */}
-      <section className="py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-display text-3xl font-bold text-center text-black mb-16">
-            What Happens Next
-          </h2>
-          <div className="space-y-10">
-            {[
-              {
-                num: "1",
-                title: "We'll Call You",
-                desc: "Expect a call from 3 Birds Studio within the hour (during business hours 9AM-8PM MT). We'll help you pick the perfect session type and date.",
-              },
-              {
-                num: "2",
-                title: "Book Your Session",
-                desc: "Choose from outdoor portraits at Council Grove State Park (30 min, Tue/Sat) or an indoor Legacy session at our Missoula studio (2 hr, Tue/Wed).",
-              },
-              {
-                num: "3",
-                title: "Show Up & Smile",
-                desc: "We'll send wardrobe suggestions before your session. Just bring yourself (and your family!) and we'll handle the rest.",
-              },
-            ].map((step) => (
-              <div key={step.num} className="flex gap-6">
-                <div className="flex-shrink-0 w-12 h-12 bg-teal rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  {step.num}
-                </div>
-                <div>
-                  <h3 className="font-display text-xl font-bold text-black mb-1">
-                    {step.title}
-                  </h3>
-                  <p className="text-gray-500 leading-relaxed">{step.desc}</p>
-                </div>
-              </div>
-            ))}
+      {/* Outdoor calendar, current month, front and center */}
+      <section className="bg-white py-8">
+        <div className="max-w-4xl mx-auto px-2 md:px-6">
+          <div className="text-center mb-2 px-4">
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-black mb-2">
+              Please take a moment to select your preferred appointment date:
+            </h2>
+            <p className="text-lg text-gray-600">
+              Outdoor Portrait Session &middot; Council Grove State Park
+              &middot; 30 minutes &middot; Tuesdays &amp; Saturdays
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Book Now */}
-      <section className="py-24 bg-white border-t border-gray-100">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display text-3xl font-bold text-black mb-3">
-            Can&apos;t Wait? Book Now
-          </h2>
-          <p className="text-gray-500 mb-12">
-            Skip the call and book directly. Choose your session type below.
-          </p>
+          <Suspense
+            fallback={
+              <div className="h-[760px] flex items-center justify-center text-gray-400">
+                Loading available times...
+              </div>
+            }
+          >
+            <CalendlyEmbed url={CALENDLY_OUTDOOR} />
+          </Suspense>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-lg mx-auto">
-            <a
-              href={BOOK_OUTDOOR}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1"
-            >
-              <div className="relative h-40 overflow-hidden">
-                <Image
-                  src="/images/family-portraits.jpg"
-                  alt="Outdoor session"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-5">
-                <span className="font-display text-lg font-bold text-black block">
-                  Outdoor Session
-                </span>
-                <span className="text-sm text-gray-400 mt-1 block">
-                  30 min | Tue & Sat
-                </span>
-              </div>
-            </a>
-            <a
-              href={BOOK_LEGACY}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1"
-            >
-              <div className="relative h-40 overflow-hidden">
-                <Image
-                  src="/images/ad-portrait.jpg"
-                  alt="Legacy studio session"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-5">
-                <span className="font-display text-lg font-bold text-black block">
-                  Legacy Studio
-                </span>
-                <span className="text-sm text-gray-400 mt-1 block">
-                  2 hr | Tue & Wed
-                </span>
-              </div>
-            </a>
+          <div className="text-center mt-2 mb-10">
+            <IndoorModal />
+          </div>
+
+          <div className="max-w-2xl mx-auto px-4 space-y-6 text-center">
+            <p className="text-xl text-gray-700 leading-relaxed">
+              Our appointments fill up quickly, so we recommend booking as soon
+              as possible to best accommodate your schedule.
+            </p>
+            <p className="text-xl text-gray-700 leading-relaxed">
+              Once confirmed, we will guide you through the preparation process
+              and answer any additional questions you may have.
+            </p>
+            <p className="text-xl text-gray-700 leading-relaxed italic">
+              We look forward to creating something beautiful for you!
+            </p>
           </div>
         </div>
       </section>
@@ -163,30 +101,28 @@ export default function ThankYouPage() {
       {/* Contact */}
       <section className="py-12 bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="text-gray-500 text-sm mb-3">
-            Questions? We&apos;re here to help.
-          </p>
-          <div className="flex items-center justify-center gap-6">
+          <p className="text-lg text-gray-700 mb-3">
+            Feel free to call our studio at{" "}
             <a
               href={STUDIO_PHONE_TEL}
               className="text-teal font-semibold hover:underline"
             >
               {STUDIO_PHONE}
-            </a>
-            <span className="text-gray-300">|</span>
-            <a
-              href={FACEBOOK_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal font-semibold hover:underline"
-            >
-              Facebook
-            </a>
-          </div>
+            </a>{" "}
+            with any questions or to check for recent openings.
+          </p>
+          <a
+            href={FACEBOOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal font-semibold hover:underline"
+          >
+            Facebook
+          </a>
         </div>
       </section>
 
       <Footer />
-    </>
+    </div>
   );
 }

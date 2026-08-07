@@ -16,6 +16,7 @@
   --color-cream: var(--cream);
   --font-sans: var(--font-inter);
   --font-display: var(--font-playfair);
+  --font-serif: var(--font-cormorant);
 }
 
 body {
@@ -27,6 +28,26 @@ body {
 
 .font-display {
   font-family: var(--font-display);
+}
+
+/* Campaign + booking flow pages (lithia, honda, thankyou) read in a book
+   serif, the look carried over from the original funnel. Cormorant runs
+   small for its point size, so the base bumps up a step; labels and inputs
+   inherit the family automatically. Scoped on purpose: the main site keeps
+   Inter. */
+.serif-page {
+  font-family: var(--font-cormorant);
+}
+.serif-page p,
+.serif-page label,
+.serif-page input,
+.serif-page select,
+.serif-page button {
+  font-family: var(--font-cormorant);
+}
+.serif-page input,
+.serif-page select {
+  font-size: 1.125rem;
 }
 
 html {

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import MetaPixel from "@/components/MetaPixel";
@@ -14,6 +14,15 @@ const inter = Inter({
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+
+// Campaign/booking pages read in a book serif (the ClickFunnels-era look
+// William wants kept). Scoped via the .serif-page class, never global.
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-cormorant",
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
@@ -79,7 +88,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${cormorant.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <MetaPixel />
