@@ -9,7 +9,9 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+    // 80% transparent bar on every page (William 8/6); the blur keeps nav
+    // legible over photos without a solid panel.
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/20 backdrop-blur-md border-b border-white/10">
       <div className="max-w-6xl mx-auto px-6 py-2 flex items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image

@@ -19,11 +19,13 @@ export const metadata: Metadata = {
 
 export default function BookPage() {
   return (
-    <>
+    <div className="serif-page">
       <Header />
 
-      {/* Hero */}
-      <section className="relative text-white pt-28 pb-16 overflow-hidden">
+      {/* Hero. Tall photo display (William 8/6): the section holds real
+          height and the image covers it, rather than a thin strip behind
+          the headline. Overlay lightened so more of the photo reads. */}
+      <section className="relative text-white min-h-[55vh] md:min-h-[70vh] flex items-end overflow-hidden">
         <Image
           src="/images/summer-banner-photo.jpg"
           alt="Portrait session"
@@ -31,12 +33,12 @@ export default function BookPage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative max-w-4xl mx-auto px-6 text-center">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
+        <div className="relative max-w-4xl mx-auto px-6 pb-14 pt-40 text-center">
           <h1 className="font-display text-4xl md:text-6xl font-bold mb-4">
             Book Your Session
           </h1>
-          <p className="text-lg text-white/80 max-w-xl mx-auto">
+          <p className="text-xl text-white/90 max-w-xl mx-auto">
             Choose your experience below. We&apos;ll handle the rest.
           </p>
         </div>
@@ -60,10 +62,10 @@ export default function BookPage() {
                 <h2 className="font-display text-2xl font-bold text-black mb-2">
                   Outdoor Portraits
                 </h2>
-                <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+                <p className="text-base text-gray-500 mb-6 leading-relaxed">
                   30 minutes at Council Grove State Park. Towering Ponderosa
-                  pines, the Clark Fork River, and gorgeous natural light. Rain or
-                  shine. Pets welcome.
+                  pines, the Clark Fork River, and gorgeous natural light. Pets
+                  welcome.
                 </p>
                 <ul className="text-sm text-gray-600 space-y-2 mb-8">
                   <li className="flex items-center gap-2">
@@ -73,10 +75,6 @@ export default function BookPage() {
                   <li className="flex items-center gap-2">
                     <svg className="w-4 h-4 text-teal flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                     Families of all sizes
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-teal flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                    Free reschedule for weather
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="w-4 h-4 text-teal flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
@@ -108,7 +106,7 @@ export default function BookPage() {
                 <h2 className="font-display text-2xl font-bold text-black mb-2">
                   Legacy Fine Portraits
                 </h2>
-                <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+                <p className="text-base text-gray-500 mb-6 leading-relaxed">
                   2 hours in our Missoula studio. Inspired by DaVinci and
                   Rembrandt. Hand-painted backdrops, master lighting, finished on
                   French cotton with Italian gold-leafed frames.
@@ -171,6 +169,6 @@ export default function BookPage() {
       </section>
 
       <Footer />
-    </>
+    </div>
   );
 }

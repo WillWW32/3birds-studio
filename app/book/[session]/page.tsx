@@ -28,7 +28,7 @@ const SESSIONS: Record<
     blurb:
       "30 minutes among the Ponderosa pines at Council Grove State Park. Relaxed, simple, and connection-focused. Pets welcome.",
     calendly: CALENDLY_OUTDOOR,
-    details: ["Tuesdays & Saturdays", "Council Grove State Park", "Rain or shine, free weather reschedule"],
+    details: ["Tuesdays & Saturdays", "Council Grove State Park"],
   },
   legacy: {
     title: "Legacy Portrait Studio Session",
@@ -105,7 +105,7 @@ export default async function BookSessionPage({
     (engine !== "calendly" && process.env.NEXT_PUBLIC_STARBOOK_ENGINE === "on");
 
   return (
-    <>
+    <div className="serif-page">
       <Header />
 
       {/* Compact hero */}
@@ -155,6 +155,6 @@ export default async function BookSessionPage({
       </section>
 
       <Footer />
-    </>
+    </div>
   );
 }
