@@ -144,6 +144,21 @@ export default async function BookSessionPage({
               <CalendlyEmbed url={s.calendly} />
             </Suspense>
           )}
+          {/* Cross-link between the two session types: GiftLoop + campaign
+              emails land on /book/outdoor, and the indoor studio deserves a
+              door here too (mirrors the thank-you page pattern). */}
+          {(session === "outdoor" || session === "legacy") && (
+            <p className="text-center text-base text-gray-600 pb-4">
+              <a
+                href={session === "outdoor" ? "/book/legacy" : "/book/outdoor"}
+                className="underline hover:text-teal transition-colors"
+              >
+                {session === "outdoor"
+                  ? "Prefer an indoor Legacy Studio session instead?"
+                  : "Prefer an outdoor session at Council Grove instead?"}
+              </a>
+            </p>
+          )}
           <p className="text-center text-sm text-gray-500 pb-8">
             Prefer to book by phone? Call us at{" "}
             <a href={STUDIO_PHONE_TEL} className="text-teal font-semibold">
