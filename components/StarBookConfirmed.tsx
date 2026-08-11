@@ -30,6 +30,9 @@ export default function StarBookConfirmed() {
   const cs = searchParams.get("cs") || "";
 
   const [status, setStatus] = useState<Status>("verifying");
+  // Self-serve manage link, handed back by the confirm endpoint once the
+  // bid+cs pairing is proven. Null keeps the line off the page.
+  const [manageUrl, setManageUrl] = useState<string | null>(null);
   // The widget stashes the booking details right before the Stripe redirect,
   // because the confirm endpoint only guarantees an ok flag. No stash (new
   // device, privacy mode) just means generic copy. Details are only rendered
@@ -73,6 +76,9 @@ export default function StarBookConfirmed() {
               start: data.start || d.start,
               timezone: data.timezone || d.timezone,
             }));
+            if (typeof data.manageUrl === "string" && data.manageUrl) {
+              setManageUrl(data.manageUrl);
+            }
             setStatus("booked");
             return;
           }
@@ -162,6 +168,14 @@ export default function StarBookConfirmed() {
             Watch your phone and inbox for everything you need to know. See you
             soon! Nelli
           </p>
+          {manageUrl && (
+            <p className="text-sm text-gray-400 mt-4">
+              Need a different time?{" "}
+              <a href={manageUrl} className="text-teal font-semibold hover:underline">
+                Reschedule or cancel
+              </a>
+            </p>
+          )}
           <div className="mt-10">
             <Link href="/" className="text-teal font-semibold hover:underline">
               Back to 3birdsstudio.com
