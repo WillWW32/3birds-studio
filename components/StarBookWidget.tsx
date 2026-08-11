@@ -210,6 +210,22 @@ export default function StarBookWidget({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
+
+  // Prefill from ?name=&email= exactly like CalendlyEmbed does (GiftLoop and
+  // campaign emails append them so the visitor types less). Read off
+  // window.location in an effect rather than useSearchParams: this component
+  // renders outside a Suspense boundary on a prerendered page.
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const qName = (params.get("name") || "").trim();
+      const qEmail = (params.get("email") || "").trim();
+      if (qName) setName((cur) => cur || qName);
+      if (qEmail) setEmail((cur) => cur || qEmail);
+    } catch {
+      // Malformed query strings just skip the prefill.
+    }
+  }, []);
   // Honeypot. Humans never see or fill this: bots that autofill every field do.
   const [website, setWebsite] = useState("");
   const [formError, setFormError] = useState("");
