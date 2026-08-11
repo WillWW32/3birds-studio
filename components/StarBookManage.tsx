@@ -269,11 +269,11 @@ export default function StarBookManage() {
             {booking.sessionLabel} on {fmtDateLong(booking.start, tz)} at{" "}
             {fmtTimeOfDay(booking.start, tz)}
           </p>
-          {refund === "refunded" && (
+          {(refund === "manual_refund_due" || refund === "refunded") && (
             <p className="text-gray-600 max-w-md mx-auto">
-              Your {fmtFee(booking.feeCents)} reservation fee is on its way back
-              to your original payment method. Refunds typically appear within
-              5 to 10 business days.
+              Your {fmtFee(booking.feeCents)} reservation fee is refundable.
+              The studio handles refunds personally and will process yours
+              back to your original payment method.
             </p>
           )}
           {refund === "kept_day_of" && (
@@ -406,9 +406,9 @@ export default function StarBookManage() {
             </h2>
             {booking.feePaid && booking.refundIfCanceledNow && (
               <p className="text-gray-600 text-sm mb-4">
-                Your {fmtFee(booking.feeCents)} reservation fee will be refunded
-                to your original payment method. Refunds typically appear within
-                5 to 10 business days.
+                Your {fmtFee(booking.feeCents)} reservation fee is refundable.
+                The studio handles refunds personally and will take care of
+                yours after you cancel.
               </p>
             )}
             {booking.feePaid && !booking.refundIfCanceledNow && (
