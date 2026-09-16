@@ -17,7 +17,7 @@ import {
 // event_type_name, event_start_time, etc. — BookingDetails renders them and
 // the page still reads fine when someone arrives with no params at all.
 export const metadata: Metadata = {
-  title: "You're Booked! | 3 Birds Studio",
+  title: "You're Booked!",
   description: "Your portrait session with 3 Birds Studio is confirmed.",
   robots: { index: false, follow: false },
 };

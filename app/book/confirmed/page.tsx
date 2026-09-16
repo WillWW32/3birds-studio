@@ -11,7 +11,7 @@ import StarBookConfirmed from "@/components/StarBookConfirmed";
 // arriving from checkout.
 
 export const metadata: Metadata = {
-  title: "You're Booked | 3 Birds Studio",
+  title: "You're Booked",
   description: "Your session with 3 Birds Studio is confirmed.",
   robots: { index: false, follow: false },
 };
