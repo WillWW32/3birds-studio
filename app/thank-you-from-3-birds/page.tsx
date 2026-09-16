@@ -14,7 +14,7 @@ import {
 // this exact path (set in the event type long before the Vercel move, so the
 // URL is load-bearing: 404 here was every outdoor booker's confirmation).
 // "Pass event details" is on, so Calendly appends invitee_full_name,
-// event_type_name, event_start_time, etc. — BookingDetails renders them and
+// event_type_name, event_start_time, and so on. BookingDetails renders them,
 // the page still reads fine when someone arrives with no params at all.
 export const metadata: Metadata = {
   title: "You're Booked!",
