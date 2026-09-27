@@ -72,6 +72,7 @@ export default async function LithiaPage() {
             width={1200}
             height={900}
             className="w-full h-auto"
+            sizes="(max-width: 448px) 100vw, 400px"
             priority
             unoptimized={voucher.fromBlob}
           />
