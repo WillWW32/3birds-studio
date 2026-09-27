@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { WEBHOOK_URL } from "@/lib/constants";
+import { STARBOOK_REGISTRANT_KEY, type StarBookRegistrant } from "@/lib/starbook";
 
 declare global {
   interface Window {
@@ -179,10 +180,28 @@ export default function LeadForm({
             content_name: source,
           });
         }
+        // What the family just told us rides to the booking form on the next
+        // page (same tab), so the StarBook calendar never asks twice.
+        try {
+          const registrant: StarBookRegistrant = {
+            name: String(data.name || ""),
+            email: String(data.email || ""),
+            phone: String(data.phone || ""),
+            people: typeof data.people_count === "string" ? data.people_count : "",
+            code: typeof data.redemption_code === "string" ? data.redemption_code : "",
+          };
+          sessionStorage.setItem(STARBOOK_REGISTRANT_KEY, JSON.stringify(registrant));
+        } catch {
+          // privacy mode: the booking form just starts empty
+        }
+        // A campaign testing StarBook links here with ?engine=starbook; the
+        // thank-you page books on the same engine the link asked for.
+        const engine = new URL(window.location.href).searchParams.get("engine");
+        const engineParam = engine === "starbook" || engine === "calendly" ? `&engine=${engine}` : "";
         // Append the entrant's share token to the redirect so /entered can
         // build share URLs like https://win.3birdsstudio.com?ref=<token>.
         const sep = successRedirect.includes("?") ? "&" : "?";
-        window.location.href = `${successRedirect}${sep}ref=${encodeURIComponent(shareToken)}`;
+        window.location.href = `${successRedirect}${sep}ref=${encodeURIComponent(shareToken)}${engineParam}`;
       } else {
         const err = await res.json().catch(() => ({}));
         setError(

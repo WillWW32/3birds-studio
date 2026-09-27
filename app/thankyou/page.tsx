@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PixelEvent from "@/components/PixelEvent";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
+import StarBookWidget from "@/components/StarBookWidget";
 import IndoorModal from "@/components/IndoorModal";
 import {
   CALENDLY_OUTDOOR,
@@ -22,7 +23,22 @@ export const metadata: Metadata = {
 // No "we'll call you within the hour" promises: the outdoor calendar loads
 // at the top, the indoor Legacy studio is one button below it, and the copy
 // carries the original funnel's voice.
-export default function ThankYouPage() {
+//
+// Booking engine, same switch as /book/[session] (9/27): a campaign link
+// carrying ?engine=starbook (the registration form passes it through) books
+// on StarBook, prefilled from the registration; everyone else keeps the
+// Calendly embed until NEXT_PUBLIC_STARBOOK_ENGINE=on.
+export default async function ThankYouPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const sp = await searchParams;
+  const engine = typeof sp.engine === "string" ? sp.engine : undefined;
+  const useStarBook =
+    engine === "starbook" ||
+    (engine !== "calendly" && process.env.NEXT_PUBLIC_STARBOOK_ENGINE === "on");
+
   return (
     <div className="serif-page">
       <PixelEvent event="CompleteRegistration" />
@@ -68,15 +84,21 @@ export default function ThankYouPage() {
             </p>
           </div>
 
-          <Suspense
-            fallback={
-              <div className="h-[760px] flex items-center justify-center text-gray-400">
-                Loading available times...
-              </div>
-            }
-          >
-            <CalendlyEmbed url={CALENDLY_OUTDOOR} />
-          </Suspense>
+          {useStarBook ? (
+            <div className="mt-6">
+              <StarBookWidget session="outdoor" fallbackLabel="Outdoor Portrait Session" />
+            </div>
+          ) : (
+            <Suspense
+              fallback={
+                <div className="h-[760px] flex items-center justify-center text-gray-400">
+                  Loading available times...
+                </div>
+              }
+            >
+              <CalendlyEmbed url={CALENDLY_OUTDOOR} />
+            </Suspense>
+          )}
 
           <div className="text-center mt-2 mb-10">
             <IndoorModal />

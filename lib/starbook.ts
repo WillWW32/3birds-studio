@@ -44,3 +44,27 @@ export function fmtTimeOfDay(iso: string, tz: string = STARBOOK_DEFAULT_TZ): str
     minute: "2-digit",
   });
 }
+
+// sessionStorage key. A gift certificate registration (LeadForm) stashes
+// what the family already told us, so the booking form on /thankyou can
+// fill it in instead of asking twice (William 9/27): name, email, phone,
+// party size, and the certificate code. Same tab, same origin only.
+export const STARBOOK_REGISTRANT_KEY = "3birds_registrant";
+
+export interface StarBookRegistrant {
+  name?: string;
+  email?: string;
+  phone?: string;
+  /** The registration's people_count value: "1" (Just me) through "5" (5+). */
+  people?: string;
+  /** The gift certificate code. */
+  code?: string;
+}
+
+/** One of the studio's booking questions, as the slots endpoint sends it. */
+export interface StarBookQuestion {
+  name: string;
+  type: "string" | "text" | "single_select" | "multi_select";
+  required: boolean;
+  options: string[];
+}

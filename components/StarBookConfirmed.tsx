@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import PixelEvent from "@/components/PixelEvent";
 import {
   STARBOOK_API_BASE,
   STUDIO_PHONE,
@@ -133,6 +134,9 @@ export default function StarBookConfirmed() {
   if (status === "booked") {
     return (
       <section className="bg-white pt-36 pb-24">
+        {/* The booking conversion, same event the Calendly confirmation page
+            fires, only once Stripe confirms the reservation is paid. */}
+        <PixelEvent event="Schedule" />
         <div className="max-w-xl mx-auto px-6 text-center">
           <div className="check-anim w-24 h-24 bg-teal rounded-full flex items-center justify-center mx-auto mb-8">
             <svg

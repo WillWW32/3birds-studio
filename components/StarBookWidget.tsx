@@ -7,26 +7,36 @@ import {
   useRef,
   useState,
   type FormEvent,
-  type ReactNode,
 } from "react";
 import { STARBOOK_API_BASE } from "@/lib/constants";
+import PixelEvent from "@/components/PixelEvent";
 import {
   STARBOOK_DEFAULT_TZ,
   STARBOOK_PENDING_KEY,
+  STARBOOK_REGISTRANT_KEY,
   fmtDateLong,
   fmtFee,
   fmtTimeOfDay,
   type StarBookPending,
+  type StarBookQuestion,
+  type StarBookRegistrant,
 } from "@/lib/starbook";
 
 // The native StarBook booking widget: replaces the Calendly embed on the
-// branded /book/[session] pages once the flag flips (see that page for the
-// flag logic). Three steps, mobile-first: pick a day, pick a time, details.
+// branded /book/[session] pages and the registration /thankyou page once the
+// flag flips (see those pages for the flag logic).
 //
-// Backend contract (bigstarfish repo, built in parallel):
+// The shape follows Calendly's, which families already know (William 9/27):
+// the month on a grid with the open days tinted, landing on the next open
+// day, that day's times beside it (below it on a phone); picking a time
+// swaps in the details form with the studio's own booking questions. What a
+// gift certificate registration already captured (name, email, phone, party
+// size, certificate code) is filled in, so nobody answers twice.
+//
+// Backend contract (bigstarfish repo):
 //   GET  /api/public/starbook/slots?brand=3birds&session=<slug>&from=<ISO>&to=<ISO>
-//        -> { timezone, sessionLabel, durationMinutes, feeCents, slots: [{start, end}] }
-//   POST /api/public/starbook/hold { brand, session, start, name, email, phone, notes?, website }
+//        -> { timezone, sessionLabel, durationMinutes, feeCents, slots: [{start, end}], questions }
+//   POST /api/public/starbook/hold { brand, session, start, name, email, phone, notes?, answers?, website }
 //        -> { ok, bookingId, checkoutUrl | null, feeCents }
 // A non-null checkoutUrl means a paid reservation: we show a full-screen
 // "hold placed" state and hand the visitor to Stripe. checkoutUrl null means
@@ -45,10 +55,13 @@ interface SlotsMeta {
 }
 
 type SubmitState = "idle" | "submitting" | "redirecting" | "confirmed";
+type MonthData = Record<string, Slot[]> | "loading" | "error";
 
-const STRIP_DAYS = 14;
-const MAX_AHEAD_DAYS = 90; // how far forward the strip can page
 const MAX_AHEAD_MONTHS = 3; // how far forward the month view can page
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+// The registration form's party-size values, as a person would write them.
+const PEOPLE_ANSWER: Record<string, string> = { "1": "1", "2": "2", "3": "3", "4": "4", "5": "5+" };
 
 // ---------- calendar helpers (day keys are "YYYY-MM-DD" on the studio calendar) ----------
 
@@ -69,12 +82,6 @@ function addDays(key: string, n: number): string {
   return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
 }
 
-function diffDays(a: string, b: string): number {
-  return Math.round(
-    (Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86400000
-  );
-}
-
 function monthAdd(ym: string, n: number): string {
   const [y, m] = ym.split("-").map(Number);
   return new Date(Date.UTC(y, m - 1 + n, 1)).toISOString().slice(0, 7);
@@ -85,22 +92,18 @@ function keyLabelDate(key: string): Date {
   return new Date(`${key}T12:00:00Z`);
 }
 
-function weekdayShort(key: string): string {
-  return keyLabelDate(key).toLocaleDateString("en-US", {
-    timeZone: "UTC",
-    weekday: "short",
-  });
-}
-
-function dayNum(key: string): number {
-  return keyLabelDate(key).getUTCDate();
-}
-
 function monthLabel(key: string): string {
   return keyLabelDate(key).toLocaleDateString("en-US", {
     timeZone: "UTC",
     month: "long",
     year: "numeric",
+  });
+}
+
+function monthName(ym: string): string {
+  return keyLabelDate(`${ym}-01`).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    month: "long",
   });
 }
 
@@ -135,6 +138,18 @@ function formatPhone(raw: string): string {
   return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
 }
 
+function cleanQuestions(raw: unknown): StarBookQuestion[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((q) => q && typeof q.name === "string" && q.name.trim())
+    .map((q) => ({
+      name: String(q.name),
+      type: ["string", "text", "single_select", "multi_select"].includes(q.type) ? q.type : "string",
+      required: q.required === true,
+      options: Array.isArray(q.options) ? q.options.map(String) : [],
+    }));
+}
+
 const INPUT_CLS =
   "w-full px-4 py-3.5 bg-white border border-gray-200 rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:border-teal transition-all";
 
@@ -159,20 +174,9 @@ function Spinner({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
-function StepHeading({ n, children }: { n: number; children: ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 mb-4">
-      <span className="flex-shrink-0 w-8 h-8 bg-teal rounded-full flex items-center justify-center text-white font-bold text-sm">
-        {n}
-      </span>
-      <h3 className="font-display text-xl font-bold text-black">{children}</h3>
-    </div>
-  );
-}
-
 function Chevron({ dir }: { dir: "left" | "right" }) {
   return (
-    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -191,68 +195,95 @@ export default function StarBookWidget({
   fallbackLabel?: string;
 }) {
   const todayKey = useMemo(() => todayKeyDenver(), []);
+  const firstYm = todayKey.slice(0, 7);
+  const lastYm = monthAdd(firstYm, MAX_AHEAD_MONTHS);
 
   const [meta, setMeta] = useState<SlotsMeta | null>(null);
-  const [slotsByDay, setSlotsByDay] = useState<Record<string, Slot[]>>({});
-  const [loadedDays, setLoadedDays] = useState<Record<string, true>>({});
-  const loadedRef = useRef<Record<string, true>>({});
-  const pendingRef = useRef<Set<string>>(new Set());
-  const [loadError, setLoadError] = useState(false);
-
-  const [stripStart, setStripStart] = useState(todayKey);
-  const [monthOpen, setMonthOpen] = useState(false);
-  const [monthCursor, setMonthCursor] = useState(todayKey.slice(0, 7));
-
+  const [questions, setQuestions] = useState<StarBookQuestion[]>([]);
+  const [months, setMonths] = useState<Record<string, MonthData>>({});
+  const [ym, setYm] = useState(firstYm);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
+  // Until the visitor moves between months themselves, an empty month
+  // steps forward on its own, so the page opens on the next open day.
+  const autoAdvance = useRef(true);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
+  const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
+  const [prefill, setPrefill] = useState<{ people: string; code: string }>({ people: "", code: "" });
 
-  // Prefill from ?name=&email= exactly like CalendlyEmbed does (GiftLoop and
-  // campaign emails append them so the visitor types less). Read off
-  // window.location in an effect rather than useSearchParams: this component
+  // Prefill: ?name=&email=&phone=&people=&code= (campaign emails append
+  // them) and, on /thankyou, what the gift certificate registration just
+  // captured. Read in an effect rather than useSearchParams: this component
   // renders outside a Suspense boundary on a prerendered page.
   useEffect(() => {
+    let reg: StarBookRegistrant = {};
     try {
-      const params = new URLSearchParams(window.location.search);
-      const qName = (params.get("name") || "").trim();
-      const qEmail = (params.get("email") || "").trim();
-      if (qName) setName((cur) => cur || qName);
-      if (qEmail) setEmail((cur) => cur || qEmail);
+      const raw = sessionStorage.getItem(STARBOOK_REGISTRANT_KEY);
+      if (raw) reg = (JSON.parse(raw) as StarBookRegistrant) || {};
+    } catch {
+      // privacy mode: nothing to fill in
+    }
+    let params: URLSearchParams | null = null;
+    try {
+      params = new URLSearchParams(window.location.search);
     } catch {
       // Malformed query strings just skip the prefill.
     }
+    const q = (k: string) => (params?.get(k) || "").trim();
+    const n = q("name") || (reg.name || "").trim();
+    const e = q("email") || (reg.email || "").trim();
+    const p = q("phone") || (reg.phone || "").trim();
+    if (n) setName((cur) => cur || n);
+    if (e) setEmail((cur) => cur || e);
+    if (p) setPhone((cur) => cur || formatPhone(p));
+    setPrefill({ people: q("people") || reg.people || "", code: q("code") || reg.code || "" });
   }, []);
+
+  // Fill the matching questions once they arrive (only ones still empty).
+  useEffect(() => {
+    if (!questions.length || (!prefill.people && !prefill.code)) return;
+    setAnswers((cur) => {
+      const next = { ...cur };
+      for (const qn of questions) {
+        if (next[qn.name]) continue;
+        if (/how many people/i.test(qn.name) && prefill.people) {
+          next[qn.name] = PEOPLE_ANSWER[prefill.people] || prefill.people;
+        } else if (/\bcode\b/i.test(qn.name) && prefill.code) {
+          next[qn.name] = prefill.code;
+        }
+      }
+      return next;
+    });
+  }, [questions, prefill]);
+
   // Honeypot. Humans never see or fill this: bots that autofill every field do.
   const [website, setWebsite] = useState("");
   const [formError, setFormError] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [holdFeeCents, setHoldFeeCents] = useState<number | null>(null);
 
-  const formRef = useRef<HTMLDivElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
+  const timesRef = useRef<HTMLDivElement>(null);
 
   const tz = meta?.timezone || STARBOOK_DEFAULT_TZ;
 
-  // ---------- slot loading ----------
+  // ---------- slot loading: one month per request ----------
 
-  const loadRange = useCallback(
-    async (fromKey: string, count: number) => {
-      const keys = Array.from({ length: count }, (_, i) => addDays(fromKey, i));
-      const need = keys.filter(
-        (k) => !loadedRef.current[k] && !pendingRef.current.has(k)
-      );
-      if (need.length === 0) return;
-      need.forEach((k) => pendingRef.current.add(k));
-      setLoadError(false);
+  const loadMonth = useCallback(
+    async (month: string) => {
+      setMonths((m) => ({ ...m, [month]: "loading" }));
+      const first = `${month}-01`;
+      const nextFirst = `${monthAdd(month, 1)}-01`;
       try {
         const qs = new URLSearchParams({
           brand: "3birds",
           session,
-          from: rangeStartUtc(fromKey, todayKey).toISOString(),
-          to: rangeEndUtc(addDays(fromKey, count)).toISOString(),
+          from: rangeStartUtc(first < todayKey ? todayKey : first, todayKey).toISOString(),
+          to: rangeEndUtc(nextFirst).toISOString(),
         });
         const res = await fetch(
           `${STARBOOK_API_BASE}/api/public/starbook/slots?${qs.toString()}`
@@ -269,74 +300,82 @@ export default function StarBookWidget({
           durationMinutes: data.durationMinutes || 0,
           feeCents: typeof data.feeCents === "number" ? data.feeCents : 0,
         });
+        const qs2 = cleanQuestions(data.questions);
+        if (qs2.length) setQuestions(qs2);
         const keyFmt = new Intl.DateTimeFormat("en-CA", {
           timeZone: zone,
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
         });
-        const grouped: Record<string, Slot[]> = {};
+        const byDay: Record<string, Slot[]> = {};
         for (const slot of (data.slots || []) as Slot[]) {
           const k = keyFmt.format(new Date(slot.start));
-          (grouped[k] ||= []).push(slot);
+          if (k.slice(0, 7) !== month) continue;
+          (byDay[k] ||= []).push(slot);
         }
-        setSlotsByDay((prev) => {
-          const next = { ...prev };
-          for (const k of keys) next[k] = grouped[k] || [];
-          return next;
-        });
-        for (const k of keys) loadedRef.current[k] = true;
-        setLoadedDays({ ...loadedRef.current });
+        setMonths((m) => ({ ...m, [month]: byDay }));
       } catch {
-        setLoadError(true);
-      } finally {
-        need.forEach((k) => pendingRef.current.delete(k));
+        setMonths((m) => ({ ...m, [month]: "error" }));
       }
     },
     [session, todayKey, fallbackLabel]
   );
 
   useEffect(() => {
-    loadRange(stripStart, STRIP_DAYS);
-  }, [stripStart, loadRange]);
+    if (months[ym] === undefined) void loadMonth(ym);
+  }, [ym, months, loadMonth]);
 
-  useEffect(() => {
-    if (!monthOpen) return;
-    const first = `${monthCursor}-01`;
-    const start = first < todayKey ? todayKey : first;
-    const nextFirst = `${monthAdd(monthCursor, 1)}-01`;
-    const count = diffDays(start, nextFirst);
-    if (count > 0) loadRange(start, count);
-  }, [monthOpen, monthCursor, todayKey, loadRange]);
-
-  // Re-check a single day (used when a hold fails: the slot may be gone).
-  const refreshDay = useCallback(
-    (key: string) => {
-      delete loadedRef.current[key];
-      setLoadedDays({ ...loadedRef.current });
-      loadRange(key, 1);
-    },
-    [loadRange]
+  const current = months[ym];
+  const byDay = current && typeof current === "object" ? current : null;
+  const openDays = useMemo(
+    () => (byDay ? Object.keys(byDay).filter((k) => byDay[k].length > 0).sort() : []),
+    [byDay]
   );
 
-  const retryLoad = useCallback(() => {
-    if (monthOpen) {
-      const first = `${monthCursor}-01`;
-      const start = first < todayKey ? todayKey : first;
-      const count = diffDays(start, `${monthAdd(monthCursor, 1)}-01`);
-      if (count > 0) loadRange(start, count);
-    } else {
-      loadRange(stripStart, STRIP_DAYS);
-    }
-  }, [monthOpen, monthCursor, stripStart, todayKey, loadRange]);
-
+  // Land on something useful: the first open day of the month, and while
+  // the visitor has not paged themselves, the next month with openings.
   useEffect(() => {
-    if (selectedSlot && submitState === "idle") {
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!byDay) return;
+    if (openDays.length === 0 && autoAdvance.current && ym < lastYm) {
+      setYm(monthAdd(ym, 1));
+      return;
     }
-  }, [selectedSlot, submitState]);
+    autoAdvance.current = false;
+    if (!selectedDay || selectedDay.slice(0, 7) !== ym || !byDay[selectedDay]?.length) {
+      setSelectedDay(openDays[0] || null);
+    }
+  }, [byDay, openDays, ym, lastYm, selectedDay]);
+
+  const goMonth = (by: number) => {
+    autoAdvance.current = false;
+    setYm((cur) => monthAdd(cur, by));
+  };
+
+  function pickDay(k: string) {
+    setSelectedDay(k);
+    setFormError("");
+    // On a phone the times sit under the calendar: bring them into view.
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      window.setTimeout(() => timesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    }
+  }
+
+  function pickSlot(slot: Slot) {
+    setSelectedSlot(slot);
+    setFormError("");
+    window.setTimeout(() => topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  }
+
+  function backToCalendar() {
+    setSelectedSlot(null);
+    setFormError("");
+  }
 
   // ---------- submit ----------
+
+  const answerText = (v: string | string[] | undefined) =>
+    Array.isArray(v) ? v.filter(Boolean).join(", ") : (v || "").trim();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -344,6 +383,11 @@ export default function StarBookWidget({
     const digits = phone.replace(/\D/g, "").replace(/^1(?=\d{10})/, "");
     if (digits.length !== 10) {
       setFormError("Please enter a valid 10 digit phone number.");
+      return;
+    }
+    const missing = questions.find((qn) => qn.required && !answerText(answers[qn.name]));
+    if (missing) {
+      setFormError(`Please answer: ${missing.name}`);
       return;
     }
     setFormError("");
@@ -360,6 +404,9 @@ export default function StarBookWidget({
           email: email.trim(),
           phone,
           notes: notes.trim() || undefined,
+          answers: questions
+            .map((qn) => ({ q: qn.name, a: answerText(answers[qn.name]) }))
+            .filter((x) => x.a),
           website,
         }),
       });
@@ -368,9 +415,16 @@ export default function StarBookWidget({
         setSubmitState("idle");
         setSelectedSlot(null);
         setFormError(
-          "That time may have just been taken. Please pick another time."
+          res.status === 400 && typeof data?.error === "string"
+            ? data.error
+            : "That time may have just been taken. Please pick another time."
         );
-        refreshDay(selectedDay);
+        // Re-read the month: the time may be gone.
+        setMonths((m) => {
+          const next = { ...m };
+          delete next[ym];
+          return next;
+        });
         return;
       }
       const fee =
@@ -405,38 +459,6 @@ export default function StarBookWidget({
     }
   }
 
-  // ---------- derived ----------
-
-  const stripDays = useMemo(
-    () => Array.from({ length: STRIP_DAYS }, (_, i) => addDays(stripStart, i)),
-    [stripStart]
-  );
-  const stripLoaded = stripDays.every((k) => loadedDays[k]);
-  const stripEmpty =
-    stripLoaded && stripDays.every((k) => (slotsByDay[k]?.length ?? 0) === 0);
-  const stripEndKey = stripDays[stripDays.length - 1];
-  const stripLabel =
-    stripStart.slice(0, 7) === stripEndKey.slice(0, 7)
-      ? monthLabel(stripStart)
-      : `${keyLabelDate(stripStart).toLocaleDateString("en-US", {
-          timeZone: "UTC",
-          month: "long",
-        })} / ${monthLabel(stripEndKey)}`;
-
-  const daySlots = selectedDay ? slotsByDay[selectedDay] : undefined;
-  const dayLoaded = selectedDay ? !!loadedDays[selectedDay] : false;
-
-  function pickDay(k: string) {
-    setSelectedDay(k);
-    setSelectedSlot(null);
-    setFormError("");
-  }
-
-  function dayCellState(k: string) {
-    const has = (slotsByDay[k]?.length ?? 0) > 0;
-    return { has, isLoaded: !!loadedDays[k], selected: selectedDay === k };
-  }
-
   // ---------- confirmed (free sessions book instantly) ----------
 
   if (submitState === "confirmed" && selectedSlot) {
@@ -445,6 +467,7 @@ export default function StarBookWidget({
         data-engine="starbook"
         className="border border-gray-100 rounded-2xl bg-white shadow-sm p-8 md:p-12 mb-8 text-center"
       >
+        <PixelEvent event="Schedule" />
         <div className="check-anim w-20 h-20 bg-teal rounded-full flex items-center justify-center mx-auto mb-6">
           <svg
             className="w-10 h-10 text-white"
@@ -481,321 +504,225 @@ export default function StarBookWidget({
 
   // ---------- month grid values ----------
 
-  const monthFirst = `${monthCursor}-01`;
-  const [mYear, mMonth] = monthCursor.split("-").map(Number);
+  const monthFirst = `${ym}-01`;
+  const [mYear, mMonth] = ym.split("-").map(Number);
   const daysInMonth = new Date(Date.UTC(mYear, mMonth, 0)).getUTCDate();
   const leadBlanks = keyLabelDate(monthFirst).getUTCDay();
+  const loading = current === undefined || current === "loading";
+  const daySlots = selectedDay && byDay ? byDay[selectedDay] || [] : [];
+  const label = meta?.sessionLabel || fallbackLabel || "";
+
+  const feeNote = meta && meta.feeCents > 0 && (
+    <div className="bg-teal-light rounded-xl px-4 py-3.5 flex items-start gap-3">
+      <svg
+        className="w-5 h-5 text-teal-dark flex-shrink-0 mt-0.5"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        aria-hidden="true"
+      >
+        <path
+          fillRule="evenodd"
+          d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+          clipRule="evenodd"
+        />
+      </svg>
+      <p className="text-sm text-gray-700 leading-relaxed">
+        A {fmtFee(meta.feeCents)} reservation fee locks in your session. It is
+        refundable after your appointment or applies toward your artwork.
+      </p>
+    </div>
+  );
 
   return (
     <div
+      ref={topRef}
       data-engine="starbook"
-      className="border border-gray-100 rounded-2xl bg-white shadow-sm p-4 md:p-8 mb-8"
+      className="border border-gray-100 rounded-2xl bg-white shadow-sm p-4 md:p-8 mb-8 scroll-mt-24"
     >
-      {/* Fee, up front. Never hardcoded: comes from the slots response. */}
-      {meta && meta.feeCents > 0 && (
-        <div className="bg-teal-light rounded-xl px-4 py-3.5 mb-6 flex items-start gap-3">
-          <svg
-            className="w-5 h-5 text-teal flex-shrink-0 mt-0.5"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <p className="text-sm text-gray-700 leading-relaxed">
-            A {fmtFee(meta.feeCents)} reservation fee locks in your session. It
-            is refundable after your appointment or applies toward your artwork.
-          </p>
-        </div>
-      )}
-
-      {loadError && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 mb-6 text-sm flex items-center justify-between gap-4">
-          <span>We could not load available times. Please try again.</span>
-          <button
-            type="button"
-            onClick={retryLoad}
-            className="font-semibold underline flex-shrink-0"
-          >
-            Try again
-          </button>
-        </div>
-      )}
-
-      {/* Step 1: pick a day */}
-      <StepHeading n={1}>Pick a day</StepHeading>
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <p className="text-sm font-medium text-gray-600">
-          {monthOpen ? monthLabel(monthFirst) : stripLabel}
-        </p>
-        <div className="flex items-center gap-1.5">
-          {monthOpen ? (
-            <>
-              <button
-                type="button"
-                aria-label="Previous month"
-                disabled={monthCursor <= todayKey.slice(0, 7)}
-                onClick={() => setMonthCursor((c) => monthAdd(c, -1))}
-                className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-teal hover:text-teal transition-colors disabled:opacity-30 disabled:hover:border-gray-200 disabled:hover:text-gray-500"
-              >
-                <Chevron dir="left" />
-              </button>
-              <button
-                type="button"
-                aria-label="Next month"
-                disabled={
-                  monthCursor >= monthAdd(todayKey.slice(0, 7), MAX_AHEAD_MONTHS)
-                }
-                onClick={() => setMonthCursor((c) => monthAdd(c, 1))}
-                className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-teal hover:text-teal transition-colors disabled:opacity-30 disabled:hover:border-gray-200 disabled:hover:text-gray-500"
-              >
-                <Chevron dir="right" />
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                type="button"
-                aria-label="Earlier days"
-                disabled={stripStart <= todayKey}
-                onClick={() =>
-                  setStripStart((s) => {
-                    const back = addDays(s, -7);
-                    return back < todayKey ? todayKey : back;
-                  })
-                }
-                className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-teal hover:text-teal transition-colors disabled:opacity-30 disabled:hover:border-gray-200 disabled:hover:text-gray-500"
-              >
-                <Chevron dir="left" />
-              </button>
-              <button
-                type="button"
-                aria-label="Later days"
-                disabled={stripStart >= addDays(todayKey, MAX_AHEAD_DAYS)}
-                onClick={() => setStripStart((s) => addDays(s, 7))}
-                className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-teal hover:text-teal transition-colors disabled:opacity-30 disabled:hover:border-gray-200 disabled:hover:text-gray-500"
-              >
-                <Chevron dir="right" />
-              </button>
-            </>
-          )}
-          <button
-            type="button"
-            onClick={() => {
-              setMonthOpen((o) => !o);
-              setMonthCursor(stripStart.slice(0, 7));
-            }}
-            className="ml-1 text-sm font-semibold text-teal hover:underline"
-          >
-            {monthOpen ? "Two week view" : "Full month"}
-          </button>
-        </div>
-      </div>
-
-      {monthOpen ? (
-        <div>
-          <div className="grid grid-cols-7 gap-1 text-center text-[11px] uppercase tracking-wide text-gray-400 mb-1">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-              <span key={d}>{d}</span>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 gap-1">
-            {Array.from({ length: leadBlanks }).map((_, i) => (
-              <span key={`blank-${i}`} />
-            ))}
-            {Array.from({ length: daysInMonth }).map((_, i) => {
-              const k = addDays(monthFirst, i);
-              const past = k < todayKey;
-              const { has, isLoaded, selected } = dayCellState(k);
-              const dead = past || (isLoaded && !has);
-              return (
-                <button
-                  key={k}
-                  type="button"
-                  disabled={dead}
-                  onClick={() => pickDay(k)}
-                  className={`flex flex-col items-center rounded-lg border py-1.5 transition-colors ${
-                    selected
-                      ? "bg-teal border-teal text-white"
-                      : dead
-                        ? "border-transparent text-gray-300 cursor-default"
-                        : "border-gray-200 text-black hover:border-teal"
-                  }`}
-                >
-                  <span className="text-sm font-semibold leading-6">
-                    {dayNum(k)}
-                  </span>
-                  {past ? (
-                    <span className="w-1.5 h-1.5 rounded-full bg-transparent" />
-                  ) : isLoaded ? (
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        has
-                          ? selected
-                            ? "bg-white"
-                            : "bg-teal"
-                          : "bg-transparent"
-                      }`}
-                    />
-                  ) : (
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-200 animate-pulse" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ) : (
+      {!selectedSlot ? (
         <>
-          <div className="flex gap-1.5 overflow-x-auto pb-2">
-            {stripDays.map((k) => {
-              const { has, isLoaded, selected } = dayCellState(k);
-              return (
-                <button
-                  key={k}
-                  type="button"
-                  disabled={isLoaded && !has}
-                  onClick={() => pickDay(k)}
-                  className={`flex flex-col items-center flex-shrink-0 w-[52px] rounded-xl border py-2 transition-colors ${
-                    selected
-                      ? "bg-teal border-teal text-white"
-                      : isLoaded && !has
-                        ? "border-gray-100 text-gray-300 cursor-default"
-                        : "border-gray-200 text-black hover:border-teal"
-                  }`}
-                >
-                  <span
-                    className={`text-[10px] uppercase tracking-wide ${
-                      selected ? "text-white/80" : "text-gray-400"
-                    }`}
-                  >
-                    {weekdayShort(k)}
-                  </span>
-                  <span className="text-base font-semibold leading-6">
-                    {dayNum(k)}
-                  </span>
-                  {isLoaded ? (
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        has
-                          ? selected
-                            ? "bg-white"
-                            : "bg-teal"
-                          : "bg-transparent"
-                      }`}
-                    />
-                  ) : (
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-200 animate-pulse" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-          {stripEmpty && !loadError && (
-            <div className="mt-4 bg-gray-50 rounded-xl px-4 py-6 text-center">
-              <p className="text-gray-600 text-sm mb-3">
-                No times in this range, try the next week.
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-5">
+            <h3 className="font-display text-xl md:text-2xl font-bold text-black">
+              Select a date and time
+            </h3>
+            {meta && (
+              <p className="text-sm text-gray-500">
+                {meta.durationMinutes ? `${meta.durationMinutes} minutes` : ""}
+                {meta.durationMinutes && meta.feeCents > 0 ? " · " : ""}
+                {meta.feeCents > 0 ? `${fmtFee(meta.feeCents)} reservation` : ""}
               </p>
-              <button
-                type="button"
-                onClick={() => setStripStart((s) => addDays(s, 7))}
-                className="px-5 py-2.5 bg-teal text-white rounded-full text-sm font-semibold hover:bg-teal-dark transition-colors"
-              >
-                Check next week
-              </button>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* Step 2: pick a time */}
-      {selectedDay && (
-        <div className="mt-8">
-          <StepHeading n={2}>Pick a time</StepHeading>
-          <p className="text-sm text-gray-500 mb-4">
-            {keyDayLong(selectedDay)}. All times are Mountain Time (Denver).
-          </p>
-          {!dayLoaded ? (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="h-11 rounded-full bg-gray-100 animate-pulse"
-                />
-              ))}
-            </div>
-          ) : (daySlots?.length ?? 0) === 0 ? (
-            <p className="text-sm text-gray-500 bg-gray-50 rounded-xl px-4 py-3">
-              No times left on this day. Please pick another day.
-            </p>
-          ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-              {daySlots?.map((slot) => {
-                const sel = selectedSlot?.start === slot.start;
-                return (
-                  <button
-                    key={slot.start}
-                    type="button"
-                    onClick={() => {
-                      setSelectedSlot(slot);
-                      setFormError("");
-                    }}
-                    className={`h-11 rounded-full border text-sm font-medium transition-colors ${
-                      sel
-                        ? "bg-teal border-teal text-white"
-                        : "border-gray-200 text-black hover:border-teal hover:text-teal"
-                    }`}
-                  >
-                    {fmtTimeOfDay(slot.start, tz)}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
-
-      {formError && !selectedSlot && (
-        <div className="mt-6 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 text-sm">
-          {formError}
-        </div>
-      )}
-
-      {/* Step 3: details */}
-      {selectedDay && selectedSlot && (
-        <div ref={formRef} className="mt-8 scroll-mt-24">
-          <StepHeading n={3}>Your details</StepHeading>
-          <div className="bg-teal-light/60 rounded-xl px-4 py-3 mb-5 flex items-center justify-between gap-3">
-            <p className="text-sm text-gray-700">
-              <span className="font-semibold">
-                {meta?.sessionLabel || fallbackLabel}
-              </span>
-              <span className="block sm:inline sm:ml-2">
-                {keyDayLong(selectedDay)} at{" "}
-                {fmtTimeOfDay(selectedSlot.start, tz)}
-              </span>
-            </p>
-            <button
-              type="button"
-              onClick={() => setSelectedSlot(null)}
-              className="text-sm font-semibold text-teal underline flex-shrink-0"
-            >
-              Change
-            </button>
+            )}
           </div>
+
+          {formError && (
+            <div role="alert" className="mb-5 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 text-sm">
+              {formError}
+            </div>
+          )}
+
+          <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_220px]">
+            {/* The month */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <button
+                  type="button"
+                  aria-label="Previous month"
+                  disabled={ym <= firstYm}
+                  onClick={() => goMonth(-1)}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-teal-dark hover:bg-teal-light transition-colors disabled:opacity-30 disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
+                >
+                  <Chevron dir="left" />
+                </button>
+                <p className="font-semibold text-black" aria-live="polite">
+                  {monthLabel(monthFirst)}
+                </p>
+                <button
+                  type="button"
+                  aria-label="Next month"
+                  disabled={ym >= lastYm}
+                  onClick={() => goMonth(1)}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-teal-dark hover:bg-teal-light transition-colors disabled:opacity-30 disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
+                >
+                  <Chevron dir="right" />
+                </button>
+              </div>
+              <div className="grid grid-cols-7 text-center text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-1">
+                {WEEKDAYS.map((d) => (
+                  <span key={d} className="py-1.5">{d}</span>
+                ))}
+              </div>
+              <div className={`grid grid-cols-7 gap-y-1.5 ${loading ? "opacity-50" : ""}`}>
+                {Array.from({ length: leadBlanks }).map((_, i) => (
+                  <span key={`blank-${i}`} />
+                ))}
+                {Array.from({ length: daysInMonth }).map((_, i) => {
+                  const k = addDays(monthFirst, i);
+                  const count = byDay?.[k]?.length ?? 0;
+                  const open = count > 0;
+                  const selected = selectedDay === k;
+                  const isToday = k === todayKey;
+                  return (
+                    <div key={k} className="flex justify-center">
+                      <button
+                        type="button"
+                        disabled={!open}
+                        onClick={() => pickDay(k)}
+                        aria-pressed={selected}
+                        aria-label={`${keyDayLong(k)}, ${open ? `${count} open ${count === 1 ? "time" : "times"}` : "no open times"}`}
+                        className={`relative w-10 h-10 sm:w-11 sm:h-11 rounded-full text-sm tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-1 ${
+                          selected
+                            ? "bg-teal-dark text-white font-bold"
+                            : open
+                              ? "bg-teal-light text-black font-bold hover:bg-teal/25"
+                              : "text-gray-300 cursor-default"
+                        }`}
+                      >
+                        {i + 1}
+                        {isToday && (
+                          <span
+                            aria-hidden="true"
+                            className={`absolute left-1/2 -translate-x-1/2 bottom-1 w-1 h-1 rounded-full ${selected ? "bg-white" : "bg-teal-dark"}`}
+                          />
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="mt-4 text-xs text-gray-500">
+                All times are Mountain Time (Denver).
+              </p>
+            </div>
+
+            {/* The day's times */}
+            <div ref={timesRef} className="scroll-mt-24">
+              {current === "error" ? (
+                <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 text-sm">
+                  We could not load available times.{" "}
+                  <button type="button" onClick={() => void loadMonth(ym)} className="font-semibold underline">
+                    Try again
+                  </button>
+                </div>
+              ) : loading ? (
+                <div className="space-y-2" aria-label="Loading open times">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div key={i} className="h-12 rounded-xl bg-gray-100 animate-pulse" />
+                  ))}
+                </div>
+              ) : !selectedDay ? (
+                <div className="bg-gray-50 rounded-xl px-4 py-5 text-sm text-gray-600">
+                  No open times in {monthName(ym)}.
+                  {ym < lastYm && (
+                    <>
+                      {" "}
+                      <button type="button" onClick={() => goMonth(1)} className="font-semibold text-teal-dark underline">
+                        See {monthName(monthAdd(ym, 1))}
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <p className="font-semibold text-black mb-3">{keyDayLong(selectedDay)}</p>
+                  <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
+                    {daySlots.map((slot) => (
+                      <button
+                        key={slot.start}
+                        type="button"
+                        onClick={() => pickSlot(slot)}
+                        className="h-12 rounded-xl border-2 border-teal/60 text-black font-semibold tabular-nums hover:border-teal-dark hover:bg-teal-light transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-1"
+                      >
+                        {fmtTimeOfDay(slot.start, tz)}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+
+          {feeNote && <div className="mt-8">{feeNote}</div>}
+        </>
+      ) : (
+        <div>
+          <button
+            type="button"
+            onClick={backToCalendar}
+            className="inline-flex items-center gap-1 text-sm font-semibold text-teal-dark hover:underline mb-4"
+          >
+            <Chevron dir="left" /> Back to the calendar
+          </button>
+
+          <div className="bg-teal-light rounded-xl px-4 py-4 mb-6">
+            <p className="font-display text-lg font-bold text-black">{label}</p>
+            <p className="text-gray-800 mt-0.5">
+              {keyDayLong(selectedDay!)} at {fmtTimeOfDay(selectedSlot.start, tz)}
+              <span className="text-gray-500"> Mountain Time</span>
+            </p>
+            {meta && (meta.durationMinutes > 0 || meta.feeCents > 0) && (
+              <p className="text-sm text-gray-600 mt-1">
+                {meta.durationMinutes ? `${meta.durationMinutes} minutes` : ""}
+                {meta.durationMinutes && meta.feeCents > 0 ? " · " : ""}
+                {meta.feeCents > 0 ? `${fmtFee(meta.feeCents)} reservation` : ""}
+              </p>
+            )}
+          </div>
+
+          <h3 className="font-display text-xl md:text-2xl font-bold text-black mb-4">
+            Your details
+          </h3>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="sb-name" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Full Name <span className="text-red-400">*</span>
               </label>
               <input
+                id="sb-name"
                 type="text"
                 name="name"
                 required
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
@@ -804,13 +731,15 @@ export default function StarBookWidget({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="sb-phone" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Phone Number <span className="text-red-400">*</span>
               </label>
               <input
+                id="sb-phone"
                 type="tel"
                 name="phone"
                 required
+                autoComplete="tel"
                 value={phone}
                 onChange={(e) => setPhone(formatPhone(e.target.value))}
                 placeholder="(406) 555-1234"
@@ -819,13 +748,15 @@ export default function StarBookWidget({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label htmlFor="sb-email" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Email <span className="text-red-400">*</span>
               </label>
               <input
+                id="sb-email"
                 type="email"
                 name="email"
                 required
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@email.com"
@@ -833,19 +764,92 @@ export default function StarBookWidget({
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Notes
-              </label>
-              <textarea
-                name="notes"
-                rows={3}
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Anything we should know? (optional)"
-                className={INPUT_CLS}
-              />
-            </div>
+            {/* The studio's own booking questions (the ones its Calendly page asks). */}
+            {questions.map((qn, qi) => {
+              const id = `sb-q-${qi}`;
+              const value = answers[qn.name];
+              const set = (v: string | string[]) => setAnswers((cur) => ({ ...cur, [qn.name]: v }));
+              const star = qn.required ? <span className="text-red-400"> *</span> : null;
+              if ((qn.type === "single_select" || qn.type === "multi_select") && qn.options.length) {
+                const multi = qn.type === "multi_select";
+                const chosen = Array.isArray(value) ? value : value ? [value] : [];
+                return (
+                  <fieldset key={qn.name}>
+                    <legend className="block text-sm font-medium text-gray-700 mb-2">
+                      {qn.name}{star}
+                    </legend>
+                    <div className="flex flex-wrap gap-2">
+                      {qn.options.map((opt) => {
+                        const on = chosen.includes(opt);
+                        return (
+                          <label
+                            key={opt}
+                            className={`cursor-pointer select-none rounded-full border px-4 py-2 text-sm transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-teal ${
+                              on ? "border-teal-dark bg-teal-light text-black font-semibold" : "border-gray-200 text-gray-700 hover:border-teal"
+                            }`}
+                          >
+                            <input
+                              type={multi ? "checkbox" : "radio"}
+                              name={id}
+                              value={opt}
+                              checked={on}
+                              onChange={() =>
+                                set(multi ? (on ? chosen.filter((x) => x !== opt) : [...chosen, opt]) : opt)
+                              }
+                              className="sr-only"
+                            />
+                            {opt}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </fieldset>
+                );
+              }
+              return (
+                <div key={qn.name}>
+                  <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1.5">
+                    {qn.name}{star}
+                  </label>
+                  {qn.type === "text" ? (
+                    <textarea
+                      id={id}
+                      rows={3}
+                      required={qn.required}
+                      value={typeof value === "string" ? value : ""}
+                      onChange={(e) => set(e.target.value)}
+                      className={INPUT_CLS}
+                    />
+                  ) : (
+                    <input
+                      id={id}
+                      type="text"
+                      required={qn.required}
+                      value={typeof value === "string" ? value : ""}
+                      onChange={(e) => set(e.target.value)}
+                      className={INPUT_CLS}
+                    />
+                  )}
+                </div>
+              );
+            })}
+
+            {questions.length === 0 && (
+              <div>
+                <label htmlFor="sb-notes" className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Notes
+                </label>
+                <textarea
+                  id="sb-notes"
+                  name="notes"
+                  rows={3}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Anything we should know? (optional)"
+                  className={INPUT_CLS}
+                />
+              </div>
+            )}
 
             {/* Honeypot: offscreen, never shown, never tabbed to. */}
             <div
@@ -865,16 +869,10 @@ export default function StarBookWidget({
               </label>
             </div>
 
-            {meta && meta.feeCents > 0 && (
-              <p className="text-xs text-gray-500 leading-relaxed">
-                Next step: a {fmtFee(meta.feeCents)} reservation locks in your
-                time. It is refundable after your appointment or applies toward
-                your artwork.
-              </p>
-            )}
+            {feeNote}
 
             {formError && (
-              <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 text-sm">
+              <div role="alert" className="bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-3 text-sm">
                 {formError}
               </div>
             )}
@@ -890,11 +888,16 @@ export default function StarBookWidget({
                   Holding your time...
                 </span>
               ) : meta && meta.feeCents > 0 ? (
-                "Hold my session time"
+                `Continue to the ${fmtFee(meta.feeCents)} reservation`
               ) : (
                 "Book my time"
               )}
             </button>
+            {meta && meta.feeCents > 0 && (
+              <p className="text-center text-xs text-gray-500">
+                Your card is taken on Stripe&rsquo;s secure checkout. Apple Pay and Google Pay work there too.
+              </p>
+            )}
           </form>
         </div>
       )}
@@ -907,6 +910,7 @@ export default function StarBookWidget({
               className="w-9 h-9 text-white"
               fill="currentColor"
               viewBox="0 0 20 20"
+              aria-hidden="true"
             >
               <path
                 fillRule="evenodd"
