@@ -46,7 +46,10 @@ export default function CalendlyEmbed({ url }: { url: string }) {
       const v = searchParams.get(key);
       if (v) u.searchParams.set(key, v);
     }
-    return u.toString();
+    // URLSearchParams writes spaces as "+", and Calendly's widget re-encodes
+    // that to %2B, so "Jane Doe" arrived as "Jane+Doe". Any literal "+" in a
+    // value is already %2B here, so every remaining "+" is a space.
+    return u.toString().replace(/\+/g, "%20");
   }, [url, searchParams, registrant]);
 
   return (
