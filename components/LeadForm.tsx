@@ -115,6 +115,10 @@ export default function LeadForm({
   const [error, setError] = useState("");
   const [attribution, setAttribution] = useState<AttributionParams>({});
   const [referredBy, setReferredBy] = useState("");
+  // "Don't have your code?" (William 9/29): many holders lost the code. This
+  // path drops the code requirement and the server finds their certificate
+  // by email, phone, or name. Either way they land on the calendar.
+  const [noCode, setNoCode] = useState(false);
 
   useEffect(() => {
     setAttribution(captureAttribution());
@@ -150,7 +154,8 @@ export default function LeadForm({
 
     if (certificate) {
       data.people_count = fd.get("people_count") as string;
-      data.redemption_code = fd.get("redemption_code") as string;
+      data.redemption_code = noCode ? "" : (fd.get("redemption_code") as string);
+      if (noCode) data.code_lookup = true;
     } else if (!compact) {
       data.people_count = fd.get("people_count") as string;
       data.session_preference = fd.get("session_preference") as string;
@@ -200,8 +205,13 @@ export default function LeadForm({
         const engineParam = engine === "starbook" || engine === "calendly" ? `&engine=${engine}` : "";
         // Append the entrant's share token to the redirect so /entered can
         // build share URLs like https://win.3birdsstudio.com?ref=<token>.
+        let certParam = "";
+        if (noCode) {
+          const body = await res.json().catch(() => ({} as { certificate?: string }));
+          certParam = `&cert=${body?.certificate === "found" ? "found" : "pending"}`;
+        }
         const sep = successRedirect.includes("?") ? "&" : "?";
-        window.location.href = `${successRedirect}${sep}ref=${encodeURIComponent(shareToken)}${engineParam}`;
+        window.location.href = `${successRedirect}${sep}ref=${encodeURIComponent(shareToken)}${engineParam}${certParam}`;
       } else {
         const err = await res.json().catch(() => ({}));
         setError(
@@ -236,18 +246,41 @@ export default function LeadForm({
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Gift Certificate Code <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="redemption_code"
-              required
-              placeholder="The code on your certificate"
-              className={inputClass}
-            />
-          </div>
+          {noCode ? (
+            <div className="rounded-lg border border-teal/30 bg-teal/5 px-4 py-3">
+              <p className="text-sm text-gray-700">
+                <span className="font-semibold">No problem.</span> We&apos;ll find your certificate by your name.
+                Fill in the rest below and you&apos;ll go straight to the calendar.
+              </p>
+              <button
+                type="button"
+                onClick={() => setNoCode(false)}
+                className="mt-1.5 text-sm text-teal font-semibold underline underline-offset-2"
+              >
+                I have my code
+              </button>
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Gift Certificate Code <span className="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                name="redemption_code"
+                required
+                placeholder="The code on your certificate"
+                className={inputClass}
+              />
+              <button
+                type="button"
+                onClick={() => setNoCode(true)}
+                className="mt-1.5 text-sm text-teal font-semibold underline underline-offset-2"
+              >
+                Don&apos;t have your code? Find me by name
+              </button>
+            </div>
+          )}
         </>
       )}
 

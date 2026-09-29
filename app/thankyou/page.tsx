@@ -6,6 +6,7 @@ import PixelEvent from "@/components/PixelEvent";
 import CalendlyEmbed from "@/components/CalendlyEmbed";
 import StarBookWidget from "@/components/StarBookWidget";
 import IndoorModal from "@/components/IndoorModal";
+import CertificateHeadline, { HeadlineText } from "@/components/CertificateHeadline";
 import {
   CALENDLY_OUTDOOR,
   STUDIO_PHONE,
@@ -62,12 +63,16 @@ export default async function ThankYouPage({
               />
             </svg>
           </div>
-          <h1 className="font-display text-3xl md:text-5xl font-bold text-black mb-4 leading-tight">
-            Thank You for Registering Your Gift Certificate!
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-700 italic">
-            It is now validated and ready to use.
-          </p>
+          <Suspense
+            fallback={
+              <HeadlineText
+                title="Thank You for Registering Your Gift Certificate!"
+                sub="It is now validated and ready to use."
+              />
+            }
+          >
+            <CertificateHeadline />
+          </Suspense>
         </div>
       </section>
 
