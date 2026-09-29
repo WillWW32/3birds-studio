@@ -249,7 +249,7 @@ export default function LeadForm({
           {noCode ? (
             <div className="rounded-lg border border-teal/30 bg-teal/5 px-4 py-3">
               <p className="text-sm text-gray-700">
-                <span className="font-semibold">No problem.</span> We&apos;ll find your certificate by your name.
+                <span className="font-semibold">No problem.</span>{" "}We&apos;ll find your certificate by your name.
                 Fill in the rest below and you&apos;ll go straight to the calendar.
               </p>
               <button
